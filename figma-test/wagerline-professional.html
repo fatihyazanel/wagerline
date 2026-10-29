@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WAGERline - All Sports, All Odds, One Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-dark: #0a0e27;
+            --bg-darker: #050812;
+            --bg-card: #1a1f3a;
+            --bg-card-light: #252d4a;
+            --border: #2d3e5f;
+            --text-primary: #ffffff;
+            --text-secondary: #a0aec0;
+            --text-tertiary: #718096;
+            --accent-yellow: #fbbf24;
+            --accent-red: #ef4444;
+            --accent-green: #10b981;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: linear-gradient(180deg, var(--bg-darker) 0%, var(--bg-dark) 100%);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            sticky: top 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+            background: linear-gradient(90deg, var(--accent-yellow) 0%, var(--accent-red) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-item {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-item:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            color: var(--accent-yellow);
+        }
+
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--accent-yellow);
+        }
+
+        .header-right {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .search-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 0.6rem 1rem;
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            width: 200px;
+            transition: all 0.3s;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--accent-yellow);
+            color: var(--text-primary);
+        }
+
+        .btn-primary {
+            background: var(--accent-yellow);
+            color: #000;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(251, 191, 36, 0.3);
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.3) 0%, rgba(139, 92, 246, 0.2) 100%);
+            border-bottom: 1px solid var(--border);
+            padding: 3rem 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: 2.8rem;
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .hero-content h1 span {
+            background: linear-gradient(90deg, var(--accent-yellow) 0%, var(--accent-red) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-content p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--accent-yellow);
+            color: var(--accent-yellow);
+            padding: 0.7rem 1.8rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: var(--accent-yellow);
+            color: #000;
+        }
+
+        .hero-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .sports-showcase {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            width: 100%;
+        }
+
+        .sport-card {
+            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-card-light) 100%);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .sport-icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .sport-name {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        .sport-count {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+        }
+
+        /* ===== SPORTS LOGOS ===== */
+        .sports-logos {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            margin-top: 1.5rem;
+            padding: 1.5rem 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo-item {
+            width: 40px;
+            height: 40px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .logo-item:hover {
+            border-color: var(--accent-yellow);
+            transform: translateY(-4px);
+        }
+
+        /* ===== MAIN CONTAINER ===== */
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* ===== GRID LAYOUT ===== */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .main-grid-large {
+            grid-template-columns: 2fr 1fr;
+        }
+
+        /* ===== CARD ===== */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .card-title::before {
+            content: '';
+            width: 3px;
+            height: 18px;
+            background: var(--accent-yellow);
+            border-radius: 2px;
+        }
+
+        /* ===== MATCH CARD ===== */
+        .match-card {
+            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-card-light) 100%);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .match-card:hover {
+            border-color: var(--accent-yellow);
+            box-shadow: 0 4px 12px rgba(251, 191, 36, 0.1);
+        }
+
+        .match-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+            font-weight: 600;
+        }
+
+        .match-time {
+            background: var(--accent-red);
+            padding: 0.25rem 0.6rem;
+            border-radius: 4px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .match-teams {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .team {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex: 1;
+        }
+
+        .team-icon {
+            font-size: 1.5rem;
+        }
+
+        .team-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .match-score {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: var(--accent-yellow);
+        }
+
+        .match-odds {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .odd {
+            background: var(--bg-darker);
+            border: 1px solid var(--border);
+            padding: 0.5rem;
+            border-radius: 4px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .odd:hover {
+            border-color: var(--accent-yellow);
+            background: var(--bg-card);
+        }
+
+        .odd-label {
+            font-size: 0.7rem;
+            color: var(--text-tertiary);
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .odd-value {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* ===== STATS GRID ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-card-light) 100%);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 0.35rem;
+            background: linear-gradient(90deg, var(--accent-yellow) 0%, var(--accent-red) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-change {
+            font-size: 0.75rem;
+            color: var(--accent-green);
+            font-weight: 600;
+        }
+
+        /* ===== TABLE ===== */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        th {
+            background: var(--bg-darker);
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-primary);
+        }
+
+        tr:hover {
+            background: var(--bg-card-light);
+        }
+
+        /* ===== LEAGUE TABLE ===== */
+        .league-row {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: var(--bg-darker);
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            align-items: center;
+        }
+
+        .team-pos {
+            font-weight: 700;
+            color: var(--accent-yellow);
+            font-size: 1.1rem;
+        }
+
+        .team-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stat-number {
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        .stat-indicator {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 3px;
+            background: var(--accent-green);
+        }
+
+        .stat-indicator.loss {
+            background: var(--accent-red);
+        }
+
+        .stat-indicator.draw {
+            background: var(--accent-blue);
+        }
+
+        /* ===== PLAYER CARD ===== */
+        .player-card {
+            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-card-light) 100%);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .player-card:hover {
+            border-color: var(--accent-yellow);
+            transform: translateY(-4px);
+        }
+
+        .player-image {
+            width: 100%;
+            aspect-ratio: 3/4;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .player-name {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .player-team {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            margin-bottom: 0.75rem;
+        }
+
+        .player-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .player-stat {
+            background: var(--bg-darker);
+            padding: 0.5rem;
+            border-radius: 4px;
+        }
+
+        .player-stat-label {
+            color: var(--text-tertiary);
+            font-size: 0.7rem;
+        }
+
+        .player-stat-value {
+            font-weight: 700;
+            color: var(--accent-yellow);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .hero { grid-template-columns: 1fr; }
+            .sports-showcase { grid-template-columns: 1fr; }
+            .main-grid { grid-template-columns: 1fr; }
+            .main-grid-large { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 640px) {
+            .header { flex-direction: column; gap: 1rem; }
+            .nav-menu { display: none; }
+            .hero-content h1 { font-size: 2rem; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .league-row { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <div class="header">
+        <div class="header-left">
+            <div class="logo">⚽ WAGERline</div>
+            <ul class="nav-menu">
+                <li class="nav-item active">Home</li>
+                <li class="nav-item">Sports</li>
+                <li class="nav-item">Leagues</li>
+                <li class="nav-item">Predictions</li>
+                <li class="nav-item">Leaderboard</li>
+            </ul>
+        </div>
+        <div class="header-right">
+            <input type="text" class="search-box" placeholder="Search...">
+            <button class="btn-primary">🎯 Get Started</button>
+        </div>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero">
+        <div class="hero-content">
+            <h1>All Sports.<br><span>All Odds.</span><br>One Platform.</h1>
+            <p>Live predictions, real-time odds, and expert analysis across football, basketball, baseball, and more. Make informed bets with AI-powered insights.</p>
+            <div class="hero-buttons">
+                <button class="btn-primary">Start Predicting</button>
+                <button class="btn-secondary">View Predictions</button>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="sports-showcase">
+                <div class="sport-card">
+                    <div class="sport-icon">⚽</div>
+                    <div class="sport-name">Football</div>
+                    <div class="sport-count">126 matches today</div>
+                </div>
+                <div class="sport-card">
+                    <div class="sport-icon">🏀</div>
+                    <div class="sport-name">Basketball</div>
+                    <div class="sport-count">42 games</div>
+                </div>
+                <div class="sport-card">
+                    <div class="sport-icon">🏈</div>
+                    <div class="sport-name">American Football</div>
+                    <div class="sport-count">8 games</div>
+                </div>
+                <div class="sport-card">
+                    <div class="sport-icon">🎾</div>
+                    <div class="sport-name">Tennis</div>
+                    <div class="sport-count">24 matches</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SPORTS LOGOS -->
+    <div class="container">
+        <div class="sports-logos">
+            <div class="logo-item">⚽</div>
+            <div class="logo-item">🏆</div>
+            <div class="logo-item">🏀</div>
+            <div class="logo-item">🏈</div>
+            <div class="logo-item">⚾</div>
+            <div class="logo-item">🎾</div>
+            <div class="logo-item">🏐</div>
+            <div class="logo-item">🏸</div>
+            <div class="logo-item">🥊</div>
+            <div class="logo-item">🏌️</div>
+        </div>
+
+        <!-- STATS -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">📊 Live Matches</div>
+                <div class="stat-value">342</div>
+                <div class="stat-change">↑ 12% vs yesterday</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">🤖 Predictions</div>
+                <div class="stat-value">1,247</div>
+                <div class="stat-change">↑ 8% vs yesterday</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">📈 Accuracy</div>
+                <div class="stat-value">73.5%</div>
+                <div class="stat-change">↑ 2.3% this week</div>
+            </div>
+        </div>
+
+        <!-- MAIN GRID -->
+        <div class="main-grid main-grid-large">
+            <!-- LEFT: LIVE MATCHES -->
+            <div class="card">
+                <div class="card-title">🔴 Live Matches</div>
+                <div class="match-card">
+                    <div class="match-header">
+                        <span>Premier League</span>
+                        <span class="match-time">LIVE</span>
+                    </div>
+                    <div class="match-teams">
+                        <div class="team">
+                            <div class="team-icon">🔴</div>
+                            <div class="team-name">Manchester City</div>
+                        </div>
+                        <div class="match-score">2 - 1</div>
+                        <div class="team">
+                            <div class="team-name">Liverpool</div>
+                            <div class="team-icon">🔵</div>
+                        </div>
+                    </div>
+                    <div class="match-odds">
+                        <div class="odd">
+                            <span class="odd-label">Win</span>
+                            <span class="odd-value">1.45</span>
+                        </div>
+                        <div class="odd">
+                            <span class="odd-label">Draw</span>
+                            <span class="odd-value">4.20</span>
+                        </div>
+                        <div class="odd">
+                            <span class="odd-label">Loss</span>
+                            <span class="odd-value">2.80</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="match-card">
+                    <div class="match-header">
+                        <span>La Liga</span>
+                        <span class="match-time">LIVE</span>
+                    </div>
+                    <div class="match-teams">
+                        <div class="team">
+                            <div class="team-icon">⚪</div>
+                            <div class="team-name">Real Madrid</div>
+                        </div>
+                        <div class="match-score">1 - 0</div>
+                        <div class="team">
+                            <div class="team-name">Barcelona</div>
+                            <div class="team-icon">🔵</div>
+                        </div>
+                    </div>
+                    <div class="match-odds">
+                        <div class="odd">
+                            <span class="odd-label">Win</span>
+                            <span class="odd-value">1.62</span>
+                        </div>
+                        <div class="odd">
+                            <span class="odd-label">Draw</span>
+                            <span class="odd-value">3.80</span>
+                        </div>
+                        <div class="odd">
+                            <span class="odd-label">Loss</span>
+                            <span class="odd-value">2.40</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="match-card">
+                    <div class="match-header">
+                        <span>NBA</span>
+                        <span class="match-time">LIVE</span>
+                    </div>
+                    <div class="match-teams">
+                        <div class="team">
+                            <div class="team-icon">🏀</div>
+                            <div class="team-name">Lakers</div>
+                        </div>
+                        <div class="match-score">98 - 95</div>
+                        <div class="team">
+                            <div class="team-name">Celtics</div>
+                            <div class="team-icon">🏀</div>
+                        </div>
+                    </div>
+                    <div class="match-odds">
+                        <div class="odd">
+                            <span class="odd-label">Win</span>
+                            <span class="odd-value">1.55</span>
+                        </div>
+                        <div class="odd">
+                            <span class="odd-label">Draw</span>
+                            <span class="odd-value">5.50</span>
+                        </div>
+                        <div class="odd">
+                            <span class="odd-label">Loss</span>
+                            <span class="odd-value">2.65</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT: FEATURED & LEADERBOARD -->
+            <div>
+                <div class="card" style="margin-bottom: 2rem;">
+                    <div class="card-title">⭐ Top Predictors</div>
+                    <div class="player-card">
+                        <div class="player-image">👤</div>
+                        <div class="player-name">Alex Rodriguez</div>
+                        <div class="player-team">Prediction Expert</div>
+                        <div class="player-stats">
+                            <div class="player-stat">
+                                <div class="player-stat-label">Win Rate</div>
+                                <div class="player-stat-value">78%</div>
+                            </div>
+                            <div class="player-stat">
+                                <div class="player-stat-label">Streak</div>
+                                <div class="player-stat-value">12</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">🏆 Leaderboard</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>User</th>
+                                <th>Win%</th>
+                                <th>Points</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>🥇 1</td>
+                                <td>Alex R.</td>
+                                <td>78%</td>
+                                <td>2,450</td>
+                            </tr>
+                            <tr>
+                                <td>🥈 2</td>
+                                <td>Jordan P.</td>
+                                <td>75%</td>
+                                <td>2,320</td>
+                            </tr>
+                            <tr>
+                                <td>🥉 3</td>
+                                <td>Sam T.</td>
+                                <td>72%</td>
+                                <td>2,180</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

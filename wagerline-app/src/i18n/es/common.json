@@ -1,0 +1,105 @@
+{
+  "app_title": "WAGERline",
+  "nav": {
+    "home": "Inicio",
+    "live": "En Vivo",
+    "sports": "Deportes",
+    "leagues": "Ligas",
+    "predictions": "Predicciones",
+    "news": "Noticias",
+    "rewards": "Recompensas"
+  },
+  "header": {
+    "search": "Buscar equipos, jugadores...",
+    "language": "Idioma",
+    "login": "Iniciar Sesión",
+    "signup": "Registrarse"
+  },
+  "hero": {
+    "title": "Todos los Deportes. Toda la Inteligencia. Una Plataforma.",
+    "subtitle": "Resultados en vivo, estadísticas, predicciones de IA y todo lo que necesitas para adelantarte.",
+    "cta_primary": "Explorar En Vivo",
+    "cta_secondary": "Ver Predicciones"
+  },
+  "live": {
+    "title": "En Vivo Ahora",
+    "view_all": "Ver Todo En Vivo →"
+  },
+  "predictions": {
+    "title": "Predicciones de IA",
+    "see_all": "Ver Todo →",
+    "confidence": "Confianza de IA {{confidence}}%"
+  },
+  "league_table": {
+    "title": "Tabla de Posiciones",
+    "view_full": "Ver Tabla Completa →"
+  },
+  "top_leagues": {
+    "title": "Ligas Principales"
+  },
+  "top_news": {
+    "title": "Principales Noticias",
+    "view_all": "Ver Todo →"
+  },
+  "rewards": {
+    "title": "Tus Recompensas",
+    "view_all": "Ver Todas las Recompensas",
+    "leaderboard": "Tabla de Clasificación",
+    "balance": "Tu Saldo",
+    "daily_tasks": "Tareas Diarias"
+  },
+  "rewards_page": {
+    "title": "Centro de Recompensas",
+    "subtitle": "Completa tareas, gana puntos, sube en la tabla de clasificación y desbloquea recompensas exclusivas.",
+    "daily_tasks": "Tareas Diarias",
+    "resets_in": "Se reinicia en",
+    "achievements": "Logros",
+    "leaderboard": "Tabla de Clasificación",
+    "this_week": "Esta Semana",
+    "this_month": "Este Mes",
+    "all_time": "Todos los Tiempos",
+    "recent_activity": "Actividad Reciente"
+  },
+  "news": {
+    "title": "Últimas Noticias Deportivas",
+    "subtitle": "Mantente actualizado con historias de última hora de todos los deportes principales",
+    "featured": "Historia Principal",
+    "latest": "Últimas Noticias",
+    "trending": "Tendencias Ahora"
+  },
+  "buttons": {
+    "submit": "Enviar",
+    "cancel": "Cancelar",
+    "view": "Ver",
+    "explore": "Explorar",
+    "read_more": "Leer Más",
+    "close": "Cerrar"
+  },
+  "errors": {
+    "not_found": "No Encontrado",
+    "server_error": "Error del Servidor",
+    "try_again": "Intentar de Nuevo"
+  },
+  "common": {
+    "done": "Hecho",
+    "view_all": "Ver Todo",
+    "points": "Puntos",
+    "xp": "XP",
+    "pts": "PTS",
+    "reward": "Recompensa",
+    "make_prediction": "Hacer una Predicción",
+    "submit": "Enviar",
+    "cancel": "Cancelar"
+  },
+  "news_page": {
+    "title": "Últimas Noticias Deportivas",
+    "subtitle": "Mantente actualizado con historias de última hora de todos los deportes principales",
+    "featured_story": "Historia Principal",
+    "latest_news": "Últimas Noticias",
+    "trending_now": "Tendencias Ahora",
+    "filters": "Filtros",
+    "sport": "Deporte",
+    "league": "Liga",
+    "all": "Todos"
+  }
+}

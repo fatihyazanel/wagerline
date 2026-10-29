@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Events - WAGERline</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-page: #050817;
+            --bg-card: #0B1020;
+            --bg-card-2: #0E1426;
+            --border: rgba(255,255,255,0.10);
+            --text-primary: #F7F8FA;
+            --text-secondary: #C7CBD5;
+            --text-muted: #7D8494;
+            --brand-yellow: #FFD400;
+            --live-red: #FF3038;
+            --green: #20D879;
+            --blue: #2F8CFF;
+            --purple: #8B5CF6;
+        }
+
+        body {
+            background: var(--bg-page);
+            color: var(--text-primary);
+            font-family: Inter, sans-serif;
+            margin: 0;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: var(--bg-page);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+            z-index: 100;
+            white-space: nowrap;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 48px;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .logo-yellow {
+            color: var(--brand-yellow);
+        }
+
+        .nav {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .nav-item {
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: color 0.3s;
+            position: relative;
+            padding-bottom: 8px;
+        }
+
+        .nav-item.active {
+            color: var(--brand-yellow);
+        }
+
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--brand-yellow);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .search-box {
+            background: rgba(255,255,255,0.025);
+            border: 1px solid rgba(255,255,255,0.10);
+            padding: 8px 16px;
+            border-radius: 18px;
+            width: 275px;
+            height: 36px;
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        .lang-dropdown {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 13px;
+            min-width: 70px;
+        }
+
+        .btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-login {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.18);
+            color: var(--text-secondary);
+        }
+
+        .btn-signup {
+            background: var(--brand-yellow);
+            color: var(--bg-page);
+            font-weight: 700;
+        }
+
+        .page {
+            width: 100%;
+            padding: 60px 15px 0;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            min-height: calc(100vh - 60px);
+        }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 14px;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 800;
+        }
+
+        .live-indicator {
+            background: var(--live-red);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .sport-filter-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 14px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+            overflow-x: auto;
+        }
+
+        .filter-tab {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .filter-tab:hover,
+        .filter-tab.active {
+            border-color: var(--brand-yellow);
+            color: var(--brand-yellow);
+        }
+
+        .live-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .event-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .event-card:hover {
+            border-color: var(--brand-yellow);
+        }
+
+        .event-competition {
+            font-size: 10px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .event-teams {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .team {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+
+        .team-name {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-align: center;
+            margin-top: 4px;
+        }
+
+        .team-logo {
+            width: 32px;
+            height: 32px;
+            background: var(--bg-card-2);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .event-score {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+            flex: 1;
+        }
+
+        .score-number {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--brand-yellow);
+        }
+
+        .vs-text {
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+
+        .event-status {
+            font-size: 10px;
+            color: var(--live-red);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .event-time {
+            font-size: 10px;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding: 24px 15px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .footer-right {
+            display: flex;
+            gap: 24px;
+        }
+
+        @media (max-width: 1280px) {
+            .live-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-right {
+                gap: 8px;
+            }
+
+            .search-box {
+                width: 200px;
+            }
+
+            .live-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <div class="logo">
+                WAGER<span class="logo-yellow">line</span>
+            </div>
+            <ul class="nav">
+                <li class="nav-item"><a href="wagerline-d1.html" style="color:inherit;text-decoration:none">Home</a></li>
+                <li class="nav-item active"><a href="wagerline-live.html" style="color:inherit;text-decoration:none">Live</a></li>
+                <li class="nav-item"><a href="wagerline-sports.html" style="color:inherit;text-decoration:none">Sports</a></li>
+                <li class="nav-item"><a href="wagerline-league-detail.html" style="color:inherit;text-decoration:none">Leagues</a></li>
+                <li class="nav-item"><a href="wagerline-predictions.html" style="color:inherit;text-decoration:none">Predictions</a></li>
+                <li class="nav-item">Stats</li>
+                <li class="nav-item">News</li>
+                <li class="nav-item">Rewards</li>
+            </ul>
+        </div>
+        <div class="header-right">
+            <input type="text" class="search-box" placeholder="Search teams, players...">
+            <select class="lang-dropdown">
+                <option>EN</option>
+                <option>ES</option>
+                <option>AR</option>
+            </select>
+            <button class="btn btn-login">Login</button>
+            <button class="btn btn-signup">Sign Up</button>
+        </div>
+    </div>
+
+    <div class="page">
+        <main>
+            <div class="page-header">
+                <h1 class="page-title">Live Events</h1>
+                <div class="live-indicator">● LIVE</div>
+            </div>
+
+            <div class="sport-filter-tabs">
+                <button class="filter-tab active">All</button>
+                <button class="filter-tab">⚽ Football</button>
+                <button class="filter-tab">🏀 Basketball</button>
+                <button class="filter-tab">🏈 American Football</button>
+                <button class="filter-tab">🏒 Ice Hockey</button>
+                <button class="filter-tab">🏎️ Formula 1</button>
+            </div>
+
+            <div class="live-grid">
+                <!-- Football Events -->
+                <div class="event-card">
+                    <div class="event-competition">Premier League - Round 1</div>
+                    <div class="event-status">LIVE 45'</div>
+                    <div class="event-teams">
+                        <div class="team">
+                            <div class="team-logo">🔵</div>
+                            <div class="team-name">Man City</div>
+                        </div>
+                        <div class="event-score">
+                            <div class="score-number">2</div>
+                            <div class="vs-text">-</div>
+                            <div class="score-number">1</div>
+                        </div>
+                        <div class="team">
+                            <div class="team-logo">🔴</div>
+                            <div class="team-name">Liverpool</div>
+                        </div>
+                    </div>
+                    <div class="event-time">Etihad Stadium</div>
+                </div>
+
+                <div class="event-card">
+                    <div class="event-competition">La Liga - Round 1</div>
+                    <div class="event-status">LIVE 67'</div>
+                    <div class="event-teams">
+                        <div class="team">
+                            <div class="team-logo">👑</div>
+                            <div class="team-name">Real Madrid</div>
+                        </div>
+                        <div class="event-score">
+                            <div class="score-number">3</div>
+                            <div class="vs-text">-</div>
+                            <div class="score-number">0</div>
+                        </div>
+                        <div class="team">
+                            <div class="team-logo">🔵</div>
+                            <div class="team-name">Barcelona</div>
+                        </div>
+                    </div>
+                    <div class="event-time">Santiago Bernabéu</div>
+                </div>
+
+                <div class="event-card">
+                    <div class="event-competition">Serie A - Round 1</div>
+                    <div class="event-status">LIVE 23'</div>
+                    <div class="event-teams">
+                        <div class="team">
+                            <div class="team-logo">⚫</div>
+                            <div class="team-name">Juventus</div>
+                        </div>
+                        <div class="event-score">
+                            <div class="score-number">1</div>
+                            <div class="vs-text">-</div>
+                            <div class="score-number">1</div>
+                        </div>
+                        <div class="team">
+                            <div class="team-logo">🔴</div>
+                            <div class="team-name">AC Milan</div>
+                        </div>
+                    </div>
+                    <div class="event-time">Allianz Stadium</div>
+                </div>
+
+                <div class="event-card">
+                    <div class="event-competition">Bundesliga - Round 1</div>
+                    <div class="event-status">LIVE 34'</div>
+                    <div class="event-teams">
+                        <div class="team">
+                            <div class="team-logo">⚫</div>
+                            <div class="team-name">Bayern</div>
+                        </div>
+                        <div class="event-score">
+                            <div class="score-number">2</div>
+                            <div class="vs-text">-</div>
+                            <div class="score-number">0</div>
+                        </div>
+                        <div class="team">
+                            <div class="team-logo">🟡</div>
+                            <div class="team-name">Dortmund</div>
+                        </div>
+                    </div>
+                    <div class="event-time">Allianz Arena</div>
+                </div>
+
+                <!-- Basketball Event -->
+                <div class="event-card">
+                    <div class="event-competition">NBA - Regular Season</div>
+                    <div class="event-status">LIVE Q3</div>
+                    <div class="event-teams">
+                        <div class="team">
+                            <div class="team-logo">🏀</div>
+                            <div class="team-name">Lakers</div>
+                        </div>
+                        <div class="event-score">
+                            <div class="score-number">78</div>
+                            <div class="vs-text">-</div>
+                            <div class="score-number">75</div>
+                        </div>
+                        <div class="team">
+                            <div class="team-logo">🏆</div>
+                            <div class="team-name">Celtics</div>
+                        </div>
+                    </div>
+                    <div class="event-time">Crypto.com Arena</div>
+                </div>
+
+                <!-- NFL Event -->
+                <div class="event-card">
+                    <div class="event-competition">NFL - Week 1</div>
+                    <div class="event-status">LIVE 2Q</div>
+                    <div class="event-teams">
+                        <div class="team">
+                            <div class="team-logo">🏈</div>
+                            <div class="team-name">Chiefs</div>
+                        </div>
+                        <div class="event-score">
+                            <div class="score-number">14</div>
+                            <div class="vs-text">-</div>
+                            <div class="score-number">10</div>
+                        </div>
+                        <div class="team">
+                            <div class="team-logo">🏈</div>
+                            <div class="team-name">49ers</div>
+                        </div>
+                    </div>
+                    <div class="event-time">Arrowhead Stadium</div>
+                </div>
+
+                <!-- Additional Football Events -->
+                <div class="event-card">
+                    <div class="event-competition">Ligue 1 - Round 1</div>
+                    <div class="event-status">LIVE 56'</div>
+                    <div class="event-teams">
+                        <div class="team">
+                            <div class="team-logo">⚫</div>
+                            <div class="team-name">PSG</div>
+                        </div>
+                        <div class="event-score">
+                            <div class="score-number">2</div>
+                            <div class="vs-text">-</div>
+                            <div class="score-number">2</div>
+                        </div>
+                        <div class="team">
+                            <div class="team-logo">🔵</div>
+                            <div class="team-name">Monaco</div>
+                        </div>
+                    </div>
+                    <div class="event-time">Parc des Princes</div>
+                </div>
+
+                <div class="event-card">
+                    <div class="event-competition">Süper Lig - Round 1</div>
+                    <div class="event-status">LIVE 78'</div>
+                    <div class="event-teams">
+                        <div class="team">
+                            <div class="team-logo">🟡</div>
+                            <div class="team-name">Galatasaray</div>
+                        </div>
+                        <div class="event-score">
+                            <div class="score-number">1</div>
+                            <div class="vs-text">-</div>
+                            <div class="score-number">0</div>
+                        </div>
+                        <div class="team">
+                            <div class="team-logo">⚫</div>
+                            <div class="team-name">Fenerbahçe</div>
+                        </div>
+                    </div>
+                    <div class="event-time">Türk Telekom Arena</div>
+                </div>
+
+                <!-- Hockey Event -->
+                <div class="event-card">
+                    <div class="event-competition">NHL - Regular Season</div>
+                    <div class="event-status">LIVE 2P</div>
+                    <div class="event-teams">
+                        <div class="team">
+                            <div class="team-logo">🏒</div>
+                            <div class="team-name">Maple Leafs</div>
+                        </div>
+                        <div class="event-score">
+                            <div class="score-number">3</div>
+                            <div class="vs-text">-</div>
+                            <div class="score-number">2</div>
+                        </div>
+                        <div class="team">
+                            <div class="team-logo">🏒</div>
+                            <div class="team-name">Canadiens</div>
+                        </div>
+                    </div>
+                    <div class="event-time">Scotiabank Arena</div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div>WAGERline © 2026 All rights reserved.</div>
+        <div class="footer-right">
+            <div>About Us</div>
+            <div>Contact</div>
+            <div>Privacy Policy</div>
+            <div>Terms of Use</div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WAGERline - Sports Intelligence Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1E40AF;
+            --primary-light: #3B82F6;
+            --secondary: #F97316;
+            --accent: #06B6D4;
+            --success: #10B981;
+            --danger: #EF4444;
+            --bg-dark: #0F172A;
+            --bg-card: #1A2A4A;
+            --border: #2D3E5F;
+            --text-primary: #F1F5F9;
+            --text-secondary: #94A3B8;
+            --text-tertiary: #64748B;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #0F172A 100%);
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        /* ============ HEADER ============ */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: rgba(26, 42, 74, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            letter-spacing: -1px;
+        }
+
+        .nav {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .nav-item {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .nav-item.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .nav-item:hover {
+            border-color: var(--primary);
+            color: var(--text-primary);
+        }
+
+        /* ============ HERO ============ */
+        .hero {
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.2) 0%, rgba(6, 182, 212, 0.1) 100%);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.75rem;
+            background: linear-gradient(135deg, var(--primary-light), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -2px;
+        }
+
+        .hero p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--secondary);
+            color: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(249, 115, 22, 0.1);
+        }
+
+        /* ============ GRID ============ */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .grid-4 {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        @media (max-width: 1024px) {
+            .grid-4 { grid-template-columns: repeat(2, 1fr); }
+            .grid-3 { grid-template-columns: repeat(2, 1fr); }
+            .grid-2 { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 640px) {
+            .grid { grid-template-columns: 1fr; }
+        }
+
+        /* ============ CARD ============ */
+        .card {
+            background: rgba(26, 42, 74, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            border-color: var(--primary);
+            background: rgba(30, 64, 175, 0.15);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(30, 64, 175, 0.2);
+        }
+
+        .card-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+        }
+
+        /* ============ LIVE EVENT ============ */
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(239, 68, 68, 0.2);
+            color: #FECACA;
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            width: fit-content;
+        }
+
+        .live-badge::before {
+            content: '●';
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .event-match {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 1rem 0;
+        }
+
+        .team {
+            text-align: center;
+            flex: 1;
+        }
+
+        .team-logo {
+            font-size: 1.75rem;
+            margin-bottom: 0.35rem;
+        }
+
+        .team-name {
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .score {
+            font-size: 1.75rem;
+            font-weight: 900;
+            color: var(--secondary);
+            padding: 0 0.75rem;
+        }
+
+        .time {
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+            text-align: center;
+        }
+
+        /* ============ FEATURED ============ */
+        .featured {
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.4) 0%, rgba(6, 182, 212, 0.2) 100%);
+            border: 2px solid var(--primary);
+            border-radius: 16px;
+            padding: 2rem;
+            grid-column: 1 / -1;
+        }
+
+        .featured-match {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 1.5rem 0;
+        }
+
+        .featured-team {
+            text-align: center;
+        }
+
+        .featured-team-logo {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .featured-team-name {
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .prediction-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .prediction-item {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .prediction-percent {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--accent);
+        }
+
+        .prediction-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 0.35rem;
+        }
+
+        /* ============ STAT BOX ============ */
+        .stat-box {
+            text-align: center;
+        }
+
+        .stat-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 900;
+            color: var(--accent);
+            margin-bottom: 0.35rem;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* ============ SECTION ============ */
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .section-header::before {
+            content: '';
+            width: 3px;
+            height: 20px;
+            background: var(--secondary);
+            border-radius: 2px;
+        }
+
+        /* ============ TABLE ============ */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .table th {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 600;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        .table td {
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+        }
+
+        .table tr:hover {
+            background: rgba(30, 64, 175, 0.1);
+        }
+
+        .rank-medal {
+            font-size: 1.1rem;
+        }
+
+        .rank-pos {
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        /* ============ NEWS ============ */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .news-card {
+            background: rgba(26, 42, 74, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .news-image {
+            width: 100%;
+            height: 140px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .news-content {
+            padding: 1rem;
+        }
+
+        .news-title {
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 0.35rem;
+            line-height: 1.3;
+        }
+
+        .news-meta {
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+        }
+
+        /* ============ FOOTER ============ */
+        .footer {
+            border-top: 1px solid var(--border);
+            padding-top: 2rem;
+            margin-top: 2rem;
+            text-align: center;
+            color: var(--text-tertiary);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero { padding: 1.5rem; }
+            .hero h1 { font-size: 1.75rem; }
+            .featured-match { flex-direction: column; gap: 1rem; }
+            .prediction-grid { grid-template-columns: 1fr; }
+            .news-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <div class="logo">⚽ WAGERline</div>
+            <div class="nav">
+                <button class="nav-item active">EN</button>
+                <button class="nav-item">ES</button>
+                <button class="nav-item">AR</button>
+            </div>
+        </div>
+
+        <!-- HERO -->
+        <div class="hero">
+            <h1>Sports Intelligence Platform</h1>
+            <p>Live scores, predictions & analysis</p>
+            <div class="hero-cta">
+                <button class="btn btn-primary">Explore</button>
+                <button class="btn btn-secondary">Live Events</button>
+            </div>
+        </div>
+
+        <!-- LIVE EVENTS -->
+        <div class="section-header">🔴 Live Now</div>
+        <div class="grid grid-3">
+            <div class="card">
+                <div class="live-badge">LIVE</div>
+                <div class="card-title">Arsenal vs Liverpool</div>
+                <div class="card-subtitle">Premier League • 45' | 2-1</div>
+                <div class="event-match">
+                    <div class="team">
+                        <div class="team-logo">⚽</div>
+                        <div class="team-name">Arsenal</div>
+                    </div>
+                    <div class="score">2-1</div>
+                    <div class="team">
+                        <div class="team-logo">⚽</div>
+                        <div class="team-name">Liverpool</div>
+                    </div>
+                </div>
+                <div class="time">22:15 UTC</div>
+            </div>
+
+            <div class="card">
+                <div class="live-badge">LIVE</div>
+                <div class="card-title">Barcelona vs Real Madrid</div>
+                <div class="card-subtitle">La Liga • 65' | 1-0</div>
+                <div class="event-match">
+                    <div class="team">
+                        <div class="team-logo">⚽</div>
+                        <div class="team-name">Barcelona</div>
+                    </div>
+                    <div class="score">1-0</div>
+                    <div class="team">
+                        <div class="team-logo">⚽</div>
+                        <div class="team-name">Real Madrid</div>
+                    </div>
+                </div>
+                <div class="time">20:45 UTC</div>
+            </div>
+
+            <div class="card">
+                <div class="live-badge">LIVE</div>
+                <div class="card-title">Lakers vs Celtics</div>
+                <div class="card-subtitle">NBA • Q3 | 82-78</div>
+                <div class="event-match">
+                    <div class="team">
+                        <div class="team-logo">🏀</div>
+                        <div class="team-name">Lakers</div>
+                    </div>
+                    <div class="score">82-78</div>
+                    <div class="team">
+                        <div class="team-logo">🏀</div>
+                        <div class="team-name">Celtics</div>
+                    </div>
+                </div>
+                <div class="time">19:30 UTC</div>
+            </div>
+        </div>
+
+        <!-- FEATURED EVENT -->
+        <div class="section-header" style="margin-top: 2rem;">⭐ Featured Match</div>
+        <div class="card featured">
+            <div style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem;">TONIGHT</div>
+            <div class="featured-match">
+                <div class="featured-team">
+                    <div class="featured-team-logo">🔵</div>
+                    <div class="featured-team-name">Manchester City</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 1rem; color: var(--text-secondary);">vs</div>
+                    <div style="font-size: 1.1rem; font-weight: 700; margin-top: 0.35rem;">23:00 UTC</div>
+                </div>
+                <div class="featured-team">
+                    <div class="featured-team-logo">🔴</div>
+                    <div class="featured-team-name">Manchester United</div>
+                </div>
+            </div>
+
+            <div style="text-align: center; font-size: 0.9rem; color: var(--text-secondary); margin-top: 1rem;">
+                Premier League
+            </div>
+
+            <div class="prediction-grid">
+                <div class="prediction-item">
+                    <div class="prediction-percent">58%</div>
+                    <div class="prediction-label">Home</div>
+                </div>
+                <div class="prediction-item">
+                    <div class="prediction-percent">18%</div>
+                    <div class="prediction-label">Draw</div>
+                </div>
+                <div class="prediction-item">
+                    <div class="prediction-percent">24%</div>
+                    <div class="prediction-label">Away</div>
+                </div>
+            </div>
+            <div style="text-align: center; font-size: 0.85rem; color: var(--text-secondary); margin-top: 1rem;">
+                Confidence: 74% • Based on form, home advantage, H2H
+            </div>
+        </div>
+
+        <!-- STATS -->
+        <div class="section-header" style="margin-top: 2rem;">📊 Platform Stats</div>
+        <div class="grid grid-4">
+            <div class="card stat-box">
+                <div class="stat-icon">📊</div>
+                <div class="stat-value">342</div>
+                <div class="stat-label">Events Today</div>
+            </div>
+            <div class="card stat-box">
+                <div class="stat-icon">🤖</div>
+                <div class="stat-value">1,247</div>
+                <div class="stat-label">Predictions</div>
+            </div>
+            <div class="card stat-box">
+                <div class="stat-icon">👥</div>
+                <div class="stat-value">5,842</div>
+                <div class="stat-label">Active Users</div>
+            </div>
+            <div class="card stat-box">
+                <div class="stat-icon">📈</div>
+                <div class="stat-value">73.5%</div>
+                <div class="stat-label">Accuracy</div>
+            </div>
+        </div>
+
+        <!-- TOP EVENTS -->
+        <div class="section-header" style="margin-top: 2rem;">📅 Upcoming Events</div>
+        <div class="grid grid-2">
+            <div class="card">
+                <div class="card-title">Chelsea vs Tottenham</div>
+                <div class="card-subtitle">Premier League</div>
+                <div style="margin-top: 1rem; padding: 0.75rem; background: rgba(0,0,0,0.3); border-radius: 6px; text-align: center;">
+                    <div style="font-size: 1.25rem; font-weight: 700; color: var(--accent);">20:00</div>
+                    <div style="font-size: 0.8rem; color: var(--text-tertiary); margin-top: 0.25rem;">Tomorrow</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Inter vs AC Milan</div>
+                <div class="card-subtitle">Serie A</div>
+                <div style="margin-top: 1rem; padding: 0.75rem; background: rgba(0,0,0,0.3); border-radius: 6px; text-align: center;">
+                    <div style="font-size: 1.25rem; font-weight: 700; color: var(--accent);">18:00</div>
+                    <div style="font-size: 0.8rem; color: var(--text-tertiary); margin-top: 0.25rem;">Tomorrow</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RANKINGS -->
+        <div class="section-header" style="margin-top: 2rem;">🏆 Top Predictors</div>
+        <div class="card">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th style="width: 40px;">Rank</th>
+                        <th>Username</th>
+                        <th style="text-align: right;">XP Points</th>
+                        <th style="text-align: right;">Level</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="rank-medal">🥇</span></td>
+                        <td><strong>SportsGuru</strong></td>
+                        <td style="text-align: right; color: var(--accent);">45,230</td>
+                        <td style="text-align: right;">22</td>
+                    </tr>
+                    <tr>
+                        <td><span class="rank-medal">🥈</span></td>
+                        <td><strong>PredictMaster</strong></td>
+                        <td style="text-align: right; color: var(--accent);">42,150</td>
+                        <td style="text-align: right;">21</td>
+                    </tr>
+                    <tr>
+                        <td><span class="rank-medal">🥉</span></td>
+                        <td><strong>AnalystPro</strong></td>
+                        <td style="text-align: right; color: var(--accent);">38,920</td>
+                        <td style="text-align: right;">19</td>
+                    </tr>
+                    <tr>
+                        <td><span class="rank-pos">4</span></td>
+                        <td><strong>DataNinja</strong></td>
+                        <td style="text-align: right; color: var(--accent);">35,680</td>
+                        <td style="text-align: right;">18</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- NEWS -->
+        <div class="section-header" style="margin-top: 2rem;">📰 Latest News</div>
+        <div class="news-grid">
+            <div class="news-card">
+                <div class="news-image">📰</div>
+                <div class="news-content">
+                    <div class="news-title">Arsenal Eyes Top Four Spot</div>
+                    <div class="news-meta">2 hours ago</div>
+                </div>
+            </div>
+            <div class="news-card">
+                <div class="news-image">⚽</div>
+                <div class="news-content">
+                    <div class="news-title">Barcelona Wins Against Real Madrid</div>
+                    <div class="news-meta">4 hours ago</div>
+                </div>
+            </div>
+            <div class="news-card">
+                <div class="news-image">🏀</div>
+                <div class="news-content">
+                    <div class="news-title">Lakers Dominate Celtics in Thriller</div>
+                    <div class="news-meta">1 hour ago</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <p>&copy; 2026 WAGERline. Sports Intelligence Platform.</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,1565 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gamification Prototype v2 — AI Product & UX Brief uyumlu</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy-900: #0B1733; --navy-800: #0F1E3D; --navy-700: #1B2A4E; --navy-600: #2A3B66; --navy-500: #3A4E80;
+    --gold-500: #FFB800; --gold-400: #FFC633; --gold-100: #FFF4D6;
+    --green-500: #18B26B; --green-100: #DCF5E8;
+    --red-500: #E5484D; --red-100: #FCE4E5;
+    --blue-500: #2F7BFF; --blue-100: #E1ECFF;
+    --purple-500: #8B5CF6; --purple-100: #EEE7FF;
+    --orange-500: #FF6B35; --orange-100: #FFE5D6;
+    --gray-50: #F7F8FA; --gray-100: #EEF0F4; --gray-200: #DDE1E8; --gray-300: #C5CBD6;
+    --gray-500: #8A93A6; --gray-700: #4B5468; --gray-900: #1A1F2E;
+    --shadow-sm: 0 1px 2px rgba(11,23,51,.06), 0 1px 3px rgba(11,23,51,.04);
+    --shadow-md: 0 4px 12px rgba(11,23,51,.08), 0 2px 4px rgba(11,23,51,.04);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: var(--gray-50); color: var(--gray-900); font-size: 14px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+  .app { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; transition: grid-template-columns .25s ease; }
+  .app.nav-collapsed { grid-template-columns: 0 1fr; }
+
+  /* SIDEBAR */
+  .sidebar { background: linear-gradient(180deg, var(--navy-900), var(--navy-800)); color:#fff; padding: 24px 16px; position: sticky; top:0; height:100vh; overflow-y:auto; transition: transform .25s ease, padding .25s ease; }
+  .app.nav-collapsed .sidebar { transform: translateX(-100%); padding-left: 0; padding-right: 0; overflow: hidden; }
+
+  /* NAV TOGGLE (açılır/kapanır menü butonu) */
+  .nav-toggle { width: 36px; height: 36px; border-radius: 8px; background: var(--gray-50); border: 1px solid var(--gray-100); display:grid; place-items:center; cursor:pointer; color: var(--gray-700); flex-shrink: 0; transition: background .15s; }
+  .nav-toggle:hover { background: var(--gray-100); }
+  .brand { display:flex; align-items:center; gap:10px; padding: 4px 8px 18px; }
+  .brand-mark { width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, var(--gold-500), var(--gold-400)); display:grid; place-items:center; color: var(--navy-900); font-weight: 800; font-size: 18px; }
+  .brand-name { font-weight: 700; font-size: 14px; }
+  .brand-sub { font-size: 10px; color: rgba(255,255,255,.55); }
+
+  .role-switch { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-radius: 12px; padding: 6px; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 14px; }
+  .role-switch button { appearance:none; border:0; background:transparent; color: rgba(255,255,255,.65); font: 600 11px 'Inter'; padding: 8px 4px; border-radius: 8px; cursor: pointer; transition: all .15s; }
+  .role-switch button:hover { color:#fff; background: rgba(255,255,255,.05); }
+  .role-switch button.active { background: var(--gold-500); color: var(--navy-900); }
+
+  .nav-section-title { color: rgba(255,255,255,.4); font-size: 10px; letter-spacing: .12em; font-weight: 700; text-transform: uppercase; padding: 14px 12px 6px; }
+  .nav-item { display: flex; align-items: center; gap: 12px; padding: 9px 12px; border-radius: 9px; color: rgba(255,255,255,.7); cursor: pointer; font-weight: 500; font-size: 13px; transition: all .15s; border:0; background: transparent; width:100%; text-align:left; }
+  .nav-item:hover { background: rgba(255,255,255,.06); color:#fff; }
+  .nav-item.active { background: rgba(255,184,0,.12); color: var(--gold-400); box-shadow: inset 3px 0 0 var(--gold-500); }
+  .nav-item .ico { width: 17px; height: 17px; flex-shrink: 0; }
+  .nav-item .badge { margin-left:auto; background: var(--gold-500); color: var(--navy-900); font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 6px; }
+
+  .sidebar-foot { margin-top: 18px; padding: 12px; background: rgba(255,255,255,.04); border-radius: 12px; display:flex; align-items:center; gap: 10px; }
+  .avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #FF6B6B, #FFB800); display: grid; place-items: center; font-weight: 700; color:#fff; font-size: 12px; }
+  .sidebar-foot .name { font-size: 12px; font-weight: 600; }
+  .sidebar-foot .role { font-size: 10px; color: rgba(255,255,255,.5); }
+
+  /* MAIN */
+  .main { display:flex; flex-direction:column; min-width: 0; }
+  .topbar { background:#fff; border-bottom: 1px solid var(--gray-100); padding: 14px 28px; display:flex; align-items:center; gap: 16px; position: sticky; top:0; z-index: 10; }
+  .topbar h1 { font-size: 17px; font-weight: 700; letter-spacing: -.01em; }
+  .topbar .crumb { color: var(--gray-500); font-size: 11px; }
+  .search { margin-left:auto; position:relative; width: 280px; }
+  .search input { width:100%; padding: 8px 12px 8px 34px; border: 1px solid var(--gray-200); border-radius: 8px; font: inherit; background: var(--gray-50); }
+  .search svg { position:absolute; left:10px; top:50%; transform:translateY(-50%); color: var(--gray-500); }
+  .top-actions { display:flex; gap: 8px; }
+  .icon-btn { width: 36px; height: 36px; border-radius: 8px; background: var(--gray-50); border: 1px solid var(--gray-100); display:grid; place-items:center; cursor:pointer; color: var(--gray-700); }
+  .icon-btn:hover { background: var(--gray-100); }
+
+  .content { padding: 24px 28px; max-width: 1400px; width: 100%; }
+  .screen { display: none; animation: fadeIn .2s; }
+  .screen.active { display:block; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(4px);} to { opacity:1; transform:none; } }
+
+  /* HERO */
+  .hero { background: linear-gradient(135deg, var(--navy-800), var(--navy-700) 60%, var(--navy-600)); border-radius: 20px; padding: 24px; color:#fff; position:relative; overflow:hidden; margin-bottom: 22px; }
+  .hero::after { content:""; position:absolute; right:-60px; top:-60px; width: 280px; height: 280px; background: radial-gradient(circle, rgba(255,184,0,.25), transparent 70%); }
+  .hero-row { display:grid; grid-template-columns: auto 1fr auto; gap: 32px; align-items:center; position:relative; z-index:1; }
+  .hero-score { background: rgba(255,255,255,.06); border: 1px solid rgba(255,184,0,.3); border-radius: 16px; padding: 16px 22px; text-align:center; }
+  .hero-score .label { font-size: 10px; letter-spacing: .14em; color: var(--gold-400); font-weight: 700; }
+  .hero-score .val { font-size: 36px; font-weight: 800; letter-spacing: -.02em; }
+  .hero-score .sub { font-size: 11px; color: rgba(255,255,255,.6); }
+
+  .hero-meta { display:grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .hero-meta .item .lbl { font-size: 10px; letter-spacing: .12em; color: rgba(255,255,255,.55); text-transform: uppercase; font-weight: 700; }
+  .hero-meta .item .v { font-size: 20px; font-weight: 700; margin-top: 4px; }
+  .hero-meta .item .v small { font-size: 11px; color: rgba(255,255,255,.6); font-weight: 500; margin-left: 4px; }
+  .delta-up { color: var(--gold-400); font-size: 11px; font-weight: 600; }
+  .delta-down { color: #FF8B8E; font-size: 11px; font-weight: 600; }
+  .streak-pill { display:inline-flex; align-items:center; gap: 6px; background: linear-gradient(135deg, #FF6B35, #FF9A35); padding: 8px 14px; border-radius: 999px; font-weight: 700; font-size: 13px; }
+
+  /* GRIDS */
+  .grid-4 { display:grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 18px; }
+  .grid-3 { display:grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-bottom: 18px; }
+  .grid-2 { display:grid; grid-template-columns: 1.5fr 1fr; gap: 16px; margin-bottom: 18px; }
+  .grid-2-eq { display:grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 18px; }
+
+  /* CARDS */
+  .kpi { background:#fff; border-radius: 14px; padding: 16px 18px; box-shadow: var(--shadow-sm); border: 1px solid var(--gray-100); }
+  .kpi .head { display:flex; align-items:center; gap:8px; color: var(--gray-500); font-size: 11px; letter-spacing:.08em; text-transform: uppercase; font-weight: 700; }
+  .kpi .head .pill { margin-left:auto; font-size: 10px; padding: 2px 6px; border-radius: 5px; background: var(--green-100); color: var(--green-500); font-weight: 700; letter-spacing:0; text-transform:none; }
+  .kpi .head .pill.warn { background: var(--red-100); color: var(--red-500); }
+  .kpi .val { font-size: 24px; font-weight: 800; letter-spacing: -.02em; margin: 6px 0 4px; }
+  .kpi .sub { font-size: 11px; color: var(--gray-500); }
+
+  .card { background:#fff; border-radius: 14px; padding: 20px; box-shadow: var(--shadow-sm); border: 1px solid var(--gray-100); margin-bottom: 14px; }
+  .card-head { display:flex; align-items:center; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+  .card-head h3 { font-size: 14px; font-weight: 700; }
+  .card-head .sub { font-size: 12px; color: var(--gray-500); }
+  .card-head .right { margin-left:auto; display:flex; gap: 8px; align-items: center; }
+
+  .chip { font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: var(--gray-100); color: var(--gray-700); }
+  .chip.gold { background: var(--gold-100); color: #8C6500; }
+  .chip.green { background: var(--green-100); color: var(--green-500); }
+  .chip.blue { background: var(--blue-100); color: var(--blue-500); }
+  .chip.purple { background: var(--purple-100); color: var(--purple-500); }
+  .chip.red { background: var(--red-100); color: var(--red-500); }
+
+  .btn { appearance:none; border:0; padding: 8px 14px; border-radius: 8px; font: 600 12px 'Inter'; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+  .btn.primary { background: var(--navy-800); color:#fff; }
+  .btn.primary:hover { background: var(--navy-700); }
+  .btn.gold { background: var(--gold-500); color: var(--navy-900); }
+  .btn.ghost { background: transparent; color: var(--gray-700); border: 1px solid var(--gray-200); }
+
+  /* ANONYMOUS LEAGUE — kabul kriteri #4 */
+  .anon-rank-card { background: linear-gradient(135deg, #FFF8E5, #fff); border: 2px solid var(--gold-500); border-radius: 18px; padding: 28px; text-align: center; }
+  .anon-rank-card .my-rank { font-size: 72px; font-weight: 800; color: var(--navy-800); line-height: 1; }
+  .anon-rank-card .my-rank small { font-size: 18px; color: var(--gray-500); font-weight: 500; }
+  .anon-rank-card .rank-label { font-size: 11px; letter-spacing:.14em; color: var(--gold-500); font-weight:700; text-transform:uppercase; }
+  .anon-rank-card .rank-meta { display:grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 22px; padding-top: 20px; border-top: 1px solid var(--gray-100); }
+  .anon-rank-card .rank-meta .v { font-size: 18px; font-weight: 700; }
+  .anon-rank-card .rank-meta .l { font-size: 11px; color: var(--gray-500); }
+
+  .position-bar { height: 14px; background: var(--gray-100); border-radius: 999px; position: relative; margin: 20px 0 8px; }
+  .position-bar > .fill { height: 100%; background: linear-gradient(90deg, #FFE08A, var(--gold-500)); border-radius: 999px; }
+  .position-bar > .me { position: absolute; top: -7px; height: 28px; width: 4px; background: var(--navy-800); border-radius: 2px; }
+  .position-bar > .me::after { content: "SEN"; position: absolute; top: -16px; left: 50%; transform: translateX(-50%); background: var(--navy-800); color:#fff; font-size: 9px; padding: 2px 6px; border-radius: 4px; font-weight: 700; letter-spacing: .08em; }
+  .position-labels { display:flex; justify-content: space-between; font-size: 11px; color: var(--gray-500); }
+
+  .distribution { display:grid; grid-template-columns: repeat(8, 1fr); gap: 4px; align-items: end; height: 100px; margin-top: 8px; }
+  .distribution .bar { background: var(--gray-200); border-radius: 4px 4px 0 0; position: relative; transition: all .2s; }
+  .distribution .bar.me { background: linear-gradient(180deg, var(--gold-500), var(--gold-400)); }
+  .distribution .bar.me::after { content: "SEN"; position: absolute; top: -18px; left: 50%; transform: translateX(-50%); font-size: 9px; font-weight: 700; color: var(--gold-500); }
+
+  /* METRIC BAR */
+  .metric-row { display:flex; align-items:center; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--gray-100); }
+  .metric-row:last-child { border-bottom: 0; }
+  .metric-icon { width: 36px; height: 36px; border-radius: 10px; display:grid; place-items:center; flex-shrink: 0; font-size: 18px; }
+  .metric-name { flex: 0 0 200px; font-weight: 600; font-size: 13px; }
+  .metric-name small { display: block; font-size: 11px; color: var(--gray-500); font-weight: 400; }
+  .progress { flex: 1; height: 8px; background: var(--gray-100); border-radius: 999px; overflow: hidden; }
+  .progress > span { display:block; height:100%; background: linear-gradient(90deg, var(--gold-500), var(--gold-400)); border-radius: 999px; }
+  .progress.blue > span { background: linear-gradient(90deg, #2F7BFF, #5B9BFF); }
+  .progress.purple > span { background: linear-gradient(90deg, #8B5CF6, #C084FC); }
+  .progress.green > span { background: linear-gradient(90deg, #18B26B, #4ACC8B); }
+  .metric-val { font-weight: 700; font-size: 13px; min-width: 90px; text-align: right; }
+  .metric-val small { display: block; font-size: 11px; color: var(--gray-500); font-weight: 500; }
+
+  /* BADGES */
+  .badges-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+  .badge-card { background:#fff; border: 1px solid var(--gray-100); border-radius: 14px; padding: 18px 12px; text-align: center; position: relative; }
+  .badge-card.locked { opacity: .55; filter: grayscale(.5); }
+  .badge-medal { width: 56px; height: 56px; margin: 0 auto 10px; border-radius: 16px; display:grid; place-items:center; font-size: 26px; background: linear-gradient(135deg, var(--gold-500), var(--gold-400)); box-shadow: 0 6px 16px rgba(255,184,0,.4); }
+  .badge-medal.purple { background: linear-gradient(135deg, #8B5CF6, #C084FC); box-shadow: 0 6px 16px rgba(139,92,246,.4); }
+  .badge-medal.blue { background: linear-gradient(135deg, #2F7BFF, #5B9BFF); box-shadow: 0 6px 16px rgba(47,123,255,.4); }
+  .badge-medal.green { background: linear-gradient(135deg, #18B26B, #4ACC8B); box-shadow: 0 6px 16px rgba(24,178,107,.4); }
+  .badge-medal.orange { background: linear-gradient(135deg, #FF6B35, #FFB800); box-shadow: 0 6px 16px rgba(255,107,53,.4); }
+  .badge-card .name { font-weight: 700; font-size: 12px; }
+  .badge-card .desc { font-size: 11px; color: var(--gray-500); margin-top: 2px; line-height: 1.3; }
+  .badge-card .mult { display: inline-block; margin-top: 8px; font-size: 10px; font-weight: 700; padding: 2px 6px; background: var(--gold-100); color: #8C6500; border-radius: 4px; }
+  .badge-card .lock-tag { position: absolute; top: 8px; right: 8px; font-size: 10px; background: var(--gray-100); color: var(--gray-700); padding: 2px 6px; border-radius: 5px; font-weight: 600; }
+
+  /* CHALLENGE */
+  .challenge-card { border-radius: 16px; padding: 20px; color:#fff; background: linear-gradient(135deg, #FF6B35, #FFB800); position: relative; overflow:hidden; }
+  .challenge-card::after { content: "🎯"; position:absolute; right: 18px; top:50%; transform: translateY(-50%); font-size: 86px; opacity: .12; }
+  .challenge-card .tag { display:inline-block; padding: 4px 10px; background: rgba(255,255,255,.2); border-radius: 999px; font-size: 11px; font-weight: 700; }
+  .challenge-card h3 { margin: 10px 0 6px; font-size: 17px; }
+  .challenge-card p { font-size: 12px; opacity: .85; max-width: 80%; }
+  .challenge-card .progress { background: rgba(255,255,255,.2); margin-top: 14px; }
+  .challenge-card .progress > span { background: #fff; }
+  .challenge-card .pmeta { display:flex; justify-content: space-between; margin-top: 8px; font-size: 11px; font-weight: 600; }
+
+  /* TABLE */
+  table { width:100%; border-collapse: collapse; }
+  thead th { text-align: left; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--gray-500); padding: 10px 12px; font-weight: 700; border-bottom: 1px solid var(--gray-100); }
+  tbody td { padding: 12px; font-size: 13px; border-bottom: 1px solid var(--gray-100); }
+  tbody tr:hover { background: var(--gray-50); cursor: pointer; }
+  tbody tr:last-child td { border-bottom: 0; }
+  td.right, th.right { text-align: right; }
+
+  /* DONUT */
+  .donut-wrap { display:flex; align-items:center; gap: 20px; }
+  .donut { width: 130px; height: 130px; position:relative; }
+  .donut-center { position:absolute; inset:0; display:grid; place-items:center; text-align:center; }
+  .donut-center .v { font-size: 22px; font-weight: 800; }
+  .donut-center .l { font-size: 10px; color: var(--gray-500); margin-top: -2px; }
+  .legend { display:flex; flex-direction: column; gap: 8px; flex: 1; }
+  .legend .ll { display:flex; align-items: center; gap: 8px; font-size: 12px; }
+  .legend .ll .d { width: 10px; height: 10px; border-radius: 3px; }
+  .legend .ll .v { margin-left: auto; font-weight: 700; }
+
+  /* REGION */
+  .region-card { background:#fff; border-radius: 14px; padding: 16px; box-shadow: var(--shadow-sm); border: 1px solid var(--gray-100); display:flex; align-items:center; gap: 14px; }
+  .region-card.gold { background: linear-gradient(135deg, #FFF6DD, #FFE5A6); border-color: #FFD16B; }
+  .region-card.silver { background: linear-gradient(135deg, #F2F3F7, #DDE0EA); border-color: #C5CBD6; }
+  .region-card.bronze { background: linear-gradient(135deg, #F5E1CE, #E6BC91); border-color: #B07849; }
+  .region-medal { width: 56px; height: 56px; border-radius: 16px; display:grid; place-items:center; font-size: 26px; background: rgba(255,255,255,.5); flex-shrink:0; }
+  .region-info { flex:1; }
+  .region-info .nm { font-weight: 700; font-size: 15px; }
+  .region-info .sub { font-size: 11px; color: var(--gray-700); margin-top: 2px; }
+  .region-bonus { font-weight: 800; font-size: 22px; color: var(--navy-800); }
+  .region-bonus small { font-size: 11px; color: var(--gray-700); display: block; font-weight: 500; }
+
+  /* FLOW */
+  .flow { display:grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+  .flow-step { background:#fff; border: 1px solid var(--gray-100); border-radius: 12px; padding: 14px 12px; position: relative; }
+  .flow-step .num { width: 26px; height: 26px; border-radius: 8px; background: var(--navy-800); color: var(--gold-400); display:grid; place-items:center; font-weight: 800; font-size: 12px; margin-bottom: 10px; }
+  .flow-step h4 { font-size: 12px; font-weight: 700; }
+  .flow-step p { font-size: 10.5px; color: var(--gray-500); margin-top: 4px; line-height: 1.4; }
+  .flow-step.done { border-color: var(--green-500); background: linear-gradient(180deg, #F0FBF4, #fff); }
+  .flow-step.done .num { background: var(--green-500); color:#fff; }
+  .flow-step.active { border-color: var(--gold-500); background: linear-gradient(180deg, #FFF8E5, #fff); }
+  .flow-step.active .num { background: var(--gold-500); color: var(--navy-900); }
+
+  /* ADMIN FORMS */
+  .form-row { display:grid; grid-template-columns: 220px 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--gray-100); align-items: center; }
+  .form-row:last-child { border-bottom: 0; }
+  .form-row label { font-weight: 600; font-size: 13px; }
+  .form-row label small { display:block; color: var(--gray-500); font-weight: 400; font-size: 11px; margin-top: 2px; }
+  .input, select, textarea { width: 100%; padding: 9px 12px; border: 1px solid var(--gray-200); border-radius: 8px; font: inherit; background:#fff; }
+  .input-row { display:flex; gap: 8px; align-items:center; }
+  .switch { width: 38px; height: 22px; background: var(--gray-200); border-radius: 999px; position:relative; cursor:pointer; transition: background .15s; flex-shrink:0; }
+  .switch::after { content:""; position:absolute; top: 3px; left: 3px; width: 16px; height: 16px; background:#fff; border-radius: 50%; transition: left .15s; box-shadow: 0 1px 3px rgba(0,0,0,.2); }
+  .switch.on { background: var(--green-500); }
+  .switch.on::after { left: 19px; }
+
+  .weight-row { display:grid; grid-template-columns: 1fr 140px 80px; gap: 12px; align-items: center; padding: 10px 14px; background: var(--gray-50); border-radius: 10px; margin-bottom: 8px; }
+  .weight-row .n { font-weight: 600; font-size: 13px; }
+  .weight-row input[type=range] { width: 100%; }
+  .weight-row .pct { text-align: right; font-weight: 700; }
+
+  /* AUDIT LOG */
+  .log-row { display:grid; grid-template-columns: 80px 200px 1fr auto; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--gray-100); align-items: start; font-size: 13px; }
+  .log-row .ts { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--gray-500); }
+  .log-row .who { display:flex; align-items:center; gap: 8px; }
+  .log-row .who .av { width: 28px; height: 28px; border-radius: 8px; background: linear-gradient(135deg, #4A6BFF, #8B5CF6); color:#fff; display:grid; place-items:center; font-weight: 700; font-size: 10px; }
+  .log-row .who small { display:block; font-size: 11px; color: var(--gray-500); }
+  .log-row .what { color: var(--gray-700); }
+  .log-row .what b { color: var(--gray-900); }
+
+  /* TABS */
+  .tabs { display:flex; gap: 4px; padding: 4px; background: var(--gray-100); border-radius: 10px; width: fit-content; }
+  .tabs button { appearance:none; border:0; background:transparent; padding: 7px 14px; border-radius: 7px; font: 600 12px 'Inter'; color: var(--gray-700); cursor: pointer; }
+  .tabs button.active { background:#fff; color: var(--navy-900); box-shadow: var(--shadow-sm); }
+
+  /* HIERARCHY / ORGCHART */
+  .org { display:flex; flex-direction: column; gap: 22px; align-items: center; padding: 16px 0; }
+  .org-row { display:flex; gap: 14px; flex-wrap: wrap; justify-content: center; position: relative; }
+  .org-row::before { content:""; position:absolute; top: -16px; left: 50%; width: 1px; height: 16px; background: var(--gray-300); }
+  .org-row:first-child::before { display: none; }
+  .org-node { background:#fff; border: 1px solid var(--gray-200); border-radius: 12px; padding: 12px 14px; min-width: 150px; text-align: center; box-shadow: var(--shadow-sm); position:relative; }
+  .org-node.director { background: linear-gradient(135deg, var(--navy-800), var(--navy-700)); color:#fff; border-color: var(--navy-800); }
+  .org-node.director .role { color: var(--gold-400); }
+  .org-node.regional { background: linear-gradient(135deg, #EEF0F4, #fff); }
+  .org-node.csm { background: linear-gradient(135deg, var(--gold-100), #fff); border-color: var(--gold-500); }
+  .org-node.dealer { background: var(--gray-50); border-style: dashed; }
+  .org-node .role { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--gray-500); }
+  .org-node .nm { font-size: 13px; font-weight: 700; margin-top: 2px; }
+  .org-node .cnt { font-size: 11px; color: var(--gray-500); margin-top: 2px; }
+
+  /* ACCESS MATRIX */
+  .matrix-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 12px; }
+  .matrix-table thead th { background: var(--navy-800); color:#fff; padding: 12px 14px; font-weight: 700; text-align: center; }
+  .matrix-table thead th:first-child { text-align: left; border-top-left-radius: 10px; }
+  .matrix-table thead th:last-child { border-top-right-radius: 10px; }
+  .matrix-table tbody td { padding: 12px 14px; border-bottom: 1px solid var(--gray-100); text-align: center; vertical-align: middle; }
+  .matrix-table tbody td:first-child { text-align: left; font-weight: 600; }
+  .matrix-table tbody td:first-child small { display:block; font-weight: 400; color: var(--gray-500); font-size: 11px; }
+  .matrix-table tbody tr:last-child td:first-child { border-bottom-left-radius: 10px; }
+  .matrix-table tbody tr:last-child td:last-child { border-bottom-right-radius: 10px; }
+  .matrix-cell { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 8px; font-weight: 800; font-size: 14px; }
+  .matrix-cell.yes { background: var(--green-100); color: var(--green-500); }
+  .matrix-cell.no { background: var(--red-100); color: var(--red-500); }
+  .matrix-cell.partial { background: var(--gold-100); color: #8C6500; }
+
+  /* MANAGER NOTE */
+  .mgr-note { background: linear-gradient(135deg, #EEF6FF, #fff); border: 1px solid var(--blue-100); border-radius: 14px; padding: 16px; }
+  .mgr-note .nh { display:flex; align-items:center; gap: 10px; margin-bottom: 8px; }
+  .mgr-note .av-mgr { width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, var(--blue-500), var(--purple-500)); color:#fff; display:grid; place-items:center; font-weight: 700; font-size: 12px; }
+  .mgr-note .nh .n { font-weight: 700; font-size: 13px; }
+  .mgr-note .nh .nx { font-size: 11px; color: var(--gray-500); }
+  .mgr-note .nt { font-size: 13px; color: var(--gray-700); }
+  .mgr-note .ndate { font-size: 11px; color: var(--gray-500); margin-top: 6px; }
+
+  /* COMPARE */
+  .compare-pane { display:grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .compare-side { background:#fff; border-radius: 14px; padding: 20px; box-shadow: var(--shadow-sm); border: 1px solid var(--gray-100); }
+  .compare-side.north { border-top: 4px solid var(--blue-500); }
+  .compare-side.south { border-top: 4px solid var(--orange-500); }
+  .compare-side h3 { font-size: 14px; font-weight: 700; margin-bottom: 12px; }
+  .compare-big { font-size: 32px; font-weight: 800; }
+
+  /* HINT */
+  .hint { padding: 12px; background: var(--gold-100); border-radius: 10px; font-size: 12px; color: #8C6500; }
+  .hint.blue { background: var(--blue-100); color: var(--blue-500); }
+  .hint.green { background: var(--green-100); color: var(--green-500); }
+
+  /* UTIL */
+  .row { display:flex; align-items: center; gap: 8px; }
+  .gap-16 { gap: 16px; }
+  .mb-8 { margin-bottom: 8px; }
+  .mb-12 { margin-bottom: 12px; }
+  .mb-16 { margin-bottom: 16px; }
+  .mt-16 { margin-top: 16px; }
+  .mt-8 { margin-top: 8px; }
+  .text-muted { color: var(--gray-500); }
+  .text-sm { font-size: 12px; }
+  .b { font-weight: 700; }
+  .grow { flex: 1; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ===================== SIDEBAR ===================== -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">G</div>
+      <div>
+        <div class="brand-name">Gamification</div>
+        <div class="brand-sub">Bayi Performans Platformu</div>
+      </div>
+    </div>
+
+    <div class="role-switch" id="roleSwitch">
+      <button class="active" data-role="dealer">Bayi</button>
+      <button data-role="csm">CSM</button>
+      <button data-role="regional">Bölge Md.</button>
+      <button data-role="director">Direktör</button>
+      <button data-role="admin" style="grid-column: span 2; background: rgba(255,184,0,.1); color: var(--gold-400)">⚙ Admin Paneli</button>
+    </div>
+
+    <!-- DEALER -->
+    <nav id="nav-dealer" class="nav-group">
+      <div class="nav-section-title">Bayi</div>
+      <button class="nav-item active" data-screen="dealer-dashboard"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12 12 3l9 9M5 10v10h14V10"/></svg>Ana Sayfa</button>
+      <button class="nav-item" data-screen="dealer-league"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9h12M6 9a3 3 0 0 1-3-3V4h18v2a3 3 0 0 1-3 3"/><path d="M9 21h6M12 17v4M6 9a6 6 0 0 0 12 0"/></svg>Lig Pozisyonum</button>
+      <button class="nav-item" data-screen="dealer-badges"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="9" r="6"/><path d="M9 14l-2 7 5-3 5 3-2-7"/></svg>Rozetlerim</button>
+      <button class="nav-item" data-screen="dealer-challenge"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>Challenge<span class="badge">1</span></button>
+      <button class="nav-item" data-screen="dealer-region"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s-7-7-7-13a7 7 0 0 1 14 0c0 6-7 13-7 13z"/><circle cx="12" cy="9" r="3"/></svg>Bölgem</button>
+    </nav>
+
+    <!-- CSM -->
+    <nav id="nav-csm" class="nav-group" style="display:none">
+      <div class="nav-section-title">Channel Sales Manager</div>
+      <button class="nav-item active" data-screen="public-overview"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Genel Sayfa</button>
+      <button class="nav-item" data-screen="csm-dealers"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Bayilerim<span class="badge">18</span></button>
+      <button class="nav-item" data-screen="csm-dealer-detail"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Bayi Detay</button>
+      <button class="nav-item" data-screen="csm-challenge-manage"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>Challenge Yönetimi</button>
+      <button class="nav-item" data-screen="hierarchy"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="2" width="6" height="6"/><rect x="2" y="16" width="6" height="6"/><rect x="16" y="16" width="6" height="6"/><path d="M12 8v4M12 12h-7v4M12 12h7v4"/></svg>Hiyerarşi</button>
+    </nav>
+
+    <!-- REGIONAL -->
+    <nav id="nav-regional" class="nav-group" style="display:none">
+      <div class="nav-section-title">Bölge Müdürü</div>
+      <button class="nav-item active" data-screen="public-overview"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Genel Sayfa</button>
+      <button class="nav-item" data-screen="regional-csms"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>CSM'lerim<span class="badge">6</span></button>
+      <button class="nav-item" data-screen="regional-overview"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s-7-7-7-13a7 7 0 0 1 14 0c0 6-7 13-7 13z"/></svg>Bölgem</button>
+      <button class="nav-item" data-screen="hierarchy"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="2" width="6" height="6"/><rect x="2" y="16" width="6" height="6"/><rect x="16" y="16" width="6" height="6"/><path d="M12 8v4M12 12h-7v4M12 12h7v4"/></svg>Hiyerarşi</button>
+    </nav>
+
+    <!-- DIRECTOR -->
+    <nav id="nav-director" class="nav-group" style="display:none">
+      <div class="nav-section-title">Direktör</div>
+      <button class="nav-item active" data-screen="public-overview"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Genel Sayfa</button>
+      <button class="nav-item" data-screen="director-comparison"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>North vs South</button>
+      <button class="nav-item" data-screen="hierarchy"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="2" width="6" height="6"/><rect x="2" y="16" width="6" height="6"/><rect x="16" y="16" width="6" height="6"/><path d="M12 8v4M12 12h-7v4M12 12h7v4"/></svg>Tam Hiyerarşi</button>
+    </nav>
+
+    <!-- ADMIN -->
+    <nav id="nav-admin" class="nav-group" style="display:none">
+      <div class="nav-section-title">Admin Paneli</div>
+      <div style="padding: 8px 12px; margin-bottom: 8px; background: rgba(255,184,0,.08); border-radius: 8px; font-size: 10px; color: var(--gold-400); font-weight: 600;">🔒 AI Product & UX onaylı</div>
+      <button class="nav-item active" data-screen="admin-overview"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Komuta Merkezi</button>
+      <button class="nav-item" data-screen="admin-league"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Lig & Hesaplama</button>
+      <button class="nav-item" data-screen="admin-badges"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="9" r="6"/><path d="M9 14l-2 7 5-3 5 3-2-7"/></svg>Rozet Kuralları</button>
+      <button class="nav-item" data-screen="admin-region"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s-7-7-7-13a7 7 0 0 1 14 0c0 6-7 13-7 13z"/></svg>Bölge Bonusu</button>
+      <button class="nav-item" data-screen="admin-access"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Erişim Matrisi</button>
+      <button class="nav-item" data-screen="admin-audit"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h6"/></svg>Audit Log</button>
+    </nav>
+
+    <div class="sidebar-foot">
+      <div class="avatar" id="userAv">MK</div>
+      <div>
+        <div class="name" id="userName">Mehmet Kaya</div>
+        <div class="role" id="userRole">Bayi · İstanbul</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ===================== MAIN ===================== -->
+  <main class="main">
+    <div class="topbar">
+      <button class="nav-toggle" id="navToggle" aria-label="Menüyü aç/kapat" title="Menüyü aç/kapat">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <div>
+        <div class="crumb" id="crumb">Bayi · Ana Sayfa</div>
+        <h1 id="screenTitle">Hoş geldin, Mehmet 👋</h1>
+      </div>
+      <div class="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input placeholder="Ara..." />
+      </div>
+      <div class="top-actions">
+        <button class="icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></button>
+        <button class="icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- ============== DEALER: DASHBOARD ============== -->
+      <section class="screen active" id="dealer-dashboard">
+        <div class="hero">
+          <div class="hero-row">
+            <div class="hero-score">
+              <div class="label">FİNAL PUAN</div>
+              <div class="val">7.250</div>
+              <div class="sub">Mayıs 2026 · Lig 5</div>
+            </div>
+            <div class="hero-meta">
+              <div class="item"><div class="lbl">Pozisyonum</div><div class="v">5.<small>/186</small></div><div class="delta-up">▲ 3 sıra (haftalık)</div></div>
+              <div class="item"><div class="lbl">Segmentasyon</div><div class="v">85.6<small>/100</small></div><div class="delta-up">▲ +2.3</div></div>
+              <div class="item"><div class="lbl">Stratejik Ürün</div><div class="v">82.4<small>/100</small></div><div class="delta-up">▲ +1.8</div></div>
+              <div class="item"><div class="lbl">Rozet Çarpanı</div><div class="v">×1.23</div><div class="delta-up">4 rozet aktif</div></div>
+            </div>
+            <div class="streak-pill">🔥 14 gün streak</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <div class="card">
+              <div class="card-head">
+                <h3>Final Puan Kırılımı</h3>
+                <div class="sub">· 2 ana puan başlığı + bonuslar</div>
+                <div class="right"><span class="chip gold">+12% vs Nisan</span></div>
+              </div>
+              <div class="metric-row">
+                <div class="metric-icon" style="background: var(--purple-100); color: var(--purple-500)">🛡️</div>
+                <div class="metric-name">Segmentasyon<small>Kulvar içi pozisyon + gelişim</small></div>
+                <div class="progress purple"><span style="width:85%"></span></div>
+                <div class="metric-val">85.6<small>%50 ağırlık</small></div>
+              </div>
+              <div class="metric-row">
+                <div class="metric-icon" style="background: var(--gold-100); color: #8C6500">🎯</div>
+                <div class="metric-name">Stratejik Ürünler<small>5G, Fiber, Premium SP, Yüksek TL</small></div>
+                <div class="progress"><span style="width:82%"></span></div>
+                <div class="metric-val">82.4<small>%50 ağırlık</small></div>
+              </div>
+              <div class="metric-row" style="background: var(--gold-100); padding: 12px 14px; border-radius: 10px; margin-top: 12px; border: 0">
+                <div class="metric-icon" style="background:#fff; color: #8C6500">⚡</div>
+                <div class="metric-name">Bonuslar<small>Rozet ×1.23 · Challenge +250 · Bölge +%3</small></div>
+                <div class="grow"></div>
+                <div class="metric-val">+1.450<small>Final puana eklendi</small></div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-head"><h3>Yaklaşan Rozetler</h3><div class="right"><a class="chip blue" href="#">Tümünü gör</a></div></div>
+              <div class="badges-grid">
+                <div class="badge-card"><div class="badge-medal">🏆</div><div class="name">Segmentasyon Üstü</div><div class="desc">Kulvarda +%30</div><div class="mult">×1.10</div></div>
+                <div class="badge-card"><div class="badge-medal blue">📡</div><div class="name">5G Öncüsü</div><div class="desc">50+ 5G/ay</div><div class="mult">×1.08</div></div>
+                <div class="badge-card"><div class="badge-medal orange">🌐</div><div class="name">Fiber Ustası</div><div class="desc">Pen. %15+</div><div class="mult">×1.05</div></div>
+                <div class="badge-card locked"><div class="badge-medal purple">💎</div><div class="name">Premium SP</div><div class="desc">SP %20+</div><span class="lock-tag">12/20</span></div>
+                <div class="badge-card locked"><div class="badge-medal green">🚀</div><div class="name">Hızlı Yükselen</div><div class="desc">Kulvarda yukarı</div><span class="lock-tag">Kilitli</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="card">
+              <div class="card-head"><h3>Aktif Challenge</h3><div class="right"><span class="chip green">8 gün kaldı</span></div></div>
+              <div class="challenge-card">
+                <span class="tag">STRATEJİK ÜRÜN</span>
+                <h3>Bu ay 5G destekli cihaz satışında zirveyi kap</h3>
+                <p>Hedef: 30 adet · Tamamlandı: 18 · Ödül: +250 puan</p>
+                <div class="progress"><span style="width:60%"></span></div>
+                <div class="pmeta"><span>%60 ilerleme</span><span>+150 puan beklemede</span></div>
+              </div>
+            </div>
+
+            <!-- YÖNETİCİ NOTU - PDF Slide 6 -->
+            <div class="card">
+              <div class="card-head"><h3>Yönetici Notu</h3><div class="sub">· CSM'inden</div></div>
+              <div class="mgr-note">
+                <div class="nh">
+                  <div class="av-mgr">SY</div>
+                  <div>
+                    <div class="n">Selin Yıldız</div>
+                    <div class="nx">Channel Sales Manager</div>
+                  </div>
+                </div>
+                <div class="nt">Mehmet, Premium SP oranında son 2 hafta gerçekten iyi ilerleme var (12/20). Ay sonuna 8 satış kaldı — Pazartesi mağaza ziyaretinde bayi vitrini düzenleme önerilerimi konuşalım. 5G challenge'da da tempon iyi, devam.</div>
+                <div class="ndate">📅 15 Haziran 2026 · 14:22</div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-head"><h3>Lig Akışı</h3><div class="sub">· Mayıs 2026</div></div>
+              <div class="row mb-8 gap-16" style="flex-wrap: wrap"><div class="chip green">✓ Veri</div><div class="chip green">✓ Uygunluk</div><div class="chip gold">● Hesaplama</div><div class="chip">Bap Yayını</div><div class="chip">Takip</div><div class="chip">Finalizasyon</div></div>
+              <div class="text-sm text-muted">Sonraki: <b>Bap Yayını · 23 Mayıs</b><br/>Finalizasyon: 31 Mayıs 23:59</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============== DEALER: LEAGUE (ANONİM) ============== -->
+      <section class="screen" id="dealer-league">
+        <div class="hint blue mb-16">🔒 <b>Gizlilik:</b> Lig sıralamasında diğer bayi isimleri ve puanları gösterilmez. Sadece kendi pozisyonun, lider farkın ve dağılım içindeki yerin görünür. (PDF Kabul Kriteri #4)</div>
+
+        <div class="grid-2-eq">
+          <div class="anon-rank-card">
+            <div class="rank-label">SENİN POZİSYONUN · LİG 5</div>
+            <div class="my-rank">5.<small>/186 bayi</small></div>
+            <div class="rank-meta">
+              <div><div class="v">7.250</div><div class="l">Final Puanın</div></div>
+              <div><div class="v">−480</div><div class="l">Lidere fark</div></div>
+              <div><div class="v">+170</div><div class="l">6. sıraya fark</div></div>
+            </div>
+          </div>
+
+          <div class="card" style="margin:0">
+            <div class="card-head"><h3>Pozisyon Çubuğu</h3><div class="sub">· 186 bayi içinde nerelisin</div></div>
+            <div class="position-bar">
+              <div class="fill" style="width: 97.3%"></div>
+              <div class="me" style="left: 97.3%"></div>
+            </div>
+            <div class="position-labels"><span>186. (en alt)</span><span>1. (lider)</span></div>
+            <div class="hint mt-16">🎯 Üst %3'tesin. Üst %1'e girmek için <b>+320 puan</b> daha gerekiyor. Strateji önerisi: <b>Premium SP rozeti</b> tamamlama (8 satış).</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h3>Lig 5 Puan Dağılımı</h3>
+            <div class="sub">· 186 bayinin puan aralığı (anonim)</div>
+            <div class="right"><div class="tabs"><button class="active">Bu ay</button><button>3 ay</button><button>Trend</button></div></div>
+          </div>
+          <div class="distribution">
+            <div class="bar" style="height: 25%"></div>
+            <div class="bar" style="height: 45%"></div>
+            <div class="bar" style="height: 65%"></div>
+            <div class="bar" style="height: 85%"></div>
+            <div class="bar" style="height: 95%"></div>
+            <div class="bar" style="height: 70%"></div>
+            <div class="bar me" style="height: 55%"></div>
+            <div class="bar" style="height: 30%"></div>
+          </div>
+          <div class="row text-sm text-muted mt-8" style="justify-content: space-between">
+            <span>5.000</span><span>5.500</span><span>6.000</span><span>6.500</span><span>7.000</span><span>7.500</span><span>8.000</span><span>8.500+</span>
+          </div>
+          <div class="hint mt-16">📊 Bayilerin <b>%62'si</b> 6.000-7.500 aralığında. Sen <b>7.250</b> ile güçlü orta-üst kümede yer alıyorsun.</div>
+        </div>
+
+        <div class="grid-3">
+          <div class="kpi"><div class="head">Bu ayki ilerlemen</div><div class="val" style="color: var(--green-500)">+8.4%</div><div class="sub">Final puan değişimi</div></div>
+          <div class="kpi"><div class="head">Yıl içi en yüksek</div><div class="val">3.</div><div class="sub">Mart 2026 · 7.480 puan</div></div>
+          <div class="kpi"><div class="head">Aktif lig kalan süre</div><div class="val">8 gün</div><div class="sub">31 May 23:59'de finalize</div></div>
+        </div>
+      </section>
+
+      <!-- ============== DEALER: BADGES ============== -->
+      <section class="screen" id="dealer-badges">
+        <div class="grid-3">
+          <div class="kpi"><div class="head">Sahip olduğum</div><div class="val">4 <span style="font-size:13px; color: var(--gray-500)">/ 8</span></div><div class="sub">+1 bu ay kazanıldı</div></div>
+          <div class="kpi"><div class="head">Toplam çarpan</div><div class="val">×1.23</div><div class="sub">Final puana uygulanan</div></div>
+          <div class="kpi"><div class="head">En yakın rozet</div><div class="val">Premium SP</div><div class="sub">12/20 · %60 tamam</div></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><h3>Kazanılan Rozetler</h3><div class="sub">· Final puanına çarpan olarak uygulanır</div></div>
+          <div class="badges-grid">
+            <div class="badge-card"><div class="badge-medal">🏆</div><div class="name">Segmentasyon Üstü</div><div class="desc">Mart 2026</div><div class="mult">×1.10</div></div>
+            <div class="badge-card"><div class="badge-medal blue">📡</div><div class="name">5G Öncüsü</div><div class="desc">Şubat 2026</div><div class="mult">×1.08</div></div>
+            <div class="badge-card"><div class="badge-medal orange">🌐</div><div class="name">Fiber Ustası</div><div class="desc">Nisan 2026</div><div class="mult">×1.05</div></div>
+            <div class="badge-card"><div class="badge-medal green">🌱</div><div class="name">Yükselen Bayi</div><div class="desc">Mayıs 2026</div><div class="mult">×1.03</div></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><h3>Kazanılabilir Rozetler</h3><div class="sub">· Aktif ay kuralları</div></div>
+          <div class="badges-grid">
+            <div class="badge-card locked"><div class="badge-medal purple">💎</div><div class="name">Premium SP</div><div class="desc">SP oranı %20+</div><span class="lock-tag">12/20</span></div>
+            <div class="badge-card locked"><div class="badge-medal green">🚀</div><div class="name">Hızlı Yükselen</div><div class="desc">Kulvarda yukarı çık</div><span class="lock-tag">%65</span></div>
+            <div class="badge-card locked"><div class="badge-medal" style="background: linear-gradient(135deg, var(--navy-800), var(--navy-700))">🌟</div><div class="name">Komuta Rozeti</div><div class="desc">3 ay üst üste Top 10</div><span class="lock-tag">2/3</span></div>
+            <div class="badge-card locked"><div class="badge-medal orange">🔥</div><div class="name">Streak Avcısı</div><div class="desc">30 gün aktivite</div><span class="lock-tag">14/30</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============== DEALER: CHALLENGE (6-step flow) ============== -->
+      <section class="screen" id="dealer-challenge">
+        <div class="card">
+          <div class="card-head"><h3>Challenge Akışı</h3><div class="sub">· 6 adımlı çalışma mantığı (PDF Slide 4)</div></div>
+          <div class="flow">
+            <div class="flow-step done"><div class="num">✓</div><h4>Sistem Önerisi</h4><p>Trend + hedef + bölge stretch ile aday oluştur</p></div>
+            <div class="flow-step done"><div class="num">✓</div><h4>Yönetici İncelemesi</h4><p>CSM alternatif önerir veya onaylar</p></div>
+            <div class="flow-step done"><div class="num">✓</div><h4>Oluşturma</h4><p>Yönetici doğrudan oluşturur (manuel mod)</p></div>
+            <div class="flow-step done"><div class="num">✓</div><h4>Tarih & Onay</h4><p>Dönem onayı ve bayiye atama</p></div>
+            <div class="flow-step active"><div class="num">5</div><h4>Takip & Puan</h4><p>Başarıda puan otomatik uygulanır</p></div>
+            <div class="flow-step"><div class="num">6</div><h4>Sonuç Görünür</h4><p>Dönem sonunda sonuç açıklanır</p></div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <div class="card">
+              <div class="card-head"><h3>Bu ayki Challenge</h3><div class="right"><span class="chip green">Aktif · 8 gün kaldı</span></div></div>
+              <div class="challenge-card">
+                <span class="tag">STRATEJİK ÜRÜN · MAYIS 2026</span>
+                <h3>5G destekli cihaz satışında ay sonuna 30 adete ulaş</h3>
+                <p>Sistem geçmiş 3 ay 5G performansına + bölge ortalamasına bakarak bu hedefi önerdi. CSM'in Selin Yıldız onayladı.</p>
+                <div class="progress"><span style="width:60%"></span></div>
+                <div class="pmeta"><span>18 / 30 adet · %60</span><span>Tahmini bitiş: 28 May</span></div>
+              </div>
+              <div class="mt-16">
+                <h4 style="font-size: 13px; margin-bottom: 8px">📐 Hedef Mantığı</h4>
+                <div class="text-sm" style="background: var(--gray-50); padding: 14px; border-radius: 10px; line-height: 1.7">
+                  • Son 3 ay 5G ortalaman: <b>22 adet/ay</b><br/>
+                  • Bölge (Marmara) ortalaması: <b>26 adet/ay</b><br/>
+                  • Önerilen stretch hedef: <b>30 adet</b> (bölge ort. +%15)<br/>
+                  • Streak çarpanı: <b>×1.10</b> (3 ay üst üste tamamlama)<br/>
+                  • Toplam ödül: <b>+250 puan</b>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="card">
+              <div class="card-head"><h3>Geçmiş Challenge'lar</h3></div>
+              <div style="display:flex; flex-direction: column; gap: 10px">
+                <div class="row" style="padding: 12px; background: var(--gray-50); border-radius: 10px"><div class="chip green">✓</div><div class="grow"><div class="b">Nisan · Segmentasyon</div><div class="text-sm text-muted">Hedef: Kulvar +1 → Sonuç: +2</div></div><div class="b">+200</div></div>
+                <div class="row" style="padding: 12px; background: var(--gray-50); border-radius: 10px"><div class="chip green">✓</div><div class="grow"><div class="b">Mart · 5G</div><div class="text-sm text-muted">25 adet → 28 adet</div></div><div class="b">+250</div></div>
+                <div class="row" style="padding: 12px; background: var(--red-100); border-radius: 10px"><div class="chip red">✕</div><div class="grow"><div class="b">Şubat · Fiber</div><div class="text-sm text-muted">%15 → %12.3</div></div><div class="b text-muted">0</div></div>
+                <div class="row" style="padding: 12px; background: var(--gray-50); border-radius: 10px"><div class="chip green">✓</div><div class="grow"><div class="b">Ocak · Premium SP</div><div class="text-sm text-muted">%18 → %22</div></div><div class="b">+220</div></div>
+              </div>
+              <div class="mt-16 text-sm text-muted row" style="justify-content: space-between">
+                <span>4 ayda 3 başarı · %75 tamamlama</span>
+                <span class="streak-pill" style="font-size: 11px; padding: 6px 10px">🔥 3 ay streak</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============== DEALER: REGION ============== -->
+      <section class="screen" id="dealer-region">
+        <div class="grid-3">
+          <div class="region-card gold"><div class="region-medal">🥇</div><div class="region-info"><div class="nm">Ege Bölgesi</div><div class="sub">Ortalama: 7.420 · 112 bayi</div></div><div class="region-bonus">+%6<small>Bonus</small></div></div>
+          <div class="region-card silver"><div class="region-medal">🥈</div><div class="region-info"><div class="nm">Marmara <span class="chip gold" style="margin-left:6px">Bölgem</span></div><div class="sub">Ortalama: 6.890 · 108 bayi</div></div><div class="region-bonus">+%3<small>Bonus</small></div></div>
+          <div class="region-card bronze"><div class="region-medal">🥉</div><div class="region-info"><div class="nm">İç Anadolu Güney</div><div class="sub">Ortalama: 6.640 · 96 bayi</div></div><div class="region-bonus">+%2<small>Bonus</small></div></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><h3>Tüm Bölgeler — Mayıs 2026</h3><div class="sub">· Bölge bazında anonim ortalamalar</div></div>
+          <table>
+            <thead><tr><th>#</th><th>Bölge</th><th>Bayi</th><th>Ortalama Puan</th><th>Trend</th><th class="right">Bonus</th></tr></thead>
+            <tbody>
+              <tr><td><b>1</b></td><td class="b">Ege</td><td>112</td><td>7.420</td><td><span class="chip green">▲ +2.8%</span></td><td class="right b">+%6</td></tr>
+              <tr><td><b>2</b></td><td class="b">Marmara <span class="chip gold" style="margin-left:6px">Bölgem</span></td><td>108</td><td>6.890</td><td><span class="chip green">▲ +1.4%</span></td><td class="right b">+%3</td></tr>
+              <tr><td><b>3</b></td><td class="b">İç Anadolu Güney</td><td>96</td><td>6.640</td><td><span class="chip">— 0.0%</span></td><td class="right b">+%2</td></tr>
+              <tr><td>4</td><td>Akdeniz</td><td>88</td><td>6.420</td><td><span class="chip red">▼ -0.8%</span></td><td class="right text-muted">—</td></tr>
+              <tr><td>5</td><td>Karadeniz</td><td>92</td><td>6.180</td><td><span class="chip green">▲ +0.6%</span></td><td class="right text-muted">—</td></tr>
+              <tr><td>6</td><td>İç Anadolu Kuzey</td><td>78</td><td>5.940</td><td><span class="chip green">▲ +1.1%</span></td><td class="right text-muted">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="hint">💡 <b>İpucu:</b> Marmara'nın 1. olması için ortalama 530 puan gerekiyor. Bölgenin tüm bayilerinin küçük katkıları toplam farkı kapatır.</div>
+      </section>
+
+
+      <!-- ============== PUBLIC OVERVIEW (CSM/Regional/Director) ============== -->
+      <section class="screen" id="public-overview">
+        <div class="hint green mb-16">🌐 <b>Genel Sayfa:</b> Tüm rollere açık anonim toplu özet. Bayi-bayi karşılaştırma yapılmaz; sadece toplam, ortalama ve bölge bazında veriler gösterilir.</div>
+
+        <div class="grid-4">
+          <div class="kpi"><div class="head">Toplam Bayi <span class="pill">+%4</span></div><div class="val">1.248</div><div class="sub">Aktif lig katılımı</div></div>
+          <div class="kpi"><div class="head">Eligible <span class="pill">Min. ay ✓</span></div><div class="val">186</div><div class="sub">Lig 5 · 32 bayi yeni</div></div>
+          <div class="kpi"><div class="head">Ort. Segmentasyon</div><div class="val">85.6</div><div class="sub">▲ +2.3 vs Nisan</div></div>
+          <div class="kpi"><div class="head">Ort. Stratejik Ürün</div><div class="val">82.4</div><div class="sub">▲ +1.8 vs Nisan</div></div>
+        </div>
+
+        <div class="grid-2-eq">
+          <div class="card">
+            <div class="card-head"><h3>Segmentasyon Dağılımı</h3><div class="sub">· Tüm bayiler · anonim</div></div>
+            <div class="donut-wrap">
+              <div class="donut">
+                <svg width="130" height="130" viewBox="0 0 130 130" style="transform: rotate(-90deg)">
+                  <circle cx="65" cy="65" r="50" fill="none" stroke="var(--gray-100)" stroke-width="20"/>
+                  <circle cx="65" cy="65" r="50" fill="none" stroke="#8B5CF6" stroke-width="20" stroke-dasharray="100 314"/>
+                  <circle cx="65" cy="65" r="50" fill="none" stroke="#2F7BFF" stroke-width="20" stroke-dasharray="80 314" stroke-dashoffset="-100"/>
+                  <circle cx="65" cy="65" r="50" fill="none" stroke="#18B26B" stroke-width="20" stroke-dasharray="65 314" stroke-dashoffset="-180"/>
+                  <circle cx="65" cy="65" r="50" fill="none" stroke="#FFB800" stroke-width="20" stroke-dasharray="69 314" stroke-dashoffset="-245"/>
+                </svg>
+                <div class="donut-center"><div><div class="v">85.6</div><div class="l">Ortalama</div></div></div>
+              </div>
+              <div class="legend">
+                <div class="ll"><span class="d" style="background:#8B5CF6"></span>Kulvar A (Üst)<span class="v">32%</span></div>
+                <div class="ll"><span class="d" style="background:#2F7BFF"></span>Kulvar B<span class="v">26%</span></div>
+                <div class="ll"><span class="d" style="background:#18B26B"></span>Kulvar C<span class="v">21%</span></div>
+                <div class="ll"><span class="d" style="background:#FFB800"></span>Kulvar D<span class="v">22%</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>Stratejik Ürün Dağılımı</h3><div class="sub">· Ürün bazında ortalama</div></div>
+            <div class="donut-wrap">
+              <div class="donut">
+                <svg width="130" height="130" viewBox="0 0 130 130" style="transform: rotate(-90deg)">
+                  <circle cx="65" cy="65" r="50" fill="none" stroke="var(--gray-100)" stroke-width="20"/>
+                  <circle cx="65" cy="65" r="50" fill="none" stroke="#FFB800" stroke-width="20" stroke-dasharray="90 314"/>
+                  <circle cx="65" cy="65" r="50" fill="none" stroke="#FF6B35" stroke-width="20" stroke-dasharray="75 314" stroke-dashoffset="-90"/>
+                  <circle cx="65" cy="65" r="50" fill="none" stroke="#2F7BFF" stroke-width="20" stroke-dasharray="70 314" stroke-dashoffset="-165"/>
+                  <circle cx="65" cy="65" r="50" fill="none" stroke="#18B26B" stroke-width="20" stroke-dasharray="79 314" stroke-dashoffset="-235"/>
+                </svg>
+                <div class="donut-center"><div><div class="v">82.4</div><div class="l">Ortalama</div></div></div>
+              </div>
+              <div class="legend">
+                <div class="ll"><span class="d" style="background:#FFB800"></span>Premium SP<span class="v">29%</span></div>
+                <div class="ll"><span class="d" style="background:#FF6B35"></span>Fiber<span class="v">24%</span></div>
+                <div class="ll"><span class="d" style="background:#2F7BFF"></span>5G Cihaz<span class="v">22%</span></div>
+                <div class="ll"><span class="d" style="background:#18B26B"></span>Yüksek TL Paket<span class="v">25%</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-head"><h3>Lig Tablosu Özeti</h3><div class="sub">· 8 lig · bayi dağılımı</div></div>
+            <table>
+              <thead><tr><th>Lig</th><th>Bayi</th><th>Ort. Puan</th><th class="right">Trend</th></tr></thead>
+              <tbody>
+                <tr><td class="b">🏆 Lig 1 (Elite)</td><td>24</td><td>9.140</td><td class="right"><span class="chip green">▲ +3.2%</span></td></tr>
+                <tr><td class="b">🥈 Lig 2</td><td>28</td><td>8.420</td><td class="right"><span class="chip green">▲ +2.1%</span></td></tr>
+                <tr><td class="b">🥉 Lig 3</td><td>32</td><td>7.890</td><td class="right"><span class="chip green">▲ +1.4%</span></td></tr>
+                <tr><td>Lig 4</td><td>40</td><td>7.520</td><td class="right"><span class="chip">— 0.2%</span></td></tr>
+                <tr style="background: rgba(255,184,0,.05)"><td class="b">⚡ Lig 5 (aktif)</td><td>186</td><td>6.890</td><td class="right"><span class="chip green">▲ +2.3%</span></td></tr>
+                <tr><td>Lig 6</td><td>240</td><td>6.180</td><td class="right"><span class="chip red">▼ -0.8%</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>Challenge Özet</h3><div class="sub">· Mayıs 2026</div></div>
+            <div style="display:flex; flex-direction: column; gap: 10px">
+              <div class="row" style="padding: 12px; background: var(--gray-50); border-radius: 10px"><div class="grow"><div class="b">Aktif Challenge</div><div class="text-sm text-muted">Tüm tipler</div></div><div class="b" style="font-size: 22px">186</div></div>
+              <div class="row" style="padding: 12px; background: var(--green-100); border-radius: 10px"><div class="grow"><div class="b">Tamamlanan</div><div class="text-sm text-muted">%62 başarı oranı</div></div><div class="b" style="font-size: 22px; color: var(--green-500)">115</div></div>
+              <div class="row" style="padding: 12px; background: var(--gold-100); border-radius: 10px"><div class="grow"><div class="b">Risk Altında</div><div class="text-sm text-muted">Ay sonuna yetişmeyebilir</div></div><div class="b" style="font-size: 22px; color: #8C6500">42</div></div>
+              <div class="row" style="padding: 12px; background: var(--red-100); border-radius: 10px"><div class="grow"><div class="b">Kaçırılan</div><div class="text-sm text-muted">Geri kazanım yok</div></div><div class="b" style="font-size: 22px; color: var(--red-500)">29</div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============== CSM: BAYİLERİM ============== -->
+      <section class="screen" id="csm-dealers">
+        <div class="hint blue mb-16">👤 <b>Yetki:</b> CSM olarak sana doğrudan bağlı 18 bayinin detaylı verisini görüyorsun. Diğer CSM'lerin bayileri görünmez. (PDF Slide 3)</div>
+
+        <div class="grid-4">
+          <div class="kpi"><div class="head">Bayilerim</div><div class="val">18</div><div class="sub">Marmara · İstanbul Anadolu</div></div>
+          <div class="kpi"><div class="head">Ort. Final Puan</div><div class="val">7.140</div><div class="sub">▲ +2.8% vs Nisan</div></div>
+          <div class="kpi"><div class="head">Aktif Challenge</div><div class="val">14<span style="font-size:13px;color:var(--gray-500)">/18</span></div><div class="sub">4 bayi henüz seçmedi</div></div>
+          <div class="kpi"><div class="head">Risk Altında <span class="pill warn">!</span></div><div class="val">3</div><div class="sub">Min. ay kuralı eşiğinde</div></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h3>Bayilerim — Performans Listesi</h3>
+            <div class="sub">· Mayıs 2026</div>
+            <div class="right">
+              <div class="tabs"><button class="active">Hepsi</button><button>Risk altında</button><button>Top performer</button></div>
+              <button class="btn ghost">CSV</button>
+            </div>
+          </div>
+          <table>
+            <thead><tr><th>Bayi</th><th>Lig</th><th>Final Puan</th><th>Segmentasyon</th><th>Stratejik</th><th>Challenge</th><th>Rozet</th><th>Trend</th></tr></thead>
+            <tbody>
+              <tr><td><div class="row"><div class="avatar" style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#4A6BFF,#8B5CF6);font-size:10px">MK</div><div><div class="b">Mehmet Kaya</div><div class="text-sm text-muted">Beşiktaş</div></div></div></td><td><span class="chip">Lig 5</span></td><td class="b">7.250</td><td>85.6</td><td>82.4</td><td><span class="chip green">%60</span></td><td>4 🏆</td><td><span class="chip green">▲ +8.4%</span></td></tr>
+              <tr><td><div class="row"><div class="avatar" style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#FFB800,#FF6B35);font-size:10px">AT</div><div><div class="b">Ayşe Tunç</div><div class="text-sm text-muted">Kadıköy</div></div></div></td><td><span class="chip gold">Lig 3</span></td><td class="b">7.730</td><td>92.1</td><td>88.7</td><td><span class="chip green">%85</span></td><td>6 🏆</td><td><span class="chip green">▲ +5.1%</span></td></tr>
+              <tr><td><div class="row"><div class="avatar" style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#18B26B,#4ACC8B);font-size:10px">EB</div><div><div class="b">Emre Bilgin</div><div class="text-sm text-muted">Üsküdar</div></div></div></td><td><span class="chip">Lig 4</span></td><td class="b">7.610</td><td>88.4</td><td>85.2</td><td><span class="chip">%48</span></td><td>5 🏆</td><td><span class="chip">— 0.3%</span></td></tr>
+              <tr style="background: var(--red-100)"><td><div class="row"><div class="avatar" style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#E5484D,#FF6B35);font-size:10px">CD</div><div><div class="b">Can Demir</div><div class="text-sm text-muted">Maltepe</div></div></div></td><td><span class="chip">Lig 6</span></td><td class="b">5.840</td><td>62.3</td><td>58.1</td><td><span class="chip red">Yok</span></td><td>1</td><td><span class="chip red">▼ -4.2%</span></td></tr>
+              <tr><td><div class="row"><div class="avatar" style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#8B5CF6,#C084FC);font-size:10px">ZD</div><div><div class="b">Zeynep Duran</div><div class="text-sm text-muted">Pendik</div></div></div></td><td><span class="chip">Lig 5</span></td><td class="b">6.940</td><td>78.3</td><td>74.6</td><td><span class="chip green">%72</span></td><td>3 🏆</td><td><span class="chip green">▲ +6.8%</span></td></tr>
+              <tr><td><div class="row"><div class="avatar" style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#2F7BFF,#5B9BFF);font-size:10px">NÖ</div><div><div class="b">Nur Özkan</div><div class="text-sm text-muted">Kartal</div></div></div></td><td><span class="chip">Lig 5</span></td><td class="b">7.180</td><td>82.7</td><td>79.4</td><td><span class="chip">%55</span></td><td>4 🏆</td><td><span class="chip green">▲ +2.1%</span></td></tr>
+              <tr><td><div class="row"><div class="avatar" style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#FF6B35,#FFB800);font-size:10px">HG</div><div><div class="b">Hakan Güler</div><div class="text-sm text-muted">Tuzla</div></div></div></td><td><span class="chip">Lig 5</span></td><td class="b">7.020</td><td>80.1</td><td>76.8</td><td><span class="chip green">%70</span></td><td>3 🏆</td><td><span class="chip">— 0.5%</span></td></tr>
+            </tbody>
+          </table>
+          <div class="text-sm text-muted mt-16">11 bayi daha · Tüm bayileri görmek için filtreyi kullan</div>
+        </div>
+      </section>
+
+      <!-- ============== CSM: BAYİ DETAY ============== -->
+      <section class="screen" id="csm-dealer-detail">
+        <div class="card" style="background: linear-gradient(135deg, var(--navy-800), var(--navy-700)); color:#fff; border:0; padding: 24px">
+          <div class="row gap-16">
+            <div class="avatar" style="width:64px; height:64px; font-size:20px; border-radius:18px; background: linear-gradient(135deg,#4A6BFF,#8B5CF6)">MK</div>
+            <div class="grow">
+              <div style="font-size: 11px; color: var(--gold-400); letter-spacing: .14em; font-weight: 700">BAYİ DETAY · LİG 5 · MARMARA</div>
+              <h2 style="margin-top: 4px; font-size: 24px">Mehmet Kaya — Beşiktaş</h2>
+              <div class="text-sm" style="color: rgba(255,255,255,.7); margin-top: 4px">Bayi kodu: B-2847 · CSM bağı: 16 ay · Min. ay kuralı: ✓</div>
+            </div>
+            <div style="text-align: right">
+              <div style="font-size: 11px; color: var(--gold-400); letter-spacing: .14em; font-weight: 700">FİNAL PUAN</div>
+              <div style="font-size: 36px; font-weight: 800">7.250</div>
+              <div class="text-sm" style="color: rgba(255,255,255,.7)">5. / 186 · Lig 5</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <div class="card">
+              <div class="card-head"><h3>Puan Kırılımı</h3></div>
+              <div class="metric-row"><div class="metric-icon" style="background: var(--purple-100); color: var(--purple-500)">🛡️</div><div class="metric-name">Segmentasyon</div><div class="progress purple"><span style="width:85%"></span></div><div class="metric-val">85.6<small>×0.50</small></div></div>
+              <div class="metric-row"><div class="metric-icon" style="background: var(--gold-100); color: #8C6500">🎯</div><div class="metric-name">Stratejik Ürünler</div><div class="progress"><span style="width:82%"></span></div><div class="metric-val">82.4<small>×0.50</small></div></div>
+              <div class="metric-row"><div class="metric-icon" style="background: var(--green-100); color: var(--green-500)">🏆</div><div class="metric-name">Rozet Çarpanı</div><div class="progress green"><span style="width:70%"></span></div><div class="metric-val">×1.23<small>4 aktif</small></div></div>
+              <div class="metric-row"><div class="metric-icon" style="background: var(--orange-100); color: var(--orange-500)">⚡</div><div class="metric-name">Challenge + Bölge</div><div class="progress"><span style="width:65%"></span></div><div class="metric-val">+395<small>Bonus puan</small></div></div>
+            </div>
+
+            <div class="card">
+              <div class="card-head"><h3>Geçmiş Performans</h3><div class="sub">· Son 6 ay</div></div>
+              <svg viewBox="0 0 600 160" style="width:100%; height:160px">
+                <defs>
+                  <linearGradient id="d1" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#FFB800" stop-opacity=".4"/>
+                    <stop offset="100%" stop-color="#FFB800" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <path d="M0,120 L100,100 L200,90 L300,60 L400,75 L500,50 L600,55 L600,160 L0,160 Z" fill="url(#d1)"/>
+                <path d="M0,120 L100,100 L200,90 L300,60 L400,75 L500,50 L600,55" stroke="#FFB800" stroke-width="3" fill="none"/>
+                <g fill="var(--gray-500)" font-size="10" font-family="Inter">
+                  <text x="0" y="155">Ara</text><text x="100" y="155">Oca</text><text x="200" y="155">Şub</text><text x="300" y="155">Mar</text><text x="400" y="155">Nis</text><text x="500" y="155">May</text><text x="580" y="155">Haz</text>
+                </g>
+              </svg>
+            </div>
+          </div>
+
+          <div>
+            <!-- YÖNETİCİ NOTU - CSM yazma ekranı -->
+            <div class="card">
+              <div class="card-head"><h3>Yönetici Notu</h3><div class="sub">· Bayi mobile/dashboard'unda gözükür</div></div>
+              <div class="mgr-note mb-12">
+                <div class="nh">
+                  <div class="av-mgr">SY</div>
+                  <div><div class="n">Senin notu (gönderildi)</div><div class="nx">15 Haz · 14:22</div></div>
+                </div>
+                <div class="nt">Mehmet, Premium SP oranında son 2 hafta gerçekten iyi ilerleme var (12/20). Ay sonuna 8 satış kaldı — Pazartesi mağaza ziyaretinde bayi vitrini düzenleme önerilerimi konuşalım. 5G challenge'da da tempon iyi, devam.</div>
+              </div>
+              <textarea class="input" rows="3" placeholder="Yeni not yaz... (Bayinin ana sayfasında gözükecek)"></textarea>
+              <div class="row mt-8" style="justify-content: space-between">
+                <div class="text-sm text-muted">📌 Notlar audit loga işlenir</div>
+                <button class="btn primary">Not Gönder</button>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-head"><h3>Aktif Challenge</h3></div>
+              <div class="challenge-card">
+                <span class="tag">STRATEJİK ÜRÜN</span>
+                <h3>5G destekli cihaz · 30 adet</h3>
+                <p>%60 ilerleme · 8 gün kaldı</p>
+                <div class="progress"><span style="width:60%"></span></div>
+              </div>
+              <div class="row mt-16" style="gap: 8px"><button class="btn ghost">Hedef Düzenle</button><button class="btn ghost">İptal</button><button class="btn primary">Tamamlanmış İşaretle</button></div>
+            </div>
+
+            <div class="card">
+              <div class="card-head"><h3>Aktif Rozetler</h3></div>
+              <div class="badges-grid" style="grid-template-columns: repeat(4, 1fr)">
+                <div class="badge-card"><div class="badge-medal" style="width:44px;height:44px;font-size:20px;border-radius:12px">🏆</div><div class="name" style="font-size:11px">Segment Üstü</div></div>
+                <div class="badge-card"><div class="badge-medal blue" style="width:44px;height:44px;font-size:20px;border-radius:12px">📡</div><div class="name" style="font-size:11px">5G Öncüsü</div></div>
+                <div class="badge-card"><div class="badge-medal orange" style="width:44px;height:44px;font-size:20px;border-radius:12px">🌐</div><div class="name" style="font-size:11px">Fiber Ustası</div></div>
+                <div class="badge-card"><div class="badge-medal green" style="width:44px;height:44px;font-size:20px;border-radius:12px">🌱</div><div class="name" style="font-size:11px">Yükselen</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============== CSM: CHALLENGE YÖNETİMİ ============== -->
+      <section class="screen" id="csm-challenge-manage">
+        <div class="grid-4">
+          <div class="kpi"><div class="head">Aktif Challenge</div><div class="val">14</div><div class="sub">Tüm bayilere atandı</div></div>
+          <div class="kpi"><div class="head">Risk Altında <span class="pill warn">!</span></div><div class="val">3</div><div class="sub">%30 altı ilerleme</div></div>
+          <div class="kpi"><div class="head">Bekleyen Onay</div><div class="val">4</div><div class="sub">Bayi alternatif önerdi</div></div>
+          <div class="kpi"><div class="head">Bu ay Tamam</div><div class="val">9</div><div class="sub">Ödül dağıtıldı</div></div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-head"><h3>Yeni Challenge Oluştur</h3><div class="sub">· Bayi seç + hedef belirle</div></div>
+            <div class="form-row"><label>Atanan bayi</label><select><option>Mehmet Kaya · Beşiktaş</option><option>Ayşe Tunç · Kadıköy</option><option>Tüm bayilerim (18)</option></select></div>
+            <div class="form-row"><label>Mod</label><div class="tabs"><button class="active">🤖 Sistem önerisi</button><button>✋ Manuel</button></div></div>
+            <div class="form-row"><label>Challenge tipi</label><select><option>Stratejik Ürün</option><option>Segmentasyon</option></select></div>
+            <div class="form-row"><label>Hedef metrik</label><select><option>5G destekli cihaz adedi</option><option>Premium SP oranı</option><option>Fiber penetrasyon</option></select></div>
+            <div class="form-row"><label>Hedef değeri <small>Sistem stretch önerdi</small></label><div class="input-row"><input class="input" value="30"/><span class="text-sm">adet · Bölge ort. +%15</span></div></div>
+            <div class="form-row"><label>Ödül</label><div class="input-row"><span>+</span><input class="input" value="250"/><span class="text-sm">puan</span></div></div>
+            <div class="form-row"><label>Dönem</label><select><option>Mayıs 2026 (ay sonu)</option></select></div>
+            <div class="row mt-16" style="justify-content: flex-end; gap: 8px"><button class="btn ghost">Taslak Kaydet</button><button class="btn primary">Bayiye Gönder</button></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>Bekleyen Onaylar</h3><div class="sub">· Bayinin önerdiği alternatifler</div></div>
+            <div style="display:flex; flex-direction: column; gap: 12px">
+              <div style="padding: 14px; background: var(--gold-100); border-radius: 12px">
+                <div class="row" style="justify-content: space-between"><div class="b">Mehmet Kaya</div><div class="chip">Beşiktaş</div></div>
+                <div class="text-sm text-muted mt-8">Sistemin önerdiği: <b>5G 30 adet</b><br/>Bayi önerisi: <b>Premium SP %22</b> (mevcut %18)</div>
+                <div class="row mt-8" style="gap:6px"><button class="btn ghost" style="font-size:11px;padding:5px 10px">Reddet</button><button class="btn primary" style="font-size:11px;padding:5px 10px">Onayla</button></div>
+              </div>
+              <div style="padding: 14px; background: var(--gray-50); border-radius: 12px">
+                <div class="row" style="justify-content: space-between"><div class="b">Zeynep Duran</div><div class="chip">Pendik</div></div>
+                <div class="text-sm text-muted mt-8">Sistemin önerdiği: <b>Fiber %15</b><br/>Bayi önerisi: <b>Fiber %18 + ek 250 puan</b></div>
+                <div class="row mt-8" style="gap:6px"><button class="btn ghost" style="font-size:11px;padding:5px 10px">Reddet</button><button class="btn primary" style="font-size:11px;padding:5px 10px">Onayla</button></div>
+              </div>
+              <div style="padding: 14px; background: var(--gray-50); border-radius: 12px">
+                <div class="row" style="justify-content: space-between"><div class="b">Hakan Güler</div><div class="chip">Tuzla</div></div>
+                <div class="text-sm text-muted mt-8">Sistemin önerdiği: <b>Segmentasyon +1 kulvar</b><br/>Bayi önerisi: <b>Mevcut kulvarda Top 3</b></div>
+                <div class="row mt-8" style="gap:6px"><button class="btn ghost" style="font-size:11px;padding:5px 10px">Reddet</button><button class="btn primary" style="font-size:11px;padding:5px 10px">Onayla</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============== REGIONAL: CSM'LERİM ============== -->
+      <section class="screen" id="regional-csms">
+        <div class="hint blue mb-16">🏢 <b>Yetki:</b> Bölge Müdürü olarak bağlı CSM'leri ve onların performansını yönetirsin. Bayilerle <b>doğrudan</b> ilişkin yok — operasyonel bağ CSM üzerinden kurulur. (PDF Slide 2 kritik kural)</div>
+
+        <div class="grid-4">
+          <div class="kpi"><div class="head">CSM Sayım</div><div class="val">6</div><div class="sub">Marmara bölgesi</div></div>
+          <div class="kpi"><div class="head">Toplam Bayi</div><div class="val">108</div><div class="sub">CSM'ler aracılığıyla</div></div>
+          <div class="kpi"><div class="head">Bölge Ort. Puan</div><div class="val">6.890</div><div class="sub">2. sırada · +%3 bonus</div></div>
+          <div class="kpi"><div class="head">CSM Aktiflik</div><div class="val">94%</div><div class="sub">Challenge atama oranı</div></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><h3>CSM Performans Tablosu</h3><div class="sub">· Sana bağlı 6 CSM</div></div>
+          <table>
+            <thead><tr><th>CSM</th><th>Bayi</th><th>Ort. Final Puan</th><th>Challenge Aktiflik</th><th>Bayi Performansı</th><th>Trend</th></tr></thead>
+            <tbody>
+              <tr><td><div class="row"><div class="avatar" style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#FFB800,#FF6B35);font-size:10px">SY</div><div><div class="b">Selin Yıldız</div><div class="text-sm text-muted">İst. Anadolu</div></div></div></td><td>18</td><td class="b">7.140</td><td><span class="chip green">14/18 (%78)</span></td><td><div class="progress" style="width:120px"><span style="width:78%"></span></div></td><td><span class="chip green">▲ +4.2%</span></td></tr>
+              <tr><td><div class="row"><div class="avatar" style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#2F7BFF,#5B9BFF);font-size:10px">AD</div><div><div class="b">Ali Demir</div><div class="text-sm text-muted">İst. Avrupa-1</div></div></div></td><td>22</td><td class="b">7.310</td><td><span class="chip green">19/22 (%86)</span></td><td><div class="progress blue" style="width:120px"><span style="width:86%"></span></div></td><td><span class="chip green">▲ +5.8%</span></td></tr>
+              <tr><td><div class="row"><div class="avatar" style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#8B5CF6,#C084FC);font-size:10px">MA</div><div><div class="b">Murat Aslan</div><div class="text-sm text-muted">İst. Avrupa-2</div></div></div></td><td>20</td><td class="b">6.940</td><td><span class="chip">15/20 (%75)</span></td><td><div class="progress purple" style="width:120px"><span style="width:69%"></span></div></td><td><span class="chip">— 0.4%</span></td></tr>
+              <tr><td><div class="row"><div class="avatar" style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#18B26B,#4ACC8B);font-size:10px">BŞ</div><div><div class="b">Burcu Şahin</div><div class="text-sm text-muted">Kocaeli</div></div></div></td><td>16</td><td class="b">6.820</td><td><span class="chip green">14/16 (%87)</span></td><td><div class="progress green" style="width:120px"><span style="width:68%"></span></div></td><td><span class="chip green">▲ +2.1%</span></td></tr>
+              <tr style="background: var(--red-100)"><td><div class="row"><div class="avatar" style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#E5484D,#FF6B35);font-size:10px">TE</div><div><div class="b">Tolga Erim</div><div class="text-sm text-muted">Bursa</div></div></div></td><td>18</td><td class="b">6.420</td><td><span class="chip red">9/18 (%50)</span></td><td><div class="progress" style="width:120px"><span style="width:55%"></span></div></td><td><span class="chip red">▼ -2.8%</span></td></tr>
+              <tr><td><div class="row"><div class="avatar" style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#FF6B35,#FFB800);font-size:10px">AY</div><div><div class="b">Ayşe Yılmaz</div><div class="text-sm text-muted">Tekirdağ</div></div></div></td><td>14</td><td class="b">6.890</td><td><span class="chip green">12/14 (%86)</span></td><td><div class="progress" style="width:120px"><span style="width:72%"></span></div></td><td><span class="chip green">▲ +1.4%</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="hint">💡 <b>Aksiyon:</b> Tolga Erim'in (Bursa) challenge atama oranı düşük. Kendisiyle 1-1 görüşme planla.</div>
+      </section>
+
+      <!-- ============== REGIONAL: BÖLGEM ============== -->
+      <section class="screen" id="regional-overview">
+        <div class="hero">
+          <div class="hero-row">
+            <div class="hero-score">
+              <div class="label">BÖLGE PUANI</div>
+              <div class="val">6.890</div>
+              <div class="sub">Marmara · 2. sırada</div>
+            </div>
+            <div class="hero-meta">
+              <div class="item"><div class="lbl">Sıralama</div><div class="v">2.<small>/14 bölge</small></div><div class="delta-up">+%3 bonus</div></div>
+              <div class="item"><div class="lbl">Toplam Bayi</div><div class="v">108</div><div class="delta-up">▲ +6 yeni</div></div>
+              <div class="item"><div class="lbl">CSM Sayısı</div><div class="v">6</div></div>
+              <div class="item"><div class="lbl">Trend</div><div class="v">+%1.4</div><div class="delta-up">vs Nisan</div></div>
+            </div>
+            <div style="font-size: 72px">🥈</div>
+          </div>
+        </div>
+
+        <div class="grid-2-eq">
+          <div class="card">
+            <div class="card-head"><h3>Bayi Lig Dağılımı</h3><div class="sub">· Marmara · 108 bayi</div></div>
+            <table>
+              <thead><tr><th>Lig</th><th>Bayi</th><th>Oran</th></tr></thead>
+              <tbody>
+                <tr><td class="b">🏆 Lig 1-3 (Elite)</td><td>22</td><td><div class="row"><div class="progress" style="width:100px"><span style="width:20%"></span></div><span class="text-sm">20%</span></div></td></tr>
+                <tr><td class="b">Lig 4-5</td><td>54</td><td><div class="row"><div class="progress blue" style="width:100px"><span style="width:50%"></span></div><span class="text-sm">50%</span></div></td></tr>
+                <tr><td>Lig 6-7</td><td>26</td><td><div class="row"><div class="progress green" style="width:100px"><span style="width:24%"></span></div><span class="text-sm">24%</span></div></td></tr>
+                <tr><td class="text-muted">Lig 8 (yükselmeyi bekleyen)</td><td>6</td><td><div class="row"><div class="progress" style="width:100px"><span style="width:6%; background: var(--gray-300)"></span></div><span class="text-sm">6%</span></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>Stratejik Ürün Penetrasyonu</h3><div class="sub">· Bölge ortalaması</div></div>
+            <div class="metric-row"><div class="metric-icon" style="background: var(--purple-100); color: var(--purple-500)">💎</div><div class="metric-name">Premium SP</div><div class="progress purple"><span style="width:78%"></span></div><div class="metric-val">78.3</div></div>
+            <div class="metric-row"><div class="metric-icon" style="background: var(--orange-100); color: var(--orange-500)">🌐</div><div class="metric-name">Fiber</div><div class="progress"><span style="width:64%"></span></div><div class="metric-val">64.2</div></div>
+            <div class="metric-row"><div class="metric-icon" style="background: var(--blue-100); color: var(--blue-500)">📡</div><div class="metric-name">5G Destekli Cihaz</div><div class="progress blue"><span style="width:82%"></span></div><div class="metric-val">82.1</div></div>
+            <div class="metric-row"><div class="metric-icon" style="background: var(--green-100); color: var(--green-500)">💰</div><div class="metric-name">Yüksek TL Paket</div><div class="progress green"><span style="width:71%"></span></div><div class="metric-val">71.6</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============== DIRECTOR: NORTH vs SOUTH ============== -->
+      <section class="screen" id="director-comparison">
+        <div class="hint blue mb-16">🏛️ <b>Direktör Görünümü:</b> North Turkey ve South Turkey bölgelerini karşılaştır. Her direktör 7 bölge müdürünü yönetir.</div>
+
+        <div class="compare-pane mb-16">
+          <div class="compare-side north">
+            <div class="row gap-16"><div style="font-size:36px">🧭</div><div><h3>North Turkey</h3><div class="text-sm text-muted">Marmara, Karadeniz, Doğu Anadolu, İç Anadolu (kuzey)</div></div></div>
+            <div class="grid-2-eq mt-16">
+              <div><div class="text-sm text-muted">Ort. Puan</div><div class="compare-big">6.840</div><div class="chip green">▲ +1.8%</div></div>
+              <div><div class="text-sm text-muted">Toplam Bayi</div><div class="compare-big">642</div><div class="text-sm text-muted">7 bölge · 38 CSM</div></div>
+            </div>
+            <div class="mt-16">
+              <div class="metric-row" style="padding: 8px 0"><div class="metric-name" style="flex: 0 0 140px; font-size: 12px">Segmentasyon</div><div class="progress purple"><span style="width:84%"></span></div><div class="metric-val">84.2</div></div>
+              <div class="metric-row" style="padding: 8px 0"><div class="metric-name" style="flex: 0 0 140px; font-size: 12px">Stratejik Ürün</div><div class="progress"><span style="width:80%"></span></div><div class="metric-val">80.6</div></div>
+            </div>
+          </div>
+
+          <div class="compare-side south">
+            <div class="row gap-16"><div style="font-size:36px">🏖️</div><div><h3>South Turkey</h3><div class="text-sm text-muted">Ege, Akdeniz, Güneydoğu, İç Anadolu (güney)</div></div></div>
+            <div class="grid-2-eq mt-16">
+              <div><div class="text-sm text-muted">Ort. Puan</div><div class="compare-big">7.020</div><div class="chip green">▲ +2.4%</div></div>
+              <div><div class="text-sm text-muted">Toplam Bayi</div><div class="compare-big">606</div><div class="text-sm text-muted">7 bölge · 36 CSM</div></div>
+            </div>
+            <div class="mt-16">
+              <div class="metric-row" style="padding: 8px 0"><div class="metric-name" style="flex: 0 0 140px; font-size: 12px">Segmentasyon</div><div class="progress purple"><span style="width:87%"></span></div><div class="metric-val">87.1</div></div>
+              <div class="metric-row" style="padding: 8px 0"><div class="metric-name" style="flex: 0 0 140px; font-size: 12px">Stratejik Ürün</div><div class="progress"><span style="width:84%"></span></div><div class="metric-val">84.3</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><h3>Bölge Sıralaması (14 Bölge)</h3><div class="sub">· Bonus alacak ilk 3</div></div>
+          <table>
+            <thead><tr><th>#</th><th>Bölge</th><th>Direktörlük</th><th>Bayi</th><th>Ort. Puan</th><th>Trend</th><th class="right">Bonus</th></tr></thead>
+            <tbody>
+              <tr><td><b>1</b></td><td class="b">Ege</td><td><span class="chip" style="background: var(--orange-100); color: var(--orange-500)">🏖️ South</span></td><td>112</td><td>7.420</td><td><span class="chip green">▲ +2.8%</span></td><td class="right b">+%6</td></tr>
+              <tr><td><b>2</b></td><td class="b">Marmara</td><td><span class="chip blue">🧭 North</span></td><td>108</td><td>6.890</td><td><span class="chip green">▲ +1.4%</span></td><td class="right b">+%3</td></tr>
+              <tr><td><b>3</b></td><td class="b">İç Anadolu Güney</td><td><span class="chip" style="background: var(--orange-100); color: var(--orange-500)">🏖️ South</span></td><td>96</td><td>6.640</td><td><span class="chip">— 0.0%</span></td><td class="right b">+%2</td></tr>
+              <tr><td>4</td><td>Akdeniz</td><td><span class="chip" style="background: var(--orange-100); color: var(--orange-500)">🏖️ South</span></td><td>88</td><td>6.420</td><td><span class="chip red">▼ -0.8%</span></td><td class="right text-muted">—</td></tr>
+              <tr><td>5</td><td>Karadeniz</td><td><span class="chip blue">🧭 North</span></td><td>92</td><td>6.180</td><td><span class="chip green">▲ +0.6%</span></td><td class="right text-muted">—</td></tr>
+              <tr><td>6</td><td>İç Anadolu Kuzey</td><td><span class="chip blue">🧭 North</span></td><td>78</td><td>5.940</td><td><span class="chip green">▲ +1.1%</span></td><td class="right text-muted">—</td></tr>
+              <tr><td>7</td><td>Doğu Anadolu</td><td><span class="chip blue">🧭 North</span></td><td>72</td><td>5.840</td><td><span class="chip red">▼ -1.2%</span></td><td class="right text-muted">—</td></tr>
+              <tr><td>8</td><td>Güneydoğu</td><td><span class="chip" style="background: var(--orange-100); color: var(--orange-500)">🏖️ South</span></td><td>64</td><td>5.720</td><td><span class="chip">— 0.3%</span></td><td class="right text-muted">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+
+      <!-- ============== HIERARCHY (paylaşılan) ============== -->
+      <section class="screen" id="hierarchy">
+        <div class="hint blue mb-16">🏢 <b>Organizasyon Yapısı:</b> Bayiler bölgeye/Bölge Müdürüne <b>doğrudan bağlı değildir</b> — operasyonel bağ Channel Sales Manager üzerinden kurulur. (PDF Slide 2 kritik kural)</div>
+
+        <div class="card">
+          <div class="card-head"><h3>Organizasyon Hiyerarşisi</h3><div class="sub">· Direktör → Bölge Müdürü → CSM → Bayi</div></div>
+          <div class="org">
+            <div class="org-row">
+              <div class="org-node director"><div class="role">DİREKTÖR</div><div class="nm">🧭 North Turkey Sales</div><div class="cnt">7 bölge · 38 CSM · 642 bayi</div></div>
+              <div class="org-node director"><div class="role">DİREKTÖR</div><div class="nm">🏖️ South Turkey Sales</div><div class="cnt">7 bölge · 36 CSM · 606 bayi</div></div>
+            </div>
+            <div class="org-row">
+              <div class="org-node regional"><div class="role">BÖLGE MÜDÜRÜ</div><div class="nm">Marmara</div><div class="cnt">6 CSM · 108 bayi</div></div>
+              <div class="org-node regional"><div class="role">BÖLGE MÜDÜRÜ</div><div class="nm">Karadeniz</div><div class="cnt">5 CSM · 92 bayi</div></div>
+              <div class="org-node regional"><div class="role">BÖLGE MÜDÜRÜ</div><div class="nm">Doğu Anadolu</div><div class="cnt">4 CSM · 72 bayi</div></div>
+              <div class="org-node regional" style="opacity:.4"><div class="role">+ 4 bölge</div><div class="nm">North</div></div>
+              <div class="org-node regional"><div class="role">BÖLGE MÜDÜRÜ</div><div class="nm">Ege</div><div class="cnt">6 CSM · 112 bayi</div></div>
+              <div class="org-node regional" style="opacity:.4"><div class="role">+ 6 bölge</div><div class="nm">South</div></div>
+            </div>
+            <div class="org-row">
+              <div class="org-node csm"><div class="role">CSM</div><div class="nm">Selin Yıldız</div><div class="cnt">İst. Anadolu · 18 bayi</div></div>
+              <div class="org-node csm"><div class="role">CSM</div><div class="nm">Ali Demir</div><div class="cnt">İst. Avrupa-1 · 22 bayi</div></div>
+              <div class="org-node csm"><div class="role">CSM</div><div class="nm">Murat Aslan</div><div class="cnt">İst. Avrupa-2 · 20 bayi</div></div>
+              <div class="org-node csm" style="opacity:.4"><div class="role">+ 3 CSM</div><div class="nm">Marmara</div></div>
+            </div>
+            <div class="org-row">
+              <div class="org-node dealer"><div class="role">BAYİ</div><div class="nm">Mehmet Kaya</div><div class="cnt">Beşiktaş · Lig 5</div></div>
+              <div class="org-node dealer"><div class="role">BAYİ</div><div class="nm">Ayşe Tunç</div><div class="cnt">Kadıköy · Lig 3</div></div>
+              <div class="org-node dealer"><div class="role">BAYİ</div><div class="nm">Emre Bilgin</div><div class="cnt">Üsküdar · Lig 4</div></div>
+              <div class="org-node dealer" style="opacity:.4"><div class="role">+ 15 bayi</div><div class="nm">Selin'in altında</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <div class="card"><div class="card-head"><h3>👔 Direktörler</h3></div><div style="font-size: 32px; font-weight: 800">2</div><div class="text-sm text-muted">North Turkey + South Turkey</div></div>
+          <div class="card"><div class="card-head"><h3>🏢 Bölge Müdürleri</h3></div><div style="font-size: 32px; font-weight: 800">14</div><div class="text-sm text-muted">Her direktör → 7 bölge</div></div>
+          <div class="card"><div class="card-head"><h3>👤 Channel Sales Managers</h3></div><div style="font-size: 32px; font-weight: 800">74</div><div class="text-sm text-muted">Ortalama: 17 bayi/CSM</div></div>
+        </div>
+      </section>
+
+
+      <!-- ============== ADMIN: OVERVIEW ============== -->
+      <section class="screen" id="admin-overview">
+        <div class="hint mb-16">🔒 <b>Admin Paneli:</b> Bu panel sadece <b>AI Product & UX onaylı</b> kullanıcılara açıktır. Tüm değişiklikler audit loga işlenir.</div>
+
+        <div class="grid-4">
+          <div class="kpi"><div class="head">Toplam Bayi <span class="pill">+%4</span></div><div class="val">1.248</div><div class="sub">Aktif lig katılımı</div></div>
+          <div class="kpi"><div class="head">Eligible <span class="pill">Min. ay ✓</span></div><div class="val">186</div><div class="sub">Lig 5 · 32 bayi yeni</div></div>
+          <div class="kpi"><div class="head">Ortalama Final</div><div class="val">6.890</div><div class="sub">▲ +2.3% vs Nisan</div></div>
+          <div class="kpi"><div class="head">Rozet Sahipliği <span class="pill warn">-%2</span></div><div class="val">243</div><div class="sub">8 farklı rozet</div></div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-head"><h3>Lig Performans Trendi</h3><div class="sub">· Tüm bayiler</div><div class="right"><div class="tabs"><button class="active">Aylık</button><button>3 ay</button><button>Yıllık</button></div></div></div>
+            <svg viewBox="0 0 600 200" style="width:100%; height:200px">
+              <defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FFB800" stop-opacity=".4"/><stop offset="100%" stop-color="#FFB800" stop-opacity="0"/></linearGradient></defs>
+              <path d="M0,150 L100,120 L200,135 L300,90 L400,100 L500,60 L600,75 L600,200 L0,200 Z" fill="url(#g1)"/>
+              <path d="M0,150 L100,120 L200,135 L300,90 L400,100 L500,60 L600,75" stroke="#FFB800" stroke-width="3" fill="none"/>
+              <path d="M0,175 L100,165 L200,140 L300,150 L400,120 L500,130 L600,110" stroke="#8B5CF6" stroke-width="2" fill="none" stroke-dasharray="4 4"/>
+              <g fill="var(--gray-500)" font-size="10" font-family="Inter">
+                <text x="0" y="195">Oca</text><text x="100" y="195">Şub</text><text x="200" y="195">Mar</text><text x="300" y="195">Nis</text><text x="400" y="195">May</text><text x="500" y="195">Haz</text><text x="580" y="195">Tmz</text>
+              </g>
+            </svg>
+            <div class="row gap-16 mt-16 text-sm">
+              <div class="row"><span style="width:10px;height:10px;background:#FFB800;border-radius:3px;display:inline-block"></span>Ort. Final Puan</div>
+              <div class="row"><span style="width:10px;height:10px;background:#8B5CF6;border-radius:3px;display:inline-block"></span>Ort. Segmentasyon</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>Final Puan Kırılımı</h3><div class="sub">· Sistemwide ortalama</div></div>
+            <div class="donut-wrap">
+              <div class="donut">
+                <svg width="130" height="130" viewBox="0 0 130 130" style="transform: rotate(-90deg)">
+                  <circle cx="65" cy="65" r="50" fill="none" stroke="var(--gray-100)" stroke-width="20"/>
+                  <circle cx="65" cy="65" r="50" fill="none" stroke="#8B5CF6" stroke-width="20" stroke-dasharray="157 314"/>
+                  <circle cx="65" cy="65" r="50" fill="none" stroke="#FFB800" stroke-width="20" stroke-dasharray="157 314" stroke-dashoffset="-157"/>
+                </svg>
+                <div class="donut-center"><div><div class="v">6.890</div><div class="l">Ort. Final</div></div></div>
+              </div>
+              <div class="legend">
+                <div class="ll"><span class="d" style="background:#8B5CF6"></span>Segmentasyon (50%)<span class="v">3.420</span></div>
+                <div class="ll"><span class="d" style="background:#FFB800"></span>Stratejik Ürün (50%)<span class="v">3.295</span></div>
+                <div class="ll"><span class="d" style="background:#18B26B"></span>Rozet bonusu<span class="v">+%18 ort.</span></div>
+                <div class="ll"><span class="d" style="background:#FF6B35"></span>Challenge + Bölge<span class="v">+175 ort.</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><h3>Ay Sonu Finalizasyon Önizleme</h3><div class="right"><button class="btn primary">Finalize</button></div></div>
+          <div class="text-sm" style="display:flex; flex-direction: column; gap: 10px">
+            <div class="row" style="padding: 12px; background: var(--gray-50); border-radius: 10px"><div class="chip gold">🥇 Lig 5 Şampiyonu</div><div class="grow b">Anonim — 7.730 puan</div><div>+1.500 puan ödül</div></div>
+            <div class="row" style="padding: 12px; background: var(--gray-50); border-radius: 10px"><div class="chip green">🌐 Bölge 1</div><div class="grow b">Ege · 112 bayi</div><div>+%6 bonus</div></div>
+            <div class="row" style="padding: 12px; background: var(--gray-50); border-radius: 10px"><div class="chip blue">🎯 Challenge Hedef</div><div class="grow b">115 başarılı tamamlama</div><div>Ort. +250 puan</div></div>
+            <div class="row" style="padding: 12px; background: var(--gold-100); border-radius: 10px"><div class="chip" style="background:var(--gold-500); color: var(--navy-900)">⚡ Streak Lideri</div><div class="grow b">Anonim · 14 gün streak</div><div>×1.10 çarpan</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============== ADMIN: LEAGUE ============== -->
+      <section class="screen" id="admin-league">
+        <div class="card">
+          <div class="card-head"><h3>Aylık Hesaplama Akışı</h3><div class="sub">· Mayıs 2026</div><div class="right"><span class="chip green">3/6 tamamlandı</span></div></div>
+          <div class="flow">
+            <div class="flow-step done"><div class="num">✓</div><h4>Veri Girişi</h4><p>SOL → ürün puanları</p></div>
+            <div class="flow-step done"><div class="num">✓</div><h4>Uygunluk</h4><p>Min. ay kuralı + Include/Exclude</p></div>
+            <div class="flow-step active"><div class="num">3</div><h4>Hesaplama</h4><p>Segmentasyon + Stratejik Ürün</p></div>
+            <div class="flow-step"><div class="num">4</div><h4>Bap Yayını</h4><p>23 May · Rozet hedefleri</p></div>
+            <div class="flow-step"><div class="num">5</div><h4>Takip</h4><p>Challenge izleme</p></div>
+            <div class="flow-step"><div class="num">6</div><h4>Finalizasyon</h4><p>31 May 23:59 · Ödül</p></div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-head"><h3>Ana Puan Başlık Ağırlıkları</h3><div class="sub">· PDF Slide 4: 2 ana başlık</div><div class="right"><button class="btn primary">Onaya Gönder</button></div></div>
+            <div class="weight-row"><div class="n">🛡️ Segmentasyon</div><input type="range" min="0" max="100" value="50"/><div class="pct">50%</div></div>
+            <div class="weight-row"><div class="n">🎯 Stratejik Ürünler</div><input type="range" min="0" max="100" value="50"/><div class="pct">50%</div></div>
+            <div class="hint mt-16">⚠️ Ağırlıklar değiştirilirse tüm bayi puanları yeniden hesaplanır. AI Product & UX onayı gerekir.</div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>Lig Ayarları</h3></div>
+            <div class="form-row"><label>Lig dönemi</label><select><option>Aylık</option><option>3 Aylık</option></select></div>
+            <div class="form-row"><label>Min. ay kuralı <small>Eligibility eşiği</small></label><div class="input-row"><input class="input" value="3"/><span class="text-sm">ay</span></div></div>
+            <div class="form-row"><label>Lig sayısı</label><div class="input-row"><input class="input" value="8"/><span class="text-sm">lig</span></div></div>
+            <div class="form-row"><label>Otomatik finalizasyon</label><div class="switch on"></div></div>
+            <div class="form-row"><label>Bayi-bayi karşılaştırma</label><div class="switch" style="background: var(--red-100)"></div><span class="text-sm text-muted">PDF #4 — Kapalı, değiştirilemez</span></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><h3>Stratejik Ürün Havuzu</h3><div class="sub">· PDF Slide 4: sabit ürün listesi</div><div class="right"><button class="btn gold">+ Yeni Ürün</button></div></div>
+          <table>
+            <thead><tr><th>Ürün</th><th>Kategori</th><th>Çarpan</th><th>Min. Hedef</th><th>Aktif Bayi</th><th>Durum</th></tr></thead>
+            <tbody>
+              <tr><td class="b">💎 Premium SP</td><td><span class="chip gold">Premium</span></td><td>×1.5</td><td>%20</td><td>186</td><td><span class="chip green">Aktif</span></td></tr>
+              <tr><td class="b">📡 5G Destekli Cihaz</td><td><span class="chip blue">5G</span></td><td>×1.3</td><td>30 adet</td><td>186</td><td><span class="chip green">Aktif</span></td></tr>
+              <tr><td class="b">🌐 Fiber</td><td><span class="chip" style="background:#FFE5A6; color:#8C6500">Altyapı</span></td><td>×1.2</td><td>%15 pen.</td><td>142</td><td><span class="chip green">Aktif</span></td></tr>
+              <tr><td class="b">💰 Yüksek TL Paket</td><td><span class="chip green">Paket</span></td><td>×1.10</td><td>10 adet</td><td>186</td><td><span class="chip">Pilot</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============== ADMIN: BADGES ============== -->
+      <section class="screen" id="admin-badges">
+        <div class="card">
+          <div class="card-head"><h3>Rozet Kuralları</h3><div class="sub">· Final puana çarpan olarak uygulanır</div><div class="right"><button class="btn gold">+ Rozet Tanımla</button></div></div>
+          <table>
+            <thead><tr><th>Rozet</th><th>Tetikleyici</th><th>Eşik</th><th>Çarpan</th><th>Ay Çarpanı</th><th>Aktif</th></tr></thead>
+            <tbody>
+              <tr><td class="b">🏆 Segmentasyon Üstü</td><td>Segmentasyon</td><td>Kulvarda +%30</td><td>×1.10</td><td>×1.0</td><td><div class="switch on"></div></td></tr>
+              <tr><td class="b">📡 5G Öncüsü</td><td>Stratejik Ürün</td><td>Aylık 50+ 5G</td><td>×1.08</td><td>×1.0</td><td><div class="switch on"></div></td></tr>
+              <tr><td class="b">🌐 Fiber Ustası</td><td>Stratejik Ürün</td><td>Fiber penetrasyon %15+</td><td>×1.05</td><td>×1.0</td><td><div class="switch on"></div></td></tr>
+              <tr><td class="b">🌱 Yükselen Bayi</td><td>Segmentasyon</td><td>Kulvar yukarı</td><td>×1.03</td><td>×1.0</td><td><div class="switch on"></div></td></tr>
+              <tr><td class="b">💎 Premium SP</td><td>Stratejik Ürün</td><td>SP oranı %20+</td><td>×1.07</td><td>×1.2</td><td><div class="switch on"></div></td></tr>
+              <tr><td class="b">🚀 Hızlı Yükselen</td><td>Segmentasyon</td><td>2 kulvar atla</td><td>×1.12</td><td>×1.0</td><td><div class="switch on"></div></td></tr>
+              <tr><td class="b">🌟 Komuta Rozeti</td><td>Lig sıralaması</td><td>3 ay üst üste Top 10</td><td>×1.15</td><td>×1.0</td><td><div class="switch on"></div></td></tr>
+              <tr><td class="b">🔥 Streak Avcısı</td><td>Aktivite</td><td>30 gün streak</td><td>×1.05</td><td>×1.0</td><td><div class="switch"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-head"><h3>Rozet Tanım Editörü</h3><div class="right"><span class="chip blue">💎 Premium SP</span></div></div>
+            <div class="form-row"><label>Rozet adı</label><input class="input" value="Premium SP"/></div>
+            <div class="form-row"><label>İkon</label><div class="row gap-16"><div style="width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#8B5CF6,#C084FC);display:grid;place-items:center;font-size:22px">💎</div><button class="btn ghost">Değiştir</button></div></div>
+            <div class="form-row"><label>Tetikleyici metrik</label><select><option>Stratejik Ürün</option><option>Segmentasyon</option></select></div>
+            <div class="form-row"><label>Eşik koşulu</label><div class="input-row"><span class="text-sm">≥</span><input class="input" value="20"/><span class="text-sm">% Premium SP oranı</span></div></div>
+            <div class="form-row"><label>Çarpan</label><div class="input-row"><span class="text-sm">×</span><input class="input" value="1.07"/></div></div>
+            <div class="form-row"><label>Ay çarpanı <small>Bu ay özel bonus</small></label><div class="input-row"><span class="text-sm">×</span><input class="input" value="1.20"/></div></div>
+            <div class="row mt-16" style="justify-content: flex-end; gap: 8px"><button class="btn ghost">İptal</button><button class="btn primary">Kaydet</button></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>Include / Exclude Bayi</h3><div class="sub">· Manuel müdahale</div></div>
+            <div class="form-row"><label>Bayi seç</label><select><option>Ahmet Yıldız · İzmir · Ege</option></select></div>
+            <div class="form-row"><label>Aksiyon</label><div class="tabs"><button class="active">Include</button><button>Exclude</button></div></div>
+            <div class="form-row"><label>Sebep <small>Audit log için</small></label><textarea rows="3" class="input">Mağaza taşınması sebebiyle Nisan'da veri eksik, operasyon devam ediyor.</textarea></div>
+            <div class="form-row"><label>Geçerlilik</label><div class="input-row"><select><option>Mayıs 2026</option></select><span class="text-sm">→</span><select><option>Tek ay</option></select></div></div>
+            <div class="hint blue mt-16">ℹ️ Bu işlem <b>AI Product & UX onayı</b> gerektirir ve audit loga işlenir.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============== ADMIN: REGION ============== -->
+      <section class="screen" id="admin-region">
+        <div class="grid-3">
+          <div class="region-card gold"><div class="region-medal">🥇</div><div class="region-info"><div class="nm">1. Bölge Bonusu</div><div class="sub">En yüksek ortalama</div></div><div class="region-bonus">+%6</div></div>
+          <div class="region-card silver"><div class="region-medal">🥈</div><div class="region-info"><div class="nm">2. Bölge Bonusu</div><div class="sub">İkinci sıra</div></div><div class="region-bonus">+%3</div></div>
+          <div class="region-card bronze"><div class="region-medal">🥉</div><div class="region-info"><div class="nm">3. Bölge Bonusu</div><div class="sub">Üçüncü sıra</div></div><div class="region-bonus">+%2</div></div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-head"><h3>Bölge Bonus Yapılandırma</h3><div class="right"><button class="btn primary">Onaya Gönder</button></div></div>
+            <div class="form-row"><label>Genel sayfaya dahil et?</label><div class="switch on"></div></div>
+            <div class="form-row"><label>Bonus oranlarını manuel ayarla</label><div class="switch on"></div></div>
+            <div class="weight-row"><div class="n">🥇 1. Bölge</div><input type="range" min="0" max="20" value="6"/><div class="pct">+%6</div></div>
+            <div class="weight-row"><div class="n">🥈 2. Bölge</div><input type="range" min="0" max="20" value="3"/><div class="pct">+%3</div></div>
+            <div class="weight-row"><div class="n">🥉 3. Bölge</div><input type="range" min="0" max="20" value="2"/><div class="pct">+%2</div></div>
+            <div class="form-row"><label>Uygulama zamanı</label><select><option>Ay sonu finalizasyonda</option><option>Aylık ortalama üzerinden</option></select></div>
+            <div class="form-row"><label>Bonus formülü</label><code style="background: var(--gray-50); padding: 8px 12px; border-radius: 8px; font-size: 11px">final_puan × (1 + bölge_bonus)</code></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>Bölge Tanımları</h3><div class="right"><button class="btn ghost">+ Yeni Bölge</button></div></div>
+            <table>
+              <thead><tr><th>Bölge</th><th>Direktör</th><th>Bayi</th><th>Aktif</th></tr></thead>
+              <tbody>
+                <tr><td class="b">Marmara</td><td><span class="chip blue">North</span></td><td>108</td><td><div class="switch on"></div></td></tr>
+                <tr><td class="b">Ege</td><td><span class="chip" style="background: var(--orange-100); color: var(--orange-500)">South</span></td><td>112</td><td><div class="switch on"></div></td></tr>
+                <tr><td class="b">İç Anadolu Güney</td><td><span class="chip" style="background: var(--orange-100); color: var(--orange-500)">South</span></td><td>96</td><td><div class="switch on"></div></td></tr>
+                <tr><td class="b">Akdeniz</td><td><span class="chip" style="background: var(--orange-100); color: var(--orange-500)">South</span></td><td>88</td><td><div class="switch on"></div></td></tr>
+                <tr><td class="b">Karadeniz</td><td><span class="chip blue">North</span></td><td>92</td><td><div class="switch on"></div></td></tr>
+                <tr><td class="b">Doğu Anadolu</td><td><span class="chip blue">North</span></td><td>72</td><td><div class="switch on"></div></td></tr>
+                <tr><td class="text-muted">Güneydoğu</td><td><span class="chip" style="background: var(--orange-100); color: var(--orange-500)">South</span></td><td>64</td><td><div class="switch"></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============== ADMIN: ACCESS MATRIX (YENİ) ============== -->
+      <section class="screen" id="admin-access">
+        <div class="hint blue mb-16">🔐 <b>Sayfa Erişim Matrisi:</b> PDF Slide 3 ve 7'deki kabul kriterlerine göre hangi rolün hangi sayfayı gördüğü. Bayi-bayi karşılaştırma yapılmaz (kriter #4).</div>
+
+        <div class="card">
+          <div class="card-head"><h3>Rol × Sayfa Erişim Matrisi</h3><div class="sub">· PDF Slide 3 uyumlu</div></div>
+          <table class="matrix-table">
+            <thead>
+              <tr>
+                <th>Sayfa</th>
+                <th>Bayi</th>
+                <th>CSM</th>
+                <th>Bölge Md.</th>
+                <th>Direktör</th>
+                <th>Admin</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Genel Sayfa<small>Anonim toplu özet</small></td>
+                <td><span class="matrix-cell yes">✓</span></td>
+                <td><span class="matrix-cell yes">✓</span></td>
+                <td><span class="matrix-cell yes">✓</span></td>
+                <td><span class="matrix-cell yes">✓</span></td>
+                <td><span class="matrix-cell yes">✓</span></td>
+              </tr>
+              <tr>
+                <td>Lig Pozisyonu (anonim)<small>Sadece kendi pozisyonu</small></td>
+                <td><span class="matrix-cell yes">✓</span></td>
+                <td><span class="matrix-cell no">−</span></td>
+                <td><span class="matrix-cell no">−</span></td>
+                <td><span class="matrix-cell no">−</span></td>
+                <td><span class="matrix-cell yes">✓</span></td>
+              </tr>
+              <tr>
+                <td>Bayi Özel Sayfa<small>Kişiye özel detaylı veri</small></td>
+                <td><span class="matrix-cell partial">⊙</span></td>
+                <td><span class="matrix-cell yes">✓</span></td>
+                <td><span class="matrix-cell no">−</span></td>
+                <td><span class="matrix-cell no">−</span></td>
+                <td><span class="matrix-cell yes">✓</span></td>
+              </tr>
+              <tr>
+                <td>Challenge Alanı<small>Yönetici görür · Bayi bağımsız ekran</small></td>
+                <td><span class="matrix-cell partial">⊙</span></td>
+                <td><span class="matrix-cell yes">✓</span></td>
+                <td><span class="matrix-cell yes">✓</span></td>
+                <td><span class="matrix-cell yes">✓</span></td>
+                <td><span class="matrix-cell yes">✓</span></td>
+              </tr>
+              <tr>
+                <td>Bayilerim Listesi<small>CSM'in kendi bayileri</small></td>
+                <td><span class="matrix-cell no">−</span></td>
+                <td><span class="matrix-cell yes">✓</span></td>
+                <td><span class="matrix-cell partial">⊙</span></td>
+                <td><span class="matrix-cell partial">⊙</span></td>
+                <td><span class="matrix-cell yes">✓</span></td>
+              </tr>
+              <tr>
+                <td>CSM'lerim<small>Bölge Md. → CSM ekibi</small></td>
+                <td><span class="matrix-cell no">−</span></td>
+                <td><span class="matrix-cell no">−</span></td>
+                <td><span class="matrix-cell yes">✓</span></td>
+                <td><span class="matrix-cell yes">✓</span></td>
+                <td><span class="matrix-cell yes">✓</span></td>
+              </tr>
+              <tr>
+                <td>Direktörlük Özet<small>North/South karşılaştırma</small></td>
+                <td><span class="matrix-cell no">−</span></td>
+                <td><span class="matrix-cell no">−</span></td>
+                <td><span class="matrix-cell no">−</span></td>
+                <td><span class="matrix-cell yes">✓</span></td>
+                <td><span class="matrix-cell yes">✓</span></td>
+              </tr>
+              <tr>
+                <td>Admin Paneli<small>AI Product & UX onaylı</small></td>
+                <td><span class="matrix-cell no">−</span></td>
+                <td><span class="matrix-cell no">−</span></td>
+                <td><span class="matrix-cell no">−</span></td>
+                <td><span class="matrix-cell no">−</span></td>
+                <td><span class="matrix-cell yes">✓</span></td>
+              </tr>
+              <tr>
+                <td>Hiyerarşi & Organigram<small>Şeffaf — herkese açık</small></td>
+                <td><span class="matrix-cell yes">✓</span></td>
+                <td><span class="matrix-cell yes">✓</span></td>
+                <td><span class="matrix-cell yes">✓</span></td>
+                <td><span class="matrix-cell yes">✓</span></td>
+                <td><span class="matrix-cell yes">✓</span></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="row mt-16 gap-16 text-sm">
+            <div class="row"><span class="matrix-cell yes">✓</span> Tam erişim</div>
+            <div class="row"><span class="matrix-cell partial">⊙</span> Sınırlı (yalnızca kendisi/ilişkili)</div>
+            <div class="row"><span class="matrix-cell no">−</span> Erişim yok</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><h3>Admin Yetkili Kullanıcılar</h3><div class="sub">· AI Product & UX tarafından onaylananlar</div><div class="right"><button class="btn gold">+ Kullanıcı Ekle</button></div></div>
+          <table>
+            <thead><tr><th>Kullanıcı</th><th>Rol</th><th>Yetki Seviyesi</th><th>Onaylayan</th><th>Tarih</th><th>Aktif</th></tr></thead>
+            <tbody>
+              <tr><td><div class="row"><div class="avatar" style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#FFB800,#FF6B35);font-size:10px">MR</div><div><div class="b">Mert Reis</div><div class="text-sm text-muted">mert.reis@firma.com</div></div></div></td><td><span class="chip gold">Super Admin</span></td><td>Tam erişim</td><td>AI Product Lead</td><td>12 Oca 2026</td><td><div class="switch on"></div></td></tr>
+              <tr><td><div class="row"><div class="avatar" style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#8B5CF6,#C084FC);font-size:10px">SY</div><div><div class="b">Selin Yıldız</div><div class="text-sm text-muted">selin.y@firma.com</div></div></div></td><td><span class="chip blue">Admin</span></td><td>Rozet + Lig</td><td>Mert Reis</td><td>03 Şub 2026</td><td><div class="switch on"></div></td></tr>
+              <tr><td><div class="row"><div class="avatar" style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#18B26B,#4ACC8B);font-size:10px">AD</div><div><div class="b">Ali Demir</div><div class="text-sm text-muted">ali.d@firma.com</div></div></div></td><td><span class="chip blue">Admin</span></td><td>Bölge + Challenge</td><td>Mert Reis</td><td>14 Şub 2026</td><td><div class="switch on"></div></td></tr>
+              <tr><td><div class="row"><div class="avatar" style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#2F7BFF,#5B9BFF);font-size:10px">BŞ</div><div><div class="b">Burcu Şahin</div><div class="text-sm text-muted">burcu.s@firma.com</div></div></div></td><td><span class="chip">Read-only</span></td><td>Audit görüntüleme</td><td>Mert Reis</td><td>22 Mar 2026</td><td><div class="switch on"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><h3>PDF Kabul Kriterleri Uyum Durumu</h3><div class="sub">· Yetki Mimari Kural Setleri</div></div>
+          <table>
+            <thead><tr><th>#</th><th>Kabul Kriteri</th><th>Uyum</th><th>Nerede</th></tr></thead>
+            <tbody>
+              <tr><td><b>1</b></td><td>Organizasyon yapısı ve kullanıcı rolleri yerleştirilmiştir</td><td><span class="chip green">✓ Uyumlu</span></td><td>Hiyerarşi ekranı · 4 katman + Admin</td></tr>
+              <tr><td><b>2</b></td><td>Bayilerin CSM'e doğrudan bağlı olduğu netleşmiştir</td><td><span class="chip green">✓ Uyumlu</span></td><td>Organigram + Bölge Md. ekranı uyarısı</td></tr>
+              <tr><td><b>3</b></td><td>Admin paneli yapılandırılabilirlik kuralları işlenmiştir</td><td><span class="chip green">✓ Uyumlu</span></td><td>Lig, Rozet, Bölge, Erişim, Audit</td></tr>
+              <tr><td><b>4</b></td><td><b>Bayi-bayi karşılaştırması yapılmamıştır</b></td><td><span class="chip green">✓ Uyumlu</span></td><td>Lig Pozisyonu anonim (no isim/puan listesi)</td></tr>
+              <tr><td><b>5</b></td><td>İş yapısı senaryosu organizasyon ve 2 ana puan başlığı üzerinden</td><td><span class="chip green">✓ Uyumlu</span></td><td>Segmentasyon + Stratejik Ürün (4'ten 2'ye)</td></tr>
+              <tr><td><b>6</b></td><td>Bayi pozisyonu 2 ana başlık üzerinden gösterilir</td><td><span class="chip green">✓ Uyumlu</span></td><td>Bayi Dashboard · 2 metrik kırılımı</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============== ADMIN: AUDIT ============== -->
+      <section class="screen" id="admin-audit">
+        <div class="grid-4">
+          <div class="kpi"><div class="head">Bugünkü Değişiklik</div><div class="val">12</div><div class="sub">3 onayda</div></div>
+          <div class="kpi"><div class="head">Bekleyen Onay <span class="pill warn">!</span></div><div class="val">3</div><div class="sub">Senin tarafından</div></div>
+          <div class="kpi"><div class="head">Reddedilen <span class="pill">7g</span></div><div class="val">1</div><div class="sub">Geri alındı</div></div>
+          <div class="kpi"><div class="head">Aktif Kural</div><div class="val">28</div><div class="sub">Ay başı snapshot</div></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><h3>Audit Log — Kural Değişiklikleri</h3><div class="right"><div class="tabs"><button class="active">Hepsi</button><button>Bekleyen</button><button>Onaylanan</button></div><button class="btn ghost">CSV</button></div></div>
+          <div class="log-row">
+            <div class="ts">15:42<br/>17 Haz</div>
+            <div class="who"><div class="av">SY</div><div><div class="b">Selin Yıldız</div><small>Admin · Rozet yetkisi</small></div></div>
+            <div class="what"><b>Premium SP ay çarpanı</b> değişti: <span class="chip">×1.0</span> → <span class="chip gold">×1.20</span><br/><small class="text-muted">Sebep: Mayıs Premium SP kampanyası</small></div>
+            <div class="row"><span class="chip gold">Onay bekliyor</span></div>
+          </div>
+          <div class="log-row">
+            <div class="ts">14:18<br/>17 Haz</div>
+            <div class="who"><div class="av">AD</div><div><div class="b">Ali Demir</div><small>Admin · Bölge yetkisi</small></div></div>
+            <div class="what">Bayi <b>Ahmet Yıldız (İzmir)</b> Mayıs ligine <span class="chip green">Include</span><br/><small class="text-muted">Sebep: Mağaza taşınması, veri eksik</small></div>
+            <div class="row"><span class="chip green">Onaylandı</span></div>
+          </div>
+          <div class="log-row">
+            <div class="ts">11:03<br/>17 Haz</div>
+            <div class="who"><div class="av" style="background:linear-gradient(135deg,#FFB800,#FF6B35)">MR</div><div><div class="b">Mert Reis</div><small>Super Admin</small></div></div>
+            <div class="what">Bölge bonus oranları güncellendi: <span class="chip">1.Bölge +%5</span> → <span class="chip gold">+%6</span><br/><small class="text-muted">Sebep: 2026 strateji onayı</small></div>
+            <div class="row"><span class="chip green">Onaylandı</span></div>
+          </div>
+          <div class="log-row">
+            <div class="ts">09:47<br/>16 Haz</div>
+            <div class="who"><div class="av">MA</div><div><div class="b">Murat Aslan</div><small>Admin · Lig yetkisi</small></div></div>
+            <div class="what">Segmentasyon ağırlığı önerildi: <span class="chip">%50</span> → <span class="chip">%55</span><br/><small class="text-muted">Reddedildi: 2 ana başlık dengesi bozulurdu</small></div>
+            <div class="row"><span class="chip red">Reddedildi</span></div>
+          </div>
+          <div class="log-row">
+            <div class="ts">17:22<br/>15 Haz</div>
+            <div class="who"><div class="av">BŞ</div><div><div class="b">Burcu Şahin</div><small>Admin · Rozet yetkisi</small></div></div>
+            <div class="what"><b>Streak Avcısı rozeti</b> sistemwide aktive edilmek istendi<br/><small class="text-muted">Sebep: Pilot başarılı</small></div>
+            <div class="row"><span class="chip gold">Onay bekliyor</span></div>
+          </div>
+          <div class="log-row">
+            <div class="ts">13:55<br/>15 Haz</div>
+            <div class="who"><div class="av" style="background:linear-gradient(135deg,#FFB800,#FF6B35)">MR</div><div><div class="b">Mert Reis</div><small>Super Admin</small></div></div>
+            <div class="what">Stratejik ürün havuzuna <b>Yüksek TL Paket</b> eklendi · pilot mod<br/><small class="text-muted">Sebep: Q2 strateji genişletme</small></div>
+            <div class="row"><span class="chip green">Onaylandı</span></div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<script>
+  // Soldaki menüyü aç/kapat
+  document.getElementById('navToggle').addEventListener('click', () => {
+    document.querySelector('.app').classList.toggle('nav-collapsed');
+  });
+
+  const roleSwitch = document.getElementById('roleSwitch');
+  const navGroups = {
+    dealer: document.getElementById('nav-dealer'),
+    csm: document.getElementById('nav-csm'),
+    regional: document.getElementById('nav-regional'),
+    director: document.getElementById('nav-director'),
+    admin: document.getElementById('nav-admin')
+  };
+  const userNames = {
+    dealer: { name: 'Mehmet Kaya', role: 'Bayi · İstanbul Beşiktaş', av: 'MK' },
+    csm: { name: 'Selin Yıldız', role: 'CSM · İst. Anadolu', av: 'SY' },
+    regional: { name: 'Ali Demir', role: 'Bölge Müdürü · Marmara', av: 'AD' },
+    director: { name: 'Mehmet Reis', role: 'Direktör · North Turkey', av: 'MR' },
+    admin: { name: 'Mert Reis', role: 'Super Admin · AI Product onaylı', av: 'MR' }
+  };
+
+  roleSwitch.addEventListener('click', e => {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    roleSwitch.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const role = btn.dataset.role;
+    Object.entries(navGroups).forEach(([k, el]) => el.style.display = k === role ? '' : 'none');
+    document.getElementById('userName').textContent = userNames[role].name;
+    document.getElementById('userRole').textContent = userNames[role].role;
+    document.getElementById('userAv').textContent = userNames[role].av;
+    const firstNav = navGroups[role].querySelector('.nav-item');
+    showScreen(firstNav.dataset.screen, firstNav);
+  });
+
+  function showScreen(id, btn) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const sc = document.getElementById(id);
+    if (sc) sc.classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    const titles = {
+      'dealer-dashboard': ['Bayi · Ana Sayfa', 'Hoş geldin, Mehmet 👋'],
+      'dealer-league': ['Bayi · Lig Pozisyonum', 'Lig 5 — Anonim Sıralama'],
+      'dealer-badges': ['Bayi · Rozetlerim', 'Rozet Koleksiyonum'],
+      'dealer-challenge': ['Bayi · Challenge', 'Aylık Challenge Merkezi'],
+      'dealer-region': ['Bayi · Bölgem', 'Bölgesel Görünüm'],
+      'public-overview': ['Genel Sayfa · Herkese Açık', 'Sistem Geneli Özet'],
+      'csm-dealers': ['CSM · Bayilerim', 'Bağlı Bayi Performansı'],
+      'csm-dealer-detail': ['CSM · Bayi Detay', 'Mehmet Kaya — Beşiktaş'],
+      'csm-challenge-manage': ['CSM · Challenge Yönetimi', 'Challenge Atama & Takip'],
+      'regional-csms': ['Bölge Md. · CSM\'lerim', 'CSM Ekibim'],
+      'regional-overview': ['Bölge Md. · Bölgem', 'Marmara Bölgesi'],
+      'director-comparison': ['Direktör · North vs South', 'Bölge Karşılaştırması'],
+      'hierarchy': ['Hiyerarşi', 'Organizasyon Yapısı'],
+      'admin-overview': ['Admin · Komuta Merkezi', 'Sistem Geneli Yönetim'],
+      'admin-league': ['Admin · Lig & Hesaplama', 'Lig Yapılandırma'],
+      'admin-badges': ['Admin · Rozet Kuralları', 'Rozet Kural Seti'],
+      'admin-region': ['Admin · Bölge Bonusu', 'Bölge Bonus Yapılandırma'],
+      'admin-access': ['Admin · Erişim Matrisi', 'Yetki & Erişim Yönetimi'],
+      'admin-audit': ['Admin · Audit Log', 'Sistem Audit Logu']
+    };
+    if (titles[id]) {
+      document.getElementById('crumb').textContent = titles[id][0];
+      document.getElementById('screenTitle').textContent = titles[id][1];
+    }
+  }
+
+  document.querySelectorAll('.nav-item').forEach(n => {
+    n.addEventListener('click', () => showScreen(n.dataset.screen, n));
+  });
+
+  document.querySelectorAll('.weight-row input[type=range]').forEach(r => {
+    r.addEventListener('input', e => {
+      const row = e.target.closest('.weight-row');
+      const pct = row.querySelector('.pct');
+      const isPlus = pct.textContent.includes('+');
+      pct.textContent = (isPlus ? '+%' : '') + e.target.value + (isPlus ? '' : '%');
+    });
+  });
+
+  document.querySelectorAll('.switch').forEach(s => s.addEventListener('click', () => s.classList.toggle('on')));
+
+  document.querySelectorAll('.tabs').forEach(t => {
+    t.addEventListener('click', e => {
+      const b = e.target.closest('button');
+      if (!b) return;
+      t.querySelectorAll('button').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WAGERline - Multi-Sport Intelligence Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #050914;
+            color: #F5F7FA;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: #050914;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 24px;
+            z-index: 1000;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 48px;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: #FFD400;
+        }
+
+        .nav {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .nav-item {
+            color: #D0D4DD;
+            cursor: pointer;
+            transition: all 0.3s;
+            padding-bottom: 4px;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            color: #FFFFFF;
+        }
+
+        .nav-item.active {
+            color: #FFD400;
+            border-bottom-color: #FFD400;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .search-box {
+            background: rgba(16, 24, 39, 0.6);
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 8px 16px;
+            border-radius: 20px;
+            width: 250px;
+            color: #B5BBC7;
+            font-size: 13px;
+        }
+
+        .search-box::placeholder {
+            color: #777F8F;
+        }
+
+        .lang-selector {
+            background: none;
+            border: none;
+            color: #D0D4DD;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.08);
+            color: #B5BBC7;
+        }
+
+        .btn-secondary:hover {
+            color: #FFFFFF;
+            border-color: rgba(255,255,255,0.16);
+        }
+
+        .btn-primary {
+            background: #FFD400;
+            color: #050914;
+            font-weight: 700;
+        }
+
+        .btn-primary:hover {
+            background: #FFE14A;
+        }
+
+        /* ===== MAIN ===== */
+        .main {
+            margin-top: 60px;
+            padding: 16px;
+        }
+
+        /* ===== HERO + LIVE GRID ===== */
+        .hero-live-grid {
+            display: grid;
+            grid-template-columns: 68% 32%;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .hero-card {
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.4) 0%, rgba(139, 92, 246, 0.2) 100%);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 250px;
+        }
+
+        .hero-title {
+            font-size: 32px;
+            font-weight: 800;
+            line-height: 1.05;
+            margin-bottom: 16px;
+        }
+
+        .hero-title-highlight {
+            color: #FFD400;
+        }
+
+        .hero-desc {
+            color: #D5D8E0;
+            font-size: 16px;
+            line-height: 1.6;
+            max-width: 420px;
+            margin-bottom: 24px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .live-match-card {
+            background: #101827;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            padding: 20px;
+            min-height: 250px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .live-match-header {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .live-badge {
+            background: #FF3333;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .live-competition {
+            font-size: 12px;
+            color: #B5BBC7;
+            margin-bottom: 12px;
+        }
+
+        .live-match-score {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .live-team {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            flex: 1;
+        }
+
+        .live-score {
+            font-size: 28px;
+            font-weight: 900;
+            color: #FFD400;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .live-match-time {
+            text-align: center;
+            color: #B5BBC7;
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+
+        .match-tabs {
+            display: flex;
+            gap: 16px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding-top: 12px;
+            font-size: 12px;
+        }
+
+        .tab {
+            color: #777F8F;
+            cursor: pointer;
+            transition: color 0.3s;
+            padding-bottom: 4px;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab:hover, .tab.active {
+            color: #FFD400;
+            border-bottom-color: #FFD400;
+        }
+
+        /* ===== TOP LEAGUES ===== */
+        .top-leagues {
+            background: #101827;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 12px;
+            overflow-x: auto;
+        }
+
+        .top-leagues-title {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #777F8F;
+            margin-bottom: 12px;
+        }
+
+        .leagues-scroll {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
+
+        .league-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: #0D1422;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .league-item:hover {
+            border-color: #FFD400;
+            background: #141D2D;
+        }
+
+        .league-icon {
+            font-size: 16px;
+        }
+
+        .league-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: #F5F7FA;
+        }
+
+        /* ===== MAIN GRID ===== */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 29% 25% 46%;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .card {
+            background: #101827;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            padding: 12px;
+        }
+
+        .card-title {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-title-text::before {
+            content: '';
+            width: 3px;
+            height: 16px;
+            background: #FFD400;
+            border-radius: 2px;
+            margin-right: 8px;
+            display: inline-block;
+        }
+
+        .card-link {
+            font-size: 12px;
+            color: #B5BBC7;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .card-link:hover {
+            color: #FFD400;
+        }
+
+        /* ===== LIVE NOW ===== */
+        .sport-tabs {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding-bottom: 8px;
+        }
+
+        .sport-tab {
+            background: transparent;
+            border: none;
+            color: #777F8F;
+            font-size: 10px;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 3px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .sport-tab.active {
+            color: #FFD400;
+            border-bottom-color: #FFD400;
+        }
+
+        .event-row {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 6px;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            align-items: center;
+            font-size: 11px;
+        }
+
+        .event-row:last-child {
+            border-bottom: none;
+        }
+
+        .event-score {
+            font-weight: 700;
+            color: #FFD400;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .event-live {
+            background: #FF3333;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .event-completed {
+            color: #777F8F;
+        }
+
+        .event-upcoming {
+            color: #A7ACB8;
+        }
+
+        /* ===== PREDICTIONS ===== */
+        .prediction-card {
+            background: #0D1422;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px;
+            padding: 8px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .prediction-card:hover {
+            border-color: #FFD400;
+            background: #141D2D;
+        }
+
+        .prediction-teams {
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #F5F7FA;
+        }
+
+        .prediction-league {
+            font-size: 10px;
+            color: #777F8F;
+            margin-bottom: 6px;
+        }
+
+        .prediction-odds {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
+        .odd-option {
+            background: #1a1f3a;
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 6px;
+            border-radius: 6px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .odd-option:hover {
+            border-color: #FFD400;
+            background: #141D2D;
+        }
+
+        .odd-label {
+            font-size: 10px;
+            color: #777F8F;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .odd-percent {
+            font-size: 12px;
+            font-weight: 700;
+            color: #FFD400;
+        }
+
+        .probability-bar {
+            width: 100%;
+            height: 4px;
+            background: #0D1422;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 4px;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FFD400 0%, #8B5CF6 100%);
+            border-radius: 2px;
+        }
+
+        .bar-label {
+            font-size: 10px;
+            color: #777F8F;
+        }
+
+        /* ===== REWARDS ===== */
+        .your-rewards-card {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(34, 211, 238, 0.1) 100%);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .level-badge {
+            font-size: 24px;
+            font-weight: 900;
+            color: #FFD400;
+            margin-bottom: 8px;
+        }
+
+        .level-name {
+            font-size: 13px;
+            color: #F5F7FA;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .xp-progress {
+            margin-bottom: 12px;
+        }
+
+        .xp-bar {
+            background: #0D1422;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 6px;
+        }
+
+        .xp-fill {
+            background: linear-gradient(90deg, #8B5CF6 0%, #22D3EE 100%);
+            height: 100%;
+            width: 72%;
+        }
+
+        .xp-text {
+            font-size: 11px;
+            color: #777F8F;
+        }
+
+        .rewards-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .reward-stat {
+            text-align: center;
+        }
+
+        .reward-stat-value {
+            font-size: 14px;
+            font-weight: 700;
+            color: #FFD400;
+            display: block;
+        }
+
+        .reward-stat-label {
+            font-size: 10px;
+            color: #777F8F;
+            margin-top: 2px;
+        }
+
+        /* ===== RIGHT COLUMN TOP ===== */
+        .right-top {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .league-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        .league-table th {
+            background: transparent;
+            padding: 8px 4px;
+            text-align: left;
+            font-weight: 600;
+            color: #B5BBC7;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .league-table td {
+            padding: 8px 4px;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            color: #F5F7FA;
+        }
+
+        .league-table tr:hover {
+            background: rgba(255,255,255,0.02);
+        }
+
+        .team-pos {
+            font-weight: 700;
+            color: #FFD400;
+            min-width: 24px;
+        }
+
+        .team-badge {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 4px;
+        }
+
+        .team-badge.win { background: #22C55E; }
+        .team-badge.draw { background: #3B82F6; }
+        .team-badge.loss { background: #FF3333; }
+
+        /* ===== PLAYER CARD ===== */
+        .player-card {
+            background: linear-gradient(135deg, #141D2D 0%, #0D1422 100%);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .player-image {
+            width: 100%;
+            aspect-ratio: 2/2.5;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 6px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+
+        .player-name {
+            font-size: 12px;
+            font-weight: 700;
+            color: #F5F7FA;
+            margin-bottom: 2px;
+        }
+
+        .player-team {
+            font-size: 10px;
+            color: #B5BBC7;
+            margin-bottom: 8px;
+        }
+
+        .player-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
+        .player-stat {
+            background: #0D1422;
+            padding: 6px;
+            border-radius: 4px;
+        }
+
+        .player-stat-value {
+            font-size: 12px;
+            font-weight: 700;
+            color: #FFD400;
+        }
+
+        .player-stat-label {
+            font-size: 9px;
+            color: #777F8F;
+            margin-top: 2px;
+        }
+
+        /* ===== NEWS + BOTTOM ===== */
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: 29% 25% 46%;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+        }
+
+        .news-card {
+            background: #0D1422;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .news-card:hover {
+            border-color: #FFD400;
+        }
+
+        .news-image {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .news-content {
+            padding: 8px;
+        }
+
+        .news-headline {
+            font-size: 12px;
+            font-weight: 600;
+            color: #F5F7FA;
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+
+        .news-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 10px;
+            color: #777F8F;
+        }
+
+        .news-category {
+            background: rgba(255,212,0,0.1);
+            color: #FFD400;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #050914;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding: 24px;
+            margin-top: 24px;
+            display: grid;
+            grid-template-columns: 1fr auto auto auto;
+            gap: 32px;
+            align-items: center;
+            font-size: 12px;
+            color: #777F8F;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-link {
+            color: #777F8F;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .footer-link:hover {
+            color: #FFD400;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .hero-live-grid { grid-template-columns: 1fr; }
+            .main-grid { grid-template-columns: 1fr; }
+            .bottom-grid { grid-template-columns: 1fr; }
+            .nav { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            .header { padding: 0 16px; }
+            .header-left { gap: 24px; }
+            .search-box { width: 150px; }
+            .hero-card { padding: 20px; min-height: 200px; }
+            .hero-title { font-size: 24px; }
+            .main { padding: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-left">
+            <div class="logo">WAGER<span>line</span></div>
+            <ul class="nav">
+                <li class="nav-item active">Home</li>
+                <li class="nav-item">Live</li>
+                <li class="nav-item">Sports</li>
+                <li class="nav-item">Leagues</li>
+                <li class="nav-item">Predictions</li>
+                <li class="nav-item">Stats</li>
+                <li class="nav-item">News</li>
+                <li class="nav-item">Rewards</li>
+            </ul>
+        </div>
+        <div class="header-right">
+            <input type="text" class="search-box" placeholder="Search teams, players...">
+            <button class="lang-selector">🇬🇧 EN</button>
+            <div class="auth-buttons">
+                <button class="btn btn-secondary">Login</button>
+                <button class="btn btn-primary">Sign Up</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <div class="main">
+        <!-- HERO + LIVE MATCH -->
+        <div class="hero-live-grid">
+            <div class="hero-card">
+                <h1 class="hero-title">All Sports.<br>All Intelligence.<br><span class="hero-title-highlight">One Platform.</span></h1>
+                <p class="hero-desc">Live scores, stats, AI predictions and everything you need to stay ahead.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary">Explore Live</button>
+                    <button class="btn btn-secondary">View Predictions</button>
+                </div>
+            </div>
+
+            <div class="live-match-card">
+                <div class="live-match-header">
+                    <span>Live Match</span>
+                    <span class="live-badge">● LIVE</span>
+                </div>
+                <div class="live-competition">Premier League – Round 36</div>
+                <div class="live-match-score">
+                    <div class="live-team">⚽ Man City</div>
+                    <div class="live-score">2 - 1</div>
+                    <div class="live-team" style="justify-content: flex-end;">Liverpool ⚽</div>
+                </div>
+                <div class="live-match-time">75:35</div>
+                <div class="match-tabs">
+                    <div class="tab active">Overview</div>
+                    <div class="tab">Timeline</div>
+                    <div class="tab">Stats</div>
+                    <div class="tab">Lineups</div>
+                    <div class="tab">H2H</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TOP LEAGUES -->
+        <div class="top-leagues">
+            <div class="top-leagues-title">Top Leagues</div>
+            <div class="leagues-scroll">
+                <div class="league-item"><span class="league-icon">⚽</span> <span class="league-name">Premier League</span></div>
+                <div class="league-item"><span class="league-icon">⚽</span> <span class="league-name">La Liga</span></div>
+                <div class="league-item"><span class="league-icon">⚽</span> <span class="league-name">Serie A</span></div>
+                <div class="league-item"><span class="league-icon">⚽</span> <span class="league-name">Bundesliga</span></div>
+                <div class="league-item"><span class="league-icon">⚽</span> <span class="league-name">Ligue 1</span></div>
+                <div class="league-item"><span class="league-icon">⚽</span> <span class="league-name">Süper Lig</span></div>
+                <div class="league-item"><span class="league-icon">🏀</span> <span class="league-name">NBA</span></div>
+                <div class="league-item"><span class="league-icon">🏈</span> <span class="league-name">NFL</span></div>
+                <div class="league-item"><span class="league-icon">🏒</span> <span class="league-name">NHL</span></div>
+                <div class="league-item"><span class="league-icon">🏎️</span> <span class="league-name">F1</span></div>
+            </div>
+        </div>
+
+        <!-- MAIN GRID: Live Now + Predictions + League/Player -->
+        <div class="main-grid">
+            <!-- LEFT: LIVE NOW -->
+            <div class="card">
+                <div class="card-title"><span class="card-title-text">Live Now</span></div>
+                <div class="sport-tabs">
+                    <button class="sport-tab active">Football</button>
+                    <button class="sport-tab">Basketball</button>
+                    <button class="sport-tab">American Football</button>
+                    <button class="sport-tab">Ice Hockey</button>
+                    <button class="sport-tab">Formula 1</button>
+                </div>
+                <div class="event-row">
+                    <div class="event-score">2-1</div>
+                    <span>Man City vs Liverpool (Premier)</span>
+                    <span class="event-live">● LIVE 75'</span>
+                </div>
+                <div class="event-row">
+                    <div class="event-score">1-0</div>
+                    <span>Real Madrid vs Barcelona (La Liga)</span>
+                    <span class="event-live">● LIVE 62'</span>
+                </div>
+                <div class="event-row">
+                    <div class="event-score">98-95</div>
+                    <span>Lakers vs Celtics (NBA)</span>
+                    <span class="event-live">● LIVE 4Q</span>
+                </div>
+                <div class="event-row">
+                    <div class="event-score">3-2</div>
+                    <span>Arsenal vs Chelsea (Premier)</span>
+                    <span class="event-live">● LIVE 82'</span>
+                </div>
+                <div class="event-row event-upcoming">
+                    <div class="event-score">-</div>
+                    <span>Paris vs Marseille (Ligue 1)</span>
+                    <span>19:00 TODAY</span>
+                </div>
+            </div>
+
+            <!-- CENTER: AI PREDICTIONS -->
+            <div class="card">
+                <div class="card-title">
+                    <span class="card-title-text">AI Predictions</span>
+                    <span class="card-link">See All →</span>
+                </div>
+
+                <div class="prediction-card">
+                    <div class="prediction-teams">Man City vs Liverpool</div>
+                    <div class="prediction-league">Premier League</div>
+                    <div class="prediction-odds">
+                        <div class="odd-option">
+                            <span class="odd-label">Man City</span>
+                            <span class="odd-percent">58%</span>
+                        </div>
+                        <div class="odd-option">
+                            <span class="odd-label">Draw</span>
+                            <span class="odd-percent">22%</span>
+                        </div>
+                        <div class="odd-option">
+                            <span class="odd-label">Liverpool</span>
+                            <span class="odd-percent">20%</span>
+                        </div>
+                    </div>
+                    <div class="probability-bar">
+                        <div class="bar-fill" style="width: 58%;"></div>
+                    </div>
+                </div>
+
+                <div class="prediction-card">
+                    <div class="prediction-teams">Real Madrid vs Barcelona</div>
+                    <div class="prediction-league">La Liga</div>
+                    <div class="prediction-odds">
+                        <div class="odd-option">
+                            <span class="odd-label">Real Madrid</span>
+                            <span class="odd-percent">48%</span>
+                        </div>
+                        <div class="odd-option">
+                            <span class="odd-label">Draw</span>
+                            <span class="odd-percent">27%</span>
+                        </div>
+                        <div class="odd-option">
+                            <span class="odd-label">Barcelona</span>
+                            <span class="odd-percent">25%</span>
+                        </div>
+                    </div>
+                    <div class="probability-bar">
+                        <div class="bar-fill" style="width: 48%;"></div>
+                    </div>
+                </div>
+
+                <div class="prediction-card">
+                    <div class="prediction-teams">Lakers vs Warriors</div>
+                    <div class="prediction-league">NBA</div>
+                    <div class="prediction-odds">
+                        <div class="odd-option">
+                            <span class="odd-label">Lakers</span>
+                            <span class="odd-percent">60%</span>
+                        </div>
+                        <div class="odd-option">
+                            <span class="odd-label">Draw</span>
+                            <span class="odd-percent">0%</span>
+                        </div>
+                        <div class="odd-option">
+                            <span class="odd-label">Warriors</span>
+                            <span class="odd-percent">40%</span>
+                        </div>
+                    </div>
+                    <div class="probability-bar">
+                        <div class="bar-fill" style="width: 60%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT: LEAGUE TABLE + PLAYER -->
+            <div class="right-top">
+                <div class="card">
+                    <div class="card-title">
+                        <span class="card-title-text">League Table</span>
+                        <select style="background: transparent; border: none; color: #B5BBC7; font-size: 11px; cursor: pointer;">
+                            <option>Premier League 2025/2026</option>
+                        </select>
+                    </div>
+                    <table class="league-table">
+                        <thead>
+                            <tr><th>#</th><th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>Pts</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="team-pos">1</span></td>
+                                <td>Man City</td>
+                                <td>28</td>
+                                <td>21</td>
+                                <td>5</td>
+                                <td>2</td>
+                                <td><strong>68</strong></td>
+                            </tr>
+                            <tr>
+                                <td><span class="team-pos">2</span></td>
+                                <td>Arsenal</td>
+                                <td>28</td>
+                                <td>20</td>
+                                <td>4</td>
+                                <td>4</td>
+                                <td><strong>64</strong></td>
+                            </tr>
+                            <tr>
+                                <td><span class="team-pos">3</span></td>
+                                <td>Liverpool</td>
+                                <td>28</td>
+                                <td>19</td>
+                                <td>5</td>
+                                <td>4</td>
+                                <td><strong>62</strong></td>
+                            </tr>
+                            <tr>
+                                <td><span class="team-pos">4</span></td>
+                                <td>Aston Villa</td>
+                                <td>28</td>
+                                <td>18</td>
+                                <td>3</td>
+                                <td>7</td>
+                                <td><strong>57</strong></td>
+                            </tr>
+                            <tr>
+                                <td><span class="team-pos">5</span></td>
+                                <td>Tottenham</td>
+                                <td>27</td>
+                                <td>16</td>
+                                <td>3</td>
+                                <td>8</td>
+                                <td><strong>51</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="player-card">
+                    <div class="player-image">⚽</div>
+                    <div class="player-name">Erling Haaland</div>
+                    <div class="player-team">Manchester City · Forward</div>
+                    <div class="player-stats">
+                        <div class="player-stat">
+                            <div class="player-stat-value">28</div>
+                            <div class="player-stat-label">Matches</div>
+                        </div>
+                        <div class="player-stat">
+                            <div class="player-stat-value">27</div>
+                            <div class="player-stat-label">Goals</div>
+                        </div>
+                        <div class="player-stat">
+                            <div class="player-stat-value">5</div>
+                            <div class="player-stat-label">Assists</div>
+                        </div>
+                        <div class="player-stat">
+                            <div class="player-stat-value">7.91</div>
+                            <div class="player-stat-label">Avg Rating</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOTTOM GRID: News + Rewards -->
+        <div class="bottom-grid">
+            <!-- LEFT: TOP NEWS -->
+            <div class="card">
+                <div class="card-title">
+                    <span class="card-title-text">Top News</span>
+                    <span class="card-link">View All News →</span>
+                </div>
+                <div class="news-grid">
+                    <div class="news-card">
+                        <div class="news-image">📰</div>
+                        <div class="news-content">
+                            <div class="news-headline">Haaland double helps Man City to win</div>
+                            <div class="news-meta">
+                                <span class="news-category">PREMIER</span>
+                                <span>2h ago</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="news-card">
+                        <div class="news-image">⚽</div>
+                        <div class="news-content">
+                            <div class="news-headline">Real Madrid advances to final</div>
+                            <div class="news-meta">
+                                <span class="news-category">LA LIGA</span>
+                                <span>4h ago</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="news-card">
+                        <div class="news-image">🏀</div>
+                        <div class="news-content">
+                            <div class="news-headline">Lakers dominate Celtics in playoff</div>
+                            <div class="news-meta">
+                                <span class="news-category">NBA</span>
+                                <span>5h ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CENTER: YOUR REWARDS -->
+            <div class="card">
+                <div class="card-title">
+                    <span class="card-title-text">Your Rewards</span>
+                    <span class="card-link">View All →</span>
+                </div>
+                <div class="your-rewards-card">
+                    <div class="level-badge">7</div>
+                    <div class="level-name">Elite Fan</div>
+                    <div class="xp-progress">
+                        <div class="xp-bar"><div class="xp-fill"></div></div>
+                        <div class="xp-text">2,450 / 3,000 XP</div>
+                    </div>
+                    <div class="rewards-stats">
+                        <div class="reward-stat">
+                            <span class="reward-stat-value">12</span>
+                            <span class="reward-stat-label">Badges</span>
+                        </div>
+                        <div class="reward-stat">
+                            <span class="reward-stat-value">2,450</span>
+                            <span class="reward-stat-label">Points</span>
+                        </div>
+                        <div class="reward-stat">
+                            <span class="reward-stat-value">#3,210</span>
+                            <span class="reward-stat-label">Rank</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT: NEWS + REWARDS -->
+            <div class="card">
+                <div class="card-title">
+                    <span class="card-title-text">News</span>
+                </div>
+                <div style="font-size: 11px; display: flex; gap: 8px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.08);">
+                    <span style="color: #FFD400; cursor: pointer;">All</span>
+                    <span style="color: #777F8F; cursor: pointer;">Football</span>
+                    <span style="color: #777F8F; cursor: pointer;">Basketball</span>
+                    <span style="color: #777F8F; cursor: pointer;">NFL</span>
+                </div>
+                <div class="news-grid">
+                    <div class="news-card">
+                        <div class="news-image">⚽</div>
+                        <div class="news-content">
+                            <div class="news-headline">Title here</div>
+                            <div class="news-meta">
+                                <span class="news-category">ALL</span>
+                                <span>1h ago</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="news-card">
+                        <div class="news-image">🏀</div>
+                        <div class="news-content">
+                            <div class="news-headline">Title here</div>
+                            <div class="news-meta">
+                                <span class="news-category">ALL</span>
+                                <span>2h ago</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="news-card">
+                        <div class="news-image">🏈</div>
+                        <div class="news-content">
+                            <div class="news-headline">Title here</div>
+                            <div class="news-meta">
+                                <span class="news-category">ALL</span>
+                                <span>3h ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 12px; padding: 12px; background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(34, 211, 238, 0.05) 100%); border-radius: 8px; border: 1px solid rgba(255,255,255,0.08);">
+                    <div style="font-size: 12px; font-weight: 600; color: #F5F7FA; margin-bottom: 8px;">Rewards</div>
+                    <div style="font-size: 13px; font-weight: 700; color: #FFD400; margin-bottom: 6px;">2,450 Points</div>
+                    <div style="font-size: 11px; color: #777F8F; cursor: pointer; transition: color 0.3s;">How to Earn →</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div>WAGERline © 2026 All rights reserved.</div>
+        <div class="footer-links">
+            <span class="footer-link">About Us</span>
+            <span class="footer-link">Contact</span>
+            <span class="footer-link">Privacy Policy</span>
+            <span class="footer-link">Terms of Use</span>
+        </div>
+        <div style="display: flex; gap: 16px; font-size: 12px;">
+            <span style="color: #777F8F; cursor: pointer;">🇬🇧 English</span>
+            <span style="color: #777F8F; cursor: pointer;">🇪🇸 Español</span>
+            <span style="color: #777F8F; cursor: pointer;">🇸🇦 العربية</span>
+        </div>
+    </footer>
+</body>
+</html>

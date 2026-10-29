@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WAGERline - Admin Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1E40AF;
+            --primary-light: #3B82F6;
+            --secondary: #F97316;
+            --accent: #06B6D4;
+            --success: #10B981;
+            --danger: #EF4444;
+            --warning: #F59E0B;
+            --neutral-50: #F9FAFB;
+            --neutral-100: #F3F4F6;
+            --neutral-200: #E5E7EB;
+            --neutral-500: #6B7280;
+            --neutral-700: #374151;
+            --neutral-900: #111827;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--neutral-50);
+            color: var(--neutral-900);
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+        }
+
+        /* ============ SIDEBAR ============ */
+        .sidebar {
+            background: var(--primary);
+            color: white;
+            padding: 2rem 1.5rem;
+            overflow-y: auto;
+            box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-title {
+            font-size: 1.25rem;
+            font-weight: 900;
+            margin-bottom: 2rem;
+            letter-spacing: -1px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-item {
+            margin-bottom: 0.75rem;
+        }
+
+        .sidebar-link {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .sidebar-link:hover,
+        .sidebar-link.active {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            font-weight: 600;
+        }
+
+        .sidebar-link::before {
+            font-size: 1.25rem;
+        }
+
+        /* ============ MAIN CONTENT ============ */
+        .main {
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--neutral-200);
+        }
+
+        .header-title {
+            font-size: 1.875rem;
+            font-weight: 800;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.25rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            opacity: 0.9;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-outline {
+            background: white;
+            border: 1px solid var(--neutral-200);
+            color: var(--neutral-700);
+        }
+
+        .btn-outline:hover {
+            background: var(--neutral-100);
+        }
+
+        /* ============ GRID ============ */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 1024px) {
+            .grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 640px) {
+            .grid { grid-template-columns: 1fr; }
+            .layout { grid-template-columns: 1fr; }
+            .sidebar { display: none; }
+        }
+
+        /* ============ STAT CARD ============ */
+        .stat-card {
+            background: white;
+            border: 1px solid var(--neutral-200);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .stat-label {
+            color: var(--neutral-500);
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .stat-change {
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .stat-change.positive {
+            color: var(--success);
+        }
+
+        .stat-change.negative {
+            color: var(--danger);
+        }
+
+        /* ============ SECTION ============ */
+        .section {
+            background: white;
+            border: 1px solid var(--neutral-200);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        /* ============ DATA SOURCES TABLE ============ */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th {
+            background: var(--neutral-100);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: var(--neutral-700);
+            border-bottom: 2px solid var(--neutral-200);
+        }
+
+        .table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--neutral-200);
+        }
+
+        .table tr:hover {
+            background: var(--neutral-50);
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: #DBEAFE;
+            color: var(--primary);
+        }
+
+        .status-error {
+            background: #FEE2E2;
+            color: var(--danger);
+        }
+
+        .status-warning {
+            background: #FEF3C7;
+            color: var(--warning);
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .dot-active {
+            background: var(--success);
+            animation: pulse-dot 2s infinite;
+        }
+
+        .dot-error {
+            background: var(--danger);
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* ============ SYNC CONTROLS ============ */
+        .sync-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .sync-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        .sync-button {
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sync-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.2);
+        }
+
+        .sync-button::before {
+            font-size: 1.5rem;
+        }
+
+        .sync-button.loading {
+            opacity: 0.6;
+            cursor: not-allowed;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* ============ PREDICTION STATS ============ */
+        .prediction-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .prediction-stat {
+            background: linear-gradient(135deg, #F3F4F6, #E5E7EB);
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .prediction-stat-title {
+            color: var(--neutral-500);
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .prediction-stat-value {
+            font-size: 1.875rem;
+            font-weight: 900;
+            color: var(--primary);
+        }
+
+        .prediction-stat-sub {
+            font-size: 0.875rem;
+            color: var(--neutral-500);
+            margin-top: 0.5rem;
+        }
+
+        /* ============ CHART PLACEHOLDER ============ */
+        .chart-placeholder {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #DBEAFE 0%, #A5F3FC 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.125rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* ============ TABS ============ */
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            border-bottom: 2px solid var(--neutral-200);
+            margin-bottom: 1.5rem;
+        }
+
+        .tab {
+            background: none;
+            border: none;
+            padding: 1rem 0;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--neutral-500);
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab:hover,
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        /* ============ FEATURED EVENTS ============ */
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .featured-grid { grid-template-columns: 1fr; }
+        }
+
+        .featured-item {
+            background: linear-gradient(135deg, var(--neutral-100), var(--neutral-200));
+            padding: 1rem;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .featured-info h4 {
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .featured-info p {
+            font-size: 0.875rem;
+            color: var(--neutral-500);
+        }
+
+        .featured-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+
+        /* ============ ALERT ============ */
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-left: 4px solid;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .alert-info {
+            background: #ECF8FF;
+            border-color: var(--accent);
+            color: var(--primary);
+        }
+
+        .alert-success {
+            background: #ECFDF5;
+            border-color: var(--success);
+            color: var(--success);
+        }
+
+        .alert-warning {
+            background: #FFFBEB;
+            border-color: var(--warning);
+            color: var(--warning);
+        }
+
+        .alert-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="layout">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-title">⚽ WAGERline</div>
+            <ul class="sidebar-menu">
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link active" onclick="showSection('dashboard')">
+                        📊 Dashboard
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" onclick="showSection('data-sources')">
+                        🔌 Data Sources
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" onclick="showSection('sync')">
+                        🔄 Sync Jobs
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" onclick="showSection('featured')">
+                        ⭐ Featured Events
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" onclick="showSection('predictions')">
+                        🤖 Predictions
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" onclick="showSection('news')">
+                        📰 News Management
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" onclick="showSection('users')">
+                        👥 Users
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" onclick="showSection('settings')">
+                        ⚙️ Settings
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main">
+            <!-- DASHBOARD SECTION -->
+            <section id="dashboard" class="content-section">
+                <div class="header-section">
+                    <div>
+                        <h1 class="header-title">Dashboard</h1>
+                        <p style="color: var(--neutral-500); margin-top: 0.5rem;">Real-time platform overview</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-outline">📊 Export Report</button>
+                        <button class="btn btn-primary">🔄 Refresh</button>
+                    </div>
+                </div>
+
+                <!-- KEY METRICS -->
+                <div class="grid">
+                    <div class="stat-card">
+                        <div class="stat-label">📊 Total Events Today</div>
+                        <div class="stat-value">342</div>
+                        <div class="stat-change positive">↑ 12% from yesterday</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">🤖 Predictions Generated</div>
+                        <div class="stat-value">1,247</div>
+                        <div class="stat-change positive">↑ 8% from yesterday</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">👥 Active Users</div>
+                        <div class="stat-value">5,842</div>
+                        <div class="stat-change positive">↑ 15% from last week</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">📈 Accuracy Rate</div>
+                        <div class="stat-value">73.5%</div>
+                        <div class="stat-change positive">↑ 2.3% last 7 days</div>
+                    </div>
+                </div>
+
+                <!-- ACTIVITY CHART -->
+                <div class="section">
+                    <h3 class="section-title">📈 System Activity (Last 24 Hours)</h3>
+                    <div class="chart-placeholder">
+                        📊 Activity Chart (API Requests, Sync Jobs, Predictions)
+                    </div>
+                </div>
+
+                <!-- RECENT ACTIVITY -->
+                <div class="section">
+                    <h3 class="section-title">🔔 Recent Activity</h3>
+                    <div style="space-y: 1rem;">
+                        <div class="alert alert-success">
+                            <div class="alert-icon">✓</div>
+                            <div>
+                                <strong>Sync Complete:</strong> Football events synchronized from 4 providers. 582 records created/updated.
+                            </div>
+                        </div>
+                        <div class="alert alert-info">
+                            <div class="alert-icon">ℹ</div>
+                            <div>
+                                <strong>Predictions Generated:</strong> 342 new predictions created for today's events. Model accuracy: 73.5%
+                            </div>
+                        </div>
+                        <div class="alert alert-warning">
+                            <div class="alert-icon">⚠</div>
+                            <div>
+                                <strong>High Latency:</strong> API-Sports provider responding slower than usual. Rate limit: 98/100 requests.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DATA SOURCES SECTION -->
+            <section id="data-sources" class="content-section" style="display: none;">
+                <div class="header-section">
+                    <div>
+                        <h1 class="header-title">Data Sources</h1>
+                        <p style="color: var(--neutral-500); margin-top: 0.5rem;">Provider status & configuration</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-primary">+ Add Provider</button>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3 class="section-title">📡 Active Providers</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Provider</th>
+                                <th>Status</th>
+                                <th>Last Sync</th>
+                                <th>Requests Today</th>
+                                <th>Errors</th>
+                                <th>Rate Limit</th>
+                                <th>Priority</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>SportScore</strong></td>
+                                <td>
+                                    <span class="status-badge status-active">
+                                        <span class="dot dot-active"></span> ACTIVE
+                                    </span>
+                                </td>
+                                <td>12:31 UTC</td>
+                                <td>842</td>
+                                <td>3</td>
+                                <td>842 / 10000</td>
+                                <td><strong>P1</strong></td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline">Test</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>API-Sports</strong></td>
+                                <td>
+                                    <span class="status-badge status-active">
+                                        <span class="dot dot-active"></span> ACTIVE
+                                    </span>
+                                </td>
+                                <td>12:28 UTC</td>
+                                <td>765</td>
+                                <td>0</td>
+                                <td>765 / 500</td>
+                                <td><strong>P2</strong></td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline">Test</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>TheSportsDB</strong></td>
+                                <td>
+                                    <span class="status-badge status-warning">
+                                        <span class="dot dot-active"></span> DEGRADED
+                                    </span>
+                                </td>
+                                <td>12:15 UTC</td>
+                                <td>234</td>
+                                <td>12</td>
+                                <td>234 / 900</td>
+                                <td><strong>P3</strong></td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline">Test</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>SportDB</strong></td>
+                                <td>
+                                    <span class="status-badge status-active">
+                                        <span class="dot dot-active"></span> ACTIVE
+                                    </span>
+                                </td>
+                                <td>12:30 UTC</td>
+                                <td>456</td>
+                                <td>0</td>
+                                <td>456 / 1000</td>
+                                <td><strong>P4</strong></td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline">Test</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="grid" style="grid-template-columns: repeat(2, 1fr);">
+                    <div class="section">
+                        <h3 class="section-title">🎯 Provider Capabilities</h3>
+                        <p style="color: var(--neutral-500); font-size: 0.875rem; margin-bottom: 1rem;">Which sports/competitions each provider supports</p>
+                        <table class="table" style="font-size: 0.875rem;">
+                            <thead>
+                                <tr>
+                                    <th>Sport</th>
+                                    <th>SportScore</th>
+                                    <th>API-Sports</th>
+                                    <th>TheSportsDB</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Football</strong></td>
+                                    <td style="text-align: center;">✓</td>
+                                    <td style="text-align: center;">✓</td>
+                                    <td style="text-align: center;">✓</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Basketball</strong></td>
+                                    <td style="text-align: center;">✓</td>
+                                    <td style="text-align: center;">✓</td>
+                                    <td style="text-align: center;">✗</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>American Football</strong></td>
+                                    <td style="text-align: center;">✗</td>
+                                    <td style="text-align: center;">✓</td>
+                                    <td style="text-align: center;">✓</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Ice Hockey</strong></td>
+                                    <td style="text-align: center;">✓</td>
+                                    <td style="text-align: center;">✓</td>
+                                    <td style="text-align: center;">✗</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Formula 1</strong></td>
+                                    <td style="text-align: center;">✗</td>
+                                    <td style="text-align: center;">✗</td>
+                                    <td style="text-align: center;">✓</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="section">
+                        <h3 class="section-title">📊 Sync Logs</h3>
+                        <p style="color: var(--neutral-500); font-size: 0.875rem; margin-bottom: 1rem;">Last 5 sync operations</p>
+                        <div style="space-y: 0.75rem;">
+                            <div style="padding: 0.75rem; background: var(--neutral-100); border-radius: 6px; display: flex; justify-content: space-between; align-items: center; font-size: 0.875rem;">
+                                <span>Football Events (SportScore)</span>
+                                <span class="status-badge status-active">✓ Success</span>
+                            </div>
+                            <div style="padding: 0.75rem; background: var(--neutral-100); border-radius: 6px; display: flex; justify-content: space-between; align-items: center; font-size: 0.875rem;">
+                                <span>NBA Teams & Players (API-Sports)</span>
+                                <span class="status-badge status-active">✓ Success</span>
+                            </div>
+                            <div style="padding: 0.75rem; background: var(--neutral-100); border-radius: 6px; display: flex; justify-content: space-between; align-items: center; font-size: 0.875rem;">
+                                <span>Live Events (SportScore)</span>
+                                <span class="status-badge status-active">✓ Success</span>
+                            </div>
+                            <div style="padding: 0.75rem; background: var(--neutral-100); border-radius: 6px; display: flex; justify-content: space-between; align-items: center; font-size: 0.875rem;">
+                                <span>News Articles (Mixed)</span>
+                                <span class="status-badge status-warning">⚠ Partial</span>
+                            </div>
+                            <div style="padding: 0.75rem; background: var(--neutral-100); border-radius: 6px; display: flex; justify-content: space-between; align-items: center; font-size: 0.875rem;">
+                                <span>Standings (TheSportsDB)</span>
+                                <span class="status-badge status-error">✗ Failed</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SYNC JOBS SECTION -->
+            <section id="sync" class="content-section" style="display: none;">
+                <div class="header-section">
+                    <div>
+                        <h1 class="header-title">Sync Jobs</h1>
+                        <p style="color: var(--neutral-500); margin-top: 0.5rem;">Trigger manual sync operations</p>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3 class="section-title">🎯 Available Sync Operations</h3>
+                    <div class="sync-grid">
+                        <button class="sync-button">🏆 Sync Sports</button>
+                        <button class="sync-button">⚽ Sync Football</button>
+                        <button class="sync-button">🏀 Sync Basketball</button>
+                        <button class="sync-button">📅 Sync Events</button>
+                        <button class="sync-button">🔴 Sync Live</button>
+                        <button class="sync-button">📊 Sync Results</button>
+                        <button class="sync-button">📋 Sync Standings</button>
+                        <button class="sync-button">📈 Sync Statistics</button>
+                        <button class="sync-button">📰 Sync News</button>
+                        <button class="sync-button">🤖 Generate Predictions</button>
+                        <button class="sync-button">🏅 Calculate Rewards</button>
+                        <button class="sync-button">🎖️ Calculate Rankings</button>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3 class="section-title">📋 Sync Schedule</h3>
+                    <table class="table" style="font-size: 0.875rem;">
+                        <thead>
+                            <tr>
+                                <th>Job</th>
+                                <th>Frequency</th>
+                                <th>Last Run</th>
+                                <th>Next Run</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Sync Sports</td>
+                                <td>Daily</td>
+                                <td>2026-08-22 00:15</td>
+                                <td>2026-08-23 00:00</td>
+                                <td><span class="status-badge status-active">✓ Success</span></td>
+                            </tr>
+                            <tr>
+                                <td>Sync Events</td>
+                                <td>Every 15 min</td>
+                                <td>2026-08-22 12:30</td>
+                                <td>2026-08-22 12:45</td>
+                                <td><span class="status-badge status-active">✓ Running</span></td>
+                            </tr>
+                            <tr>
+                                <td>Sync Live Events</td>
+                                <td>Every 5 sec</td>
+                                <td>2026-08-22 12:31:55</td>
+                                <td>2026-08-22 12:32:00</td>
+                                <td><span class="status-badge status-active">✓ Running</span></td>
+                            </tr>
+                            <tr>
+                                <td>Sync News</td>
+                                <td>Every 30 min</td>
+                                <td>2026-08-22 12:00</td>
+                                <td>2026-08-22 12:30</td>
+                                <td><span class="status-badge status-active">✓ Success</span></td>
+                            </tr>
+                            <tr>
+                                <td>Generate Predictions</td>
+                                <td>Hourly</td>
+                                <td>2026-08-22 12:15</td>
+                                <td>2026-08-22 13:15</td>
+                                <td><span class="status-badge status-active">✓ Success</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- FEATURED EVENTS SECTION -->
+            <section id="featured" class="content-section" style="display: none;">
+                <div class="header-section">
+                    <div>
+                        <h1 class="header-title">Featured Events</h1>
+                        <p style="color: var(--neutral-500); margin-top: 0.5rem;">Manage promoted events on home page</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-primary">+ Add Featured Event</button>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3 class="section-title">⭐ Currently Featured</h3>
+                    <div class="featured-grid">
+                        <div class="featured-item">
+                            <div class="featured-info">
+                                <h4>Man City vs Man United</h4>
+                                <p>Premier League • Today 23:00</p>
+                            </div>
+                            <div class="featured-actions">
+                                <button class="btn btn-sm btn-outline">Edit</button>
+                                <button class="btn btn-sm btn-outline">Remove</button>
+                            </div>
+                        </div>
+                        <div class="featured-item">
+                            <div class="featured-info">
+                                <h4>Barcelona vs Real Madrid</h4>
+                                <p>La Liga • Tomorrow 20:45</p>
+                            </div>
+                            <div class="featured-actions">
+                                <button class="btn btn-sm btn-outline">Edit</button>
+                                <button class="btn btn-sm btn-outline">Remove</button>
+                            </div>
+                        </div>
+                        <div class="featured-item">
+                            <div class="featured-info">
+                                <h4>Lakers vs Celtics</h4>
+                                <p>NBA • Today 19:30</p>
+                            </div>
+                            <div class="featured-actions">
+                                <button class="btn btn-sm btn-outline">Edit</button>
+                                <button class="btn btn-sm btn-outline">Remove</button>
+                            </div>
+                        </div>
+                        <div class="featured-item">
+                            <div class="featured-info">
+                                <h4>Cowboys vs 49ers</h4>
+                                <p>NFL • Next Sunday 21:00</p>
+                            </div>
+                            <div class="featured-actions">
+                                <button class="btn btn-sm btn-outline">Edit</button>
+                                <button class="btn btn-sm btn-outline">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PREDICTIONS SECTION -->
+            <section id="predictions" class="content-section" style="display: none;">
+                <div class="header-section">
+                    <div>
+                        <h1 class="header-title">Predictions</h1>
+                        <p style="color: var(--neutral-500); margin-top: 0.5rem;">Model performance & configuration</p>
+                    </div>
+                </div>
+
+                <div class="grid" style="grid-template-columns: repeat(2, 1fr);">
+                    <div class="prediction-stats">
+                        <div class="prediction-stat">
+                            <div class="prediction-stat-title">Total Predictions</div>
+                            <div class="prediction-stat-value">12,547</div>
+                            <div class="prediction-stat-sub">This month</div>
+                        </div>
+                        <div class="prediction-stat">
+                            <div class="prediction-stat-title">Model Accuracy</div>
+                            <div class="prediction-stat-value">73.5%</div>
+                            <div class="prediction-stat-sub">Last 1000 predictions</div>
+                        </div>
+                    </div>
+                    <div class="prediction-stats">
+                        <div class="prediction-stat">
+                            <div class="prediction-stat-title">Avg Confidence</div>
+                            <div class="prediction-stat-value">68.2%</div>
+                            <div class="prediction-stat-sub">All predictions</div>
+                        </div>
+                        <div class="prediction-stat">
+                            <div class="prediction-stat-title">User Predictions</div>
+                            <div class="prediction-stat-value">28,341</div>
+                            <div class="prediction-stat-sub">Submitted this month</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3 class="section-title">📈 Prediction Accuracy by Sport</h3>
+                    <table class="table" style="font-size: 0.875rem;">
+                        <thead>
+                            <tr>
+                                <th>Sport</th>
+                                <th>Total Predictions</th>
+                                <th>Correct</th>
+                                <th>Accuracy</th>
+                                <th>Avg Confidence</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Football</strong></td>
+                                <td>4,250</td>
+                                <td>3,120</td>
+                                <td><strong>73.4%</strong></td>
+                                <td>67.8%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Basketball</strong></td>
+                                <td>3,450</td>
+                                <td>2,580</td>
+                                <td><strong>74.8%</strong></td>
+                                <td>71.2%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>American Football</strong></td>
+                                <td>2,100</td>
+                                <td>1,470</td>
+                                <td><strong>70.0%</strong></td>
+                                <td>65.4%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ice Hockey</strong></td>
+                                <td>1,850</td>
+                                <td>1,406</td>
+                                <td><strong>76.0%</strong></td>
+                                <td>72.1%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Formula 1</strong></td>
+                                <td>897</td>
+                                <td>652</td>
+                                <td><strong>72.7%</strong></td>
+                                <td>68.3%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- NEWS SECTION -->
+            <section id="news" class="content-section" style="display: none;">
+                <div class="header-section">
+                    <div>
+                        <h1 class="header-title">News Management</h1>
+                        <p style="color: var(--neutral-500); margin-top: 0.5rem;">Featured news & featured articles</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-primary">+ Feature Article</button>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3 class="section-title">📰 Featured Articles</h3>
+                    <p style="color: var(--neutral-500); font-size: 0.875rem; margin-bottom: 1rem;">Articles displayed on home page</p>
+                    <table class="table" style="font-size: 0.875rem;">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Source</th>
+                                <th>Sport</th>
+                                <th>Published</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Arsenal Eyes Top Four Spot</td>
+                                <td>ESPN</td>
+                                <td>Football</td>
+                                <td>2 hours ago</td>
+                                <td><span class="status-badge status-active">✓ Featured</span></td>
+                                <td><button class="btn btn-sm btn-outline">Unfeature</button></td>
+                            </tr>
+                            <tr>
+                                <td>Lakers Dominate Celtics</td>
+                                <td>Sports.com</td>
+                                <td>Basketball</td>
+                                <td>1 hour ago</td>
+                                <td><span class="status-badge status-active">✓ Featured</span></td>
+                                <td><button class="btn btn-sm btn-outline">Unfeature</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- USERS SECTION -->
+            <section id="users" class="content-section" style="display: none;">
+                <div class="header-section">
+                    <div>
+                        <h1 class="header-title">Users</h1>
+                        <p style="color: var(--neutral-500); margin-top: 0.5rem;">Active users & gamification stats</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-outline">📊 Export Users</button>
+                    </div>
+                </div>
+
+                <div class="grid">
+                    <div class="stat-card">
+                        <div class="stat-label">👥 Total Users</div>
+                        <div class="stat-value">48,234</div>
+                        <div class="stat-change positive">↑ 23% this month</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">🔴 Active Today</div>
+                        <div class="stat-value">5,842</div>
+                        <div class="stat-change positive">↑ 12% vs yesterday</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">📱 Active This Week</div>
+                        <div class="stat-value">18,456</div>
+                        <div class="stat-change positive">↑ 8% vs last week</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">🤖 Predictions Submitted</div>
+                        <div class="stat-value">285,432</div>
+                        <div class="stat-change positive">↑ 31% this month</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SETTINGS SECTION -->
+            <section id="settings" class="content-section" style="display: none;">
+                <div class="header-section">
+                    <div>
+                        <h1 class="header-title">Settings</h1>
+                        <p style="color: var(--neutral-500); margin-top: 0.5rem;">Platform configuration</p>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3 class="section-title">⚙️ General Settings</h3>
+                    <div style="space-y: 1.5rem;">
+                        <div style="padding-bottom: 1.5rem; border-bottom: 1px solid var(--neutral-200);">
+                            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Platform Name</label>
+                            <input type="text" value="WAGERline" style="width: 100%; padding: 0.75rem; border: 1px solid var(--neutral-200); border-radius: 6px; font-size: 1rem;">
+                        </div>
+                        <div style="padding-bottom: 1.5rem; border-bottom: 1px solid var(--neutral-200);">
+                            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Default Language</label>
+                            <select style="width: 100%; padding: 0.75rem; border: 1px solid var(--neutral-200); border-radius: 6px; font-size: 1rem;">
+                                <option>English</option>
+                                <option>Spanish</option>
+                                <option>Arabic</option>
+                            </select>
+                        </div>
+                        <div style="padding-bottom: 1.5rem; border-bottom: 1px solid var(--neutral-200);">
+                            <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Cache TTL (hours)</label>
+                            <input type="number" value="24" style="width: 100%; padding: 0.75rem; border: 1px solid var(--neutral-200); border-radius: 6px; font-size: 1rem;">
+                        </div>
+                        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                            <button class="btn btn-primary">💾 Save Changes</button>
+                            <button class="btn btn-outline">↺ Reset to Defaults</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.style.display = 'none';
+            });
+
+            // Show selected section
+            document.getElementById(sectionId).style.display = 'block';
+
+            // Update sidebar active state
+            document.querySelectorAll('.sidebar-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.closest('.sidebar-link').classList.add('active');
+
+            // Scroll to top
+            document.querySelector('.main').scrollTop = 0;
+        }
+
+        // Add click handlers to sync buttons
+        document.querySelectorAll('.sync-button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.classList.add('loading');
+                setTimeout(() => {
+                    this.classList.remove('loading');
+                    alert('Sync operation completed!');
+                }, 3000);
+            });
+        });
+    </script>
+</body>
+</html>

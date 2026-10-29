@@ -1,0 +1,156 @@
+   0,    0  1920x1553 r=      FRAME     bg=                   | Design
+   0,    0  1920x1553 r=      FRAME     bg=                   | Frame 3
+   0,    0  1920x44   r=      FRAME     bg=                   | Frame 6
+   0,    0   108x44   r=      FRAME     bg=                   | Container
+ 108,    0  1609x44   r=      FRAME     bg=rgba(58,42,182,1)  | Frame 4
+ 108,    0   172x44   r=      FRAME     bg=rgba(255,255,255,1) | Button
+ 280,    0   175x44   r=      FRAME     bg=                   | Button
+ 455,    0   189x44   r=      FRAME     bg=                   | Button
+ 644,    0   192x44   r=      FRAME     bg=                   | Button
+1717,    0   203x44   r=      FRAME     bg=rgba(58,42,182,1)  | Button
+1769,   12   109x20   r=      FRAME     bg=                   | Frame 419949
+1769,   12    81x20   r=      FRAME     bg=                   | Frame 1
+   0,   44  1920x118  r=      FRAME     bg=rgba(255,255,255,1) | Container
+  44,   68   465x70   r=      FRAME     bg=                   | Frame 5
+  44,   68   465x70   r=      FRAME     bg=                   | Container
+  44,   68   450x40   r=      FRAME     bg=                   | Heading 2
+ 242,   76   137x23   r=33554400 FRAME     bg=rgba(238,242,255,1) | Text
+  44,  116   465x22   r=      FRAME     bg=                   | Paragraph
+   0,  162  1920x1391 r=      FRAME     bg=rgba(251,251,252,1) | Main Content
+ 260,  194  1400x1327 r=      FRAME     bg=                   | Frame 1
+ 260,  194  1400x32   r=      FRAME     bg=                   | Container
+ 260,  194   521x32   r=      FRAME     bg=                   | Frame 2
+ 260,  194    59x32   r=6     FRAME     bg=rgba(255,255,255,1) | Button
+ 327,  194    86x32   r=6     FRAME     bg=rgba(241,245,249,1) | Button
+ 421,  194   124x32   r=6     FRAME     bg=rgba(241,245,249,1) | Button
+ 553,  194    75x32   r=6     FRAME     bg=rgba(241,245,249,1) | Button
+ 636,  194   145x32   r=6     FRAME     bg=rgba(241,245,249,1) | Button
+1269,  194   391x32   r=      FRAME     bg=                   | Container
+1269,  194    83x32   r=6     FRAME     bg=rgba(255,255,255,1) | Button
+1360,  194   118x32   r=6     FRAME     bg=rgba(255,255,255,1) | Container
+1486,  194   174x32   r=6     FRAME     bg=rgba(255,255,255,1) | Container
+ 260,  250  1400x1271 r=      FRAME     bg=                   | GeneralPage
+ 260,  250  1400x196  r=      FRAME     bg=                   | Container
+ 260,  250   451x196  r=16    FRAME     bg=rgba(255,255,255,1) | Container
+ 630,  203   128x128  r=33554400 FRAME     bg=rgba(79,57,246,1)  | Container
+ 281,  271   409x56   r=      FRAME     bg=                   | Container
+ 281,  271   231x37   r=      FRAME     bg=                   | Container
+ 281,  289   231x19   r=      FRAME     bg=                   | Paragraph
+ 281,  327   409x53   r=      FRAME     bg=                   | Container
+ 281,  327   119x53   r=      FRAME     bg=                   | Frame 7
+ 281,  327   119x40   r=      FRAME     bg=                   | Frame 9
+ 281,  327    81x40   r=      FRAME     bg=                   | Text
+ 417,  335    92x45   r=      FRAME     bg=                   | Frame 8
+ 417,  335    73x26   r=33554400 FRAME     bg=rgba(236,253,245,1) | Text
+ 281,  380   409x49   r=      FRAME     bg=                   | Container (margin)
+ 281,  396   409x33   r=      FRAME     bg=                   | Container
+ 735,  250   451x196  r=16    FRAME     bg=rgba(255,255,255,1) | Container
+1105,  203   128x128  r=33554400 FRAME     bg=rgba(21,93,252,1)  | Container
+ 756,  271   409x56   r=      FRAME     bg=                   | Container
+ 756,  271   166x37   r=      FRAME     bg=                   | Container
+ 756,  289   146x19   r=      FRAME     bg=                   | Paragraph
+ 756,  327   409x53   r=      FRAME     bg=                   | Container
+ 756,  327   119x53   r=      FRAME     bg=                   | Frame 7
+ 756,  327   119x40   r=      FRAME     bg=                   | Frame 9
+ 756,  327    81x40   r=      FRAME     bg=                   | Text
+ 892,  335    92x45   r=      FRAME     bg=                   | Frame 8
+ 892,  335    66x26   r=33554400 FRAME     bg=rgba(236,253,245,1) | Text
+ 756,  380   409x49   r=      FRAME     bg=                   | Container (margin)
+ 756,  396   409x33   r=      FRAME     bg=                   | Container
+1209,  250   451x196  r=16    FRAME     bg=rgba(255,255,255,1) | Container
+1580,  203   128x128  r=33554400 FRAME     bg=rgba(225,113,0,1)  | Container
+1230,  271   409x56   r=      FRAME     bg=                   | Container
+1230,  271   193x37   r=      FRAME     bg=                   | Container
+1230,  289   139x19   r=      FRAME     bg=                   | Paragraph
+1230,  327   409x53   r=      FRAME     bg=                   | Container
+1230,  327   119x53   r=      FRAME     bg=                   | Frame 7
+1230,  327   119x40   r=      FRAME     bg=                   | Frame 9
+1230,  327    81x40   r=      FRAME     bg=                   | Text
+1367,  335    92x45   r=      FRAME     bg=                   | Frame 8
+1367,  335    65x26   r=33554400 FRAME     bg=rgba(236,253,245,1) | Text
+1230,  380   409x49   r=      FRAME     bg=                   | Container (margin)
+1230,  396   409x33   r=      FRAME     bg=                   | Container
+ 260,  470  1400x581  r=      FRAME     bg=                   | Container
+ 260,  470   987x581  r=16    FRAME     bg=rgba(255,255,255,1) | Container
+ 285,  495   937x48   r=      FRAME     bg=                   | Container
+ 285,  495   340x48   r=      FRAME     bg=                   | Container
+ 285,  495   340x24   r=      FRAME     bg=                   | Heading 3
+ 285,  523   340x20   r=      FRAME     bg=                   | Paragraph
+1087,  507   135x24   r=33554400 FRAME     bg=rgba(238,242,255,1) | Text
+ 285,  567   937x153  r=      FRAME     bg=                   | Container (margin)
+ 285,  567   937x153  r=      FRAME     bg=                   | Container
+ 285,  567   171x153  r=12    FRAME     bg=rgba(255,243,246,1) | Container
+ 302,  584   137x40   r=      FRAME     bg=                   | Container (margin)
+ 302,  624   137x32   r=      FRAME     bg=                   | Heading 4
+ 302,  656   137x20   r=      FRAME     bg=                   | Paragraph
+ 302,  676   137x27   r=      FRAME     bg=                   | Inline content
+ 329,  684    84x19   r=33554400 FRAME     bg=                   | Container
+ 476,  567   171x153  r=12    FRAME     bg=rgba(247,255,255,1) | Container
+ 493,  584   137x40   r=      FRAME     bg=                   | Container (margin)
+ 493,  624   137x32   r=      FRAME     bg=                   | Heading 4
+ 493,  656   137x20   r=      FRAME     bg=                   | Paragraph
+ 493,  676   137x27   r=      FRAME     bg=                   | Inline content
+ 520,  684    84x19   r=33554400 FRAME     bg=                   | Container
+ 668,  567   171x153  r=12    FRAME     bg=rgba(255,252,241,1) | Container
+ 685,  584   137x40   r=      FRAME     bg=                   | Container (margin)
+ 685,  624   137x32   r=      FRAME     bg=                   | Heading 4
+ 685,  656   137x20   r=      FRAME     bg=                   | Paragraph
+ 685,  676   137x27   r=      FRAME     bg=                   | Inline content
+ 710,  684    86x19   r=33554400 FRAME     bg=                   | Container
+ 859,  567   171x153  r=12    FRAME     bg=rgba(241,245,249,1) | Container
+ 876,  584   137x40   r=      FRAME     bg=                   | Container (margin)
+ 876,  624   137x32   r=      FRAME     bg=                   | Heading 4
+ 876,  656   137x20   r=      FRAME     bg=                   | Paragraph
+ 876,  676   137x27   r=      FRAME     bg=                   | Inline content
+ 904,  684    83x19   r=33554400 FRAME     bg=                   | Container
+1050,  567   171x153  r=12    FRAME     bg=rgba(255,251,246,1) | Container
+1067,  584   137x40   r=      FRAME     bg=                   | Container (margin)
+1067,  624   137x32   r=      FRAME     bg=                   | Heading 4
+1067,  656   137x20   r=      FRAME     bg=                   | Paragraph
+1067,  676   137x27   r=      FRAME     bg=                   | Inline content
+1095,  684    82x19   r=33554400 FRAME     bg=                   | Container
+ 285,  744   937x230  r=      FRAME     bg=                   | Container
+ 285,  744   937x26   r=      FRAME     bg=                   | Table Header
+ 285,  770   937x41   r=      FRAME     bg=                   | Table Row
+ 285,  811   937x41   r=      FRAME     bg=                   | Table Row
+ 285,  852   937x41   r=      FRAME     bg=                   | Table Row
+ 285,  893   937x40   r=      FRAME     bg=                   | Table Row
+ 285,  933   937x40   r=      FRAME     bg=                   | Table Row
+ 285,  998   937x28   r=      FRAME     bg=                   | Container
+1271,  470   389x581  r=      FRAME     bg=                   | Container
+1271,  470   389x297  r=16    FRAME     bg=                   | Container
+1292,  491   347x20   r=      FRAME     bg=                   | Heading 3
+1292,  527   339x175  r=      FRAME     bg=                   | Container
+1292,  527   339x60   r=      FRAME     bg=                   | Frame 11
+1292,  527   170x60   r=      FRAME     bg=                   | Container
+1461,  527   170x60   r=      FRAME     bg=                   | Container
+1292,  603   339x99   r=8     FRAME     bg=rgba(238,242,255,1) | Container
+1304,  615   315x35   r=      FRAME     bg=                   | Frame 14
+1304,  630   313x20   r=      FRAME     bg=                   | Paragraph
+1304,  666   313x24   r=      FRAME     bg=                   | Container
+1292,  718   347x28   r=      FRAME     bg=                   | Container (margin)
+1292,  718   347x28   r=      FRAME     bg=                   | Container
+1271,  791   389x260  r=16    FRAME     bg=rgba(255,255,255,1) | Container
+1292,  812   347x20   r=      FRAME     bg=                   | Heading 3
+1292,  848   347x126  r=      FRAME     bg=                   | Paragraph
+1292,  990   347x40   r=      FRAME     bg=                   | Container (margin)
+1292, 1002   347x28   r=      FRAME     bg=                   | Container
+ 260, 1075  1400x446  r=16    FRAME     bg=rgba(255,255,255,1) | Container
+ 281, 1096  1358x48   r=      FRAME     bg=                   | Container
+ 281, 1096   340x48   r=      FRAME     bg=                   | Container
+ 281, 1096   340x24   r=      FRAME     bg=                   | Heading 3
+ 281, 1124   340x20   r=      FRAME     bg=                   | Paragraph
+ 281, 1168  1358x280  r=      FRAME     bg=                   | Frame 12
+ 281, 1168   642x280  r=      GROUP     bg=                   | Group
+ 281, 1168   642x280  r=      GROUP     bg=                   | Group
+ 281, 1168   177x134  r=      GROUP     bg=                   | Group
+ 971, 1169   668x278  r=      FRAME     bg=                   | Container
+ 971, 1169   668x26   r=      FRAME     bg=                   | Table Header
+ 971, 1195   668x36   r=      FRAME     bg=                   | Table Row
+ 971, 1231   668x36   r=      FRAME     bg=                   | Table Row
+ 971, 1267   668x36   r=      FRAME     bg=                   | Table Row
+ 971, 1303   668x36   r=      FRAME     bg=                   | Table Row
+ 971, 1339   668x36   r=      FRAME     bg=                   | Table Row
+ 971, 1375   668x36   r=      FRAME     bg=                   | Table Row
+ 971, 1411   668x36   r=      FRAME     bg=                   | Table Row
+ 281, 1472  1358x28   r=      FRAME     bg=                   | Container

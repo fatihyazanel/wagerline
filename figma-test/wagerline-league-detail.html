@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premier League - WAGERline</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-page: #050817;
+            --bg-card: #0B1020;
+            --bg-card-2: #0E1426;
+            --border: rgba(255,255,255,0.10);
+            --text-primary: #F7F8FA;
+            --text-secondary: #C7CBD5;
+            --text-muted: #7D8494;
+            --brand-yellow: #FFD400;
+            --live-red: #FF3038;
+            --green: #20D879;
+            --blue: #2F8CFF;
+        }
+
+        body {
+            background: var(--bg-page);
+            color: var(--text-primary);
+            font-family: Inter, sans-serif;
+            margin: 0;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: var(--bg-page);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+            z-index: 100;
+            white-space: nowrap;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 48px;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .logo-yellow {
+            color: var(--brand-yellow);
+        }
+
+        .nav {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .nav-item {
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: color 0.3s;
+            position: relative;
+            padding-bottom: 8px;
+        }
+
+        .nav-item.active {
+            color: var(--brand-yellow);
+        }
+
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--brand-yellow);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .search-box {
+            background: rgba(255,255,255,0.025);
+            border: 1px solid rgba(255,255,255,0.10);
+            padding: 8px 16px;
+            border-radius: 18px;
+            width: 275px;
+            height: 36px;
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        .lang-dropdown {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 13px;
+            min-width: 70px;
+        }
+
+        .btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-login {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.18);
+            color: var(--text-secondary);
+        }
+
+        .btn-signup {
+            background: var(--brand-yellow);
+            color: var(--bg-page);
+            font-weight: 700;
+        }
+
+        .page {
+            width: 100%;
+            padding: 60px 15px 0;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            min-height: calc(100vh - 60px);
+        }
+
+        .page-header {
+            margin-bottom: 14px;
+        }
+
+        .league-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 8px;
+        }
+
+        .league-logo {
+            font-size: 48px;
+        }
+
+        .league-info h1 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .league-meta {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 24px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 14px;
+            padding-bottom: 12px;
+        }
+
+        .tab {
+            padding-bottom: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .tab.active {
+            color: var(--brand-yellow);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--brand-yellow);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px;
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .standings-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        .standings-header {
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .standings-header th {
+            text-align: left;
+            padding: 8px 4px;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 11px;
+        }
+
+        .standings-row {
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+
+        .standings-row:hover {
+            background: var(--bg-card-2);
+        }
+
+        .standings-row td {
+            padding: 8px 4px;
+            color: var(--text-primary);
+        }
+
+        .team-cell {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .team-logo {
+            width: 20px;
+            height: 20px;
+            background: var(--bg-card-2);
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .team-name {
+            color: var(--text-primary);
+        }
+
+        .stat-cell {
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .points-cell {
+            text-align: center;
+            color: var(--brand-yellow);
+            font-weight: 700;
+        }
+
+        .form-indicator {
+            display: flex;
+            gap: 2px;
+        }
+
+        .form-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        .form-win {
+            background: var(--green);
+        }
+
+        .form-draw {
+            background: var(--text-muted);
+        }
+
+        .form-loss {
+            background: var(--live-red);
+        }
+
+        .upcoming-events {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .event-item {
+            background: var(--bg-card-2);
+            border: 1px solid rgba(255,255,255,0.06);
+            padding: 10px;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .event-date {
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+
+        .event-match {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .event-team {
+            font-size: 11px;
+            font-weight: 600;
+            flex: 1;
+        }
+
+        .event-vs {
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+
+        .top-teams-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 8px;
+        }
+
+        .top-team-card {
+            background: var(--bg-card-2);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .top-team-card:hover {
+            border-color: var(--brand-yellow);
+        }
+
+        .team-rank {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--brand-yellow);
+            margin-bottom: 4px;
+        }
+
+        .team-icon {
+            font-size: 32px;
+            margin-bottom: 6px;
+        }
+
+        .team-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .team-record {
+            font-size: 9px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding: 24px 15px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .footer-right {
+            display: flex;
+            gap: 24px;
+        }
+
+        @media (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <div class="logo">
+                WAGER<span class="logo-yellow">line</span>
+            </div>
+            <ul class="nav">
+                <li class="nav-item"><a href="wagerline-d1.html" style="color:inherit;text-decoration:none">Home</a></li>
+                <li class="nav-item"><a href="wagerline-live.html" style="color:inherit;text-decoration:none">Live</a></li>
+                <li class="nav-item"><a href="wagerline-sports.html" style="color:inherit;text-decoration:none">Sports</a></li>
+                <li class="nav-item active"><a href="wagerline-league-detail.html" style="color:inherit;text-decoration:none">Leagues</a></li>
+                <li class="nav-item"><a href="wagerline-predictions.html" style="color:inherit;text-decoration:none">Predictions</a></li>
+                <li class="nav-item">Stats</li>
+                <li class="nav-item">News</li>
+                <li class="nav-item">Rewards</li>
+            </ul>
+        </div>
+        <div class="header-right">
+            <input type="text" class="search-box" placeholder="Search teams, players...">
+            <select class="lang-dropdown">
+                <option>EN</option>
+                <option>ES</option>
+                <option>AR</option>
+            </select>
+            <button class="btn btn-login">Login</button>
+            <button class="btn btn-signup">Sign Up</button>
+        </div>
+    </div>
+
+    <div class="page">
+        <main>
+            <div class="page-header">
+                <div class="league-header">
+                    <div class="league-logo">🏴󠁧󠁢󠁥󠁮󠁧󠁿</div>
+                    <div class="league-info">
+                        <h1>Premier League</h1>
+                        <div class="league-meta">2025/2026 Season • 20 Teams • England</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <div class="tab active">Standings</div>
+                <div class="tab">Fixtures</div>
+                <div class="tab">Teams</div>
+                <div class="tab">Stats</div>
+            </div>
+
+            <div class="content-grid">
+                <div class="card">
+                    <div class="card-title">League Standings</div>
+                    <table class="standings-table">
+                        <thead class="standings-header">
+                            <tr>
+                                <th>#</th>
+                                <th>Team</th>
+                                <th>P</th>
+                                <th>W</th>
+                                <th>D</th>
+                                <th>L</th>
+                                <th>GF</th>
+                                <th>GA</th>
+                                <th>GD</th>
+                                <th>Pts</th>
+                                <th>Form</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="standings-row">
+                                <td>1</td>
+                                <td><div class="team-cell"><div class="team-logo">🔵</div><span class="team-name">Man City</span></div></td>
+                                <td class="stat-cell">10</td>
+                                <td class="stat-cell">8</td>
+                                <td class="stat-cell">1</td>
+                                <td class="stat-cell">1</td>
+                                <td class="stat-cell">24</td>
+                                <td class="stat-cell">8</td>
+                                <td class="stat-cell">+16</td>
+                                <td class="points-cell">25</td>
+                                <td><div class="form-indicator"><div class="form-dot form-win"></div><div class="form-dot form-win"></div><div class="form-dot form-draw"></div><div class="form-dot form-win"></div><div class="form-dot form-win"></div></div></td>
+                            </tr>
+                            <tr class="standings-row">
+                                <td>2</td>
+                                <td><div class="team-cell"><div class="team-logo">🔴</div><span class="team-name">Arsenal</span></div></td>
+                                <td class="stat-cell">10</td>
+                                <td class="stat-cell">7</td>
+                                <td class="stat-cell">2</td>
+                                <td class="stat-cell">1</td>
+                                <td class="stat-cell">21</td>
+                                <td class="stat-cell">9</td>
+                                <td class="stat-cell">+12</td>
+                                <td class="points-cell">23</td>
+                                <td><div class="form-indicator"><div class="form-dot form-win"></div><div class="form-dot form-draw"></div><div class="form-dot form-win"></div><div class="form-dot form-win"></div><div class="form-dot form-win"></div></div></td>
+                            </tr>
+                            <tr class="standings-row">
+                                <td>3</td>
+                                <td><div class="team-cell"><div class="team-logo">🔴</div><span class="team-name">Liverpool</span></div></td>
+                                <td class="stat-cell">10</td>
+                                <td class="stat-cell">7</td>
+                                <td class="stat-cell">1</td>
+                                <td class="stat-cell">2</td>
+                                <td class="stat-cell">20</td>
+                                <td class="stat-cell">11</td>
+                                <td class="stat-cell">+9</td>
+                                <td class="points-cell">22</td>
+                                <td><div class="form-indicator"><div class="form-dot form-win"></div><div class="form-dot form-win"></div><div class="form-dot form-loss"></div><div class="form-dot form-win"></div><div class="form-dot form-win"></div></div></td>
+                            </tr>
+                            <tr class="standings-row">
+                                <td>4</td>
+                                <td><div class="team-cell"><div class="team-logo">💜</div><span class="team-name">Aston Villa</span></div></td>
+                                <td class="stat-cell">10</td>
+                                <td class="stat-cell">6</td>
+                                <td class="stat-cell">2</td>
+                                <td class="stat-cell">2</td>
+                                <td class="stat-cell">18</td>
+                                <td class="stat-cell">12</td>
+                                <td class="stat-cell">+6</td>
+                                <td class="points-cell">20</td>
+                                <td><div class="form-indicator"><div class="form-dot form-draw"></div><div class="form-dot form-win"></div><div class="form-dot form-win"></div><div class="form-dot form-loss"></div><div class="form-dot form-win"></div></div></td>
+                            </tr>
+                            <tr class="standings-row">
+                                <td>5</td>
+                                <td><div class="team-cell"><div class="team-logo">⚪</div><span class="team-name">Tottenham</span></div></td>
+                                <td class="stat-cell">10</td>
+                                <td class="stat-cell">6</td>
+                                <td class="stat-cell">1</td>
+                                <td class="stat-cell">3</td>
+                                <td class="stat-cell">19</td>
+                                <td class="stat-cell">14</td>
+                                <td class="stat-cell">+5</td>
+                                <td class="points-cell">19</td>
+                                <td><div class="form-indicator"><div class="form-dot form-win"></div><div class="form-dot form-loss"></div><div class="form-dot form-win"></div><div class="form-dot form-win"></div><div class="form-dot form-loss"></div></div></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Upcoming Matches</div>
+                    <div class="upcoming-events">
+                        <div class="event-item">
+                            <div class="event-date">Tomorrow 15:00</div>
+                            <div class="event-match">
+                                <div class="event-team">Man City</div>
+                                <div class="event-vs">vs</div>
+                                <div class="event-team">Chelsea</div>
+                            </div>
+                        </div>
+                        <div class="event-item">
+                            <div class="event-date">Tomorrow 17:30</div>
+                            <div class="event-match">
+                                <div class="event-team">Liverpool</div>
+                                <div class="event-vs">vs</div>
+                                <div class="event-team">Arsenal</div>
+                            </div>
+                        </div>
+                        <div class="event-item">
+                            <div class="event-date">Sunday 12:00</div>
+                            <div class="event-match">
+                                <div class="event-team">Tottenham</div>
+                                <div class="event-vs">vs</div>
+                                <div class="event-team">Man United</div>
+                            </div>
+                        </div>
+                        <div class="event-item">
+                            <div class="event-date">Sunday 14:30</div>
+                            <div class="event-match">
+                                <div class="event-team">Aston Villa</div>
+                                <div class="event-vs">vs</div>
+                                <div class="event-team">Brighton</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-bottom: 14px;">
+                <div class="card-title">Top Teams</div>
+                <div class="top-teams-grid">
+                    <div class="top-team-card">
+                        <div class="team-rank">1st</div>
+                        <div class="team-icon">🔵</div>
+                        <div class="team-title">Man City</div>
+                        <div class="team-record">8W 1D 1L</div>
+                    </div>
+                    <div class="top-team-card">
+                        <div class="team-rank">2nd</div>
+                        <div class="team-icon">🔴</div>
+                        <div class="team-title">Arsenal</div>
+                        <div class="team-record">7W 2D 1L</div>
+                    </div>
+                    <div class="top-team-card">
+                        <div class="team-rank">3rd</div>
+                        <div class="team-icon">🔴</div>
+                        <div class="team-title">Liverpool</div>
+                        <div class="team-record">7W 1D 2L</div>
+                    </div>
+                    <div class="top-team-card">
+                        <div class="team-rank">4th</div>
+                        <div class="team-icon">💜</div>
+                        <div class="team-title">Aston Villa</div>
+                        <div class="team-record">6W 2D 2L</div>
+                    </div>
+                    <div class="top-team-card">
+                        <div class="team-rank">5th</div>
+                        <div class="team-icon">⚪</div>
+                        <div class="team-title">Tottenham</div>
+                        <div class="team-record">6W 1D 3L</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div>WAGERline © 2026 All rights reserved.</div>
+        <div class="footer-right">
+            <div>About Us</div>
+            <div>Contact</div>
+            <div>Privacy Policy</div>
+            <div>Terms of Use</div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WAGERline - Design System & Components</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1E40AF;
+            --primary-light: #3B82F6;
+            --primary-dark: #1E3A8A;
+            --secondary: #F97316;
+            --secondary-light: #FB923C;
+            --accent: #06B6D4;
+            --accent-light: #22D3EE;
+            --success: #10B981;
+            --danger: #EF4444;
+            --warning: #F59E0B;
+            --neutral-50: #F9FAFB;
+            --neutral-100: #F3F4F6;
+            --neutral-200: #E5E7EB;
+            --neutral-500: #6B7280;
+            --neutral-700: #374151;
+            --neutral-900: #111827;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--neutral-50);
+            color: var(--neutral-900);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 3rem 2rem;
+            margin: -2rem -2rem 3rem -2rem;
+            border-radius: 0 0 20px 20px;
+        }
+
+        .header h1 {
+            font-size: 2.25rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            letter-spacing: -1px;
+        }
+
+        .header p {
+            font-size: 1.125rem;
+            opacity: 0.95;
+        }
+
+        /* ============ COMPONENT GRID ============ */
+        .components-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .component-card {
+            background: white;
+            border: 1px solid var(--neutral-200);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .component-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .component-preview {
+            background: var(--neutral-100);
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100px;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .component-info {
+            background: linear-gradient(135deg, #F0F4FF, #F0F8FF);
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            color: var(--primary);
+            border-left: 3px solid var(--primary);
+        }
+
+        /* ============ BUTTONS ============ */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.2);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: var(--secondary-light);
+        }
+
+        .btn-outline {
+            background: white;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--neutral-100);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            opacity: 0.9;
+        }
+
+        .btn-lg {
+            padding: 1rem 2rem;
+            font-size: 1.125rem;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* ============ BADGES ============ */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .badge-primary {
+            background: #DBEAFE;
+            color: var(--primary);
+        }
+
+        .badge-success {
+            background: #DCFCE7;
+            color: var(--success);
+        }
+
+        .badge-danger {
+            background: #FEE2E2;
+            color: var(--danger);
+        }
+
+        .badge-warning {
+            background: #FEF3C7;
+            color: var(--warning);
+        }
+
+        /* ============ CARDS ============ */
+        .card {
+            background: white;
+            border: 1px solid var(--neutral-200);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 8px 24px rgba(30, 64, 175, 0.1);
+            transform: translateY(-4px);
+        }
+
+        .card-title {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-subtitle {
+            font-size: 0.875rem;
+            color: var(--neutral-500);
+            margin-bottom: 1rem;
+        }
+
+        /* ============ ALERT ============ */
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid;
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .alert-info {
+            background: #ECF8FF;
+            border-color: var(--accent);
+            color: var(--primary);
+        }
+
+        .alert-success {
+            background: #ECFDF5;
+            border-color: var(--success);
+            color: var(--success);
+        }
+
+        .alert-warning {
+            background: #FFFBEB;
+            border-color: var(--warning);
+            color: var(--warning);
+        }
+
+        .alert-danger {
+            background: #FEF2F2;
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        .alert-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        /* ============ FORM ELEMENTS ============ */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--neutral-900);
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--neutral-200);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* ============ TABS ============ */
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            border-bottom: 2px solid var(--neutral-200);
+            margin-bottom: 1.5rem;
+        }
+
+        .tab {
+            background: none;
+            border: none;
+            padding: 1rem 0;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--neutral-500);
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab:hover,
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        /* ============ PROGRESS ============ */
+        .progress {
+            width: 100%;
+            height: 8px;
+            background: var(--neutral-200);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.3s;
+        }
+
+        /* ============ MODAL ============ */
+        .modal-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-backdrop.active {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .modal-body {
+            margin-bottom: 1.5rem;
+            color: var(--neutral-700);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        /* ============ TOOLTIP ============ */
+        .tooltip-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip {
+            visibility: hidden;
+            background: var(--neutral-900);
+            color: white;
+            text-align: center;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            font-size: 0.875rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: var(--neutral-900) transparent transparent transparent;
+        }
+
+        .tooltip-container:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* ============ STATS ============ */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        @media (max-width: 1024px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 640px) {
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+
+        .stat-box {
+            background: white;
+            border: 1px solid var(--neutral-200);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .stat-value {
+            font-size: 1.875rem;
+            font-weight: 900;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--neutral-500);
+            font-weight: 600;
+        }
+
+        /* ============ SKELETON ============ */
+        .skeleton {
+            background: linear-gradient(90deg, var(--neutral-200) 25%, var(--neutral-100) 50%, var(--neutral-200) 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: 8px;
+        }
+
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .skeleton-text {
+            height: 16px;
+            margin-bottom: 0.75rem;
+        }
+
+        .skeleton-text:last-child {
+            margin-bottom: 0;
+        }
+
+        .skeleton-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        /* ============ PAGINATION ============ */
+        .pagination {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .pagination-item {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid var(--neutral-200);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .pagination-item:hover {
+            border-color: var(--primary);
+            background: var(--neutral-100);
+        }
+
+        .pagination-item.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* ============ RATING ============ */
+        .rating {
+            display: flex;
+            gap: 0.25rem;
+            font-size: 1.5rem;
+        }
+
+        .star {
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .star:hover {
+            transform: scale(1.1);
+        }
+
+        .star.active {
+            color: var(--warning);
+        }
+
+        /* ============ DIVIDER ============ */
+        .divider {
+            height: 1px;
+            background: var(--neutral-200);
+            margin: 2rem 0;
+        }
+
+        /* ============ SECTION ============ */
+        .section {
+            margin: 4rem 0 3rem 0;
+        }
+
+        .section-title {
+            font-size: 1.875rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 28px;
+            background: var(--secondary);
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <h1>⚽ WAGERline Design System</h1>
+            <p>Complete component library & style guide</p>
+        </div>
+
+        <!-- ============ COLORS ============ -->
+        <section class="section">
+            <h2 class="section-title">Color Palette</h2>
+            <div class="components-grid">
+                <div class="component-card">
+                    <div class="component-title">Primary Blue</div>
+                    <div class="component-preview">
+                        <div style="width: 100%; height: 120px; background: var(--primary); border-radius: 8px;"></div>
+                    </div>
+                    <div class="component-info">
+                        #1E40AF - Primary brand color for main actions and highlights
+                    </div>
+                </div>
+
+                <div class="component-card">
+                    <div class="component-title">Secondary Orange</div>
+                    <div class="component-preview">
+                        <div style="width: 100%; height: 120px; background: var(--secondary); border-radius: 8px;"></div>
+                    </div>
+                    <div class="component-info">
+                        #F97316 - Energy & action color for CTAs and accents
+                    </div>
+                </div>
+
+                <div class="component-card">
+                    <div class="component-title">Accent Cyan</div>
+                    <div class="component-preview">
+                        <div style="width: 100%; height: 120px; background: var(--accent); border-radius: 8px;"></div>
+                    </div>
+                    <div class="component-info">
+                        #06B6D4 - Live & dynamic color for real-time updates
+                    </div>
+                </div>
+
+                <div class="component-card">
+                    <div class="component-title">Success Green</div>
+                    <div class="component-preview">
+                        <div style="width: 100%; height: 120px; background: var(--success); border-radius: 8px;"></div>
+                    </div>
+                    <div class="component-info">
+                        #10B981 - Positive states, correct predictions, wins
+                    </div>
+                </div>
+
+                <div class="component-card">
+                    <div class="component-title">Danger Red</div>
+                    <div class="component-preview">
+                        <div style="width: 100%; height: 120px; background: var(--danger); border-radius: 8px;"></div>
+                    </div>
+                    <div class="component-info">
+                        #EF4444 - Errors, alerts, live indicators
+                    </div>
+                </div>
+
+                <div class="component-card">
+                    <div class="component-title">Warning Amber</div>
+                    <div class="component-preview">
+                        <div style="width: 100%; height: 120px; background: var(--warning); border-radius: 8px;"></div>
+                    </div>
+                    <div class="component-info">
+                        #F59E0B - Warnings, challenges, items
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ BUTTONS ============ -->
+        <section class="section">
+            <h2 class="section-title">Buttons</h2>
+            <div class="components-grid">
+                <div class="component-card">
+                    <div class="component-title">Primary Button</div>
+                    <div class="component-preview">
+                        <button class="btn btn-primary">Explore Today</button>
+                    </div>
+                    <div class="component-info">
+                        Main action buttons. Use for primary CTAs and important actions.
+                    </div>
+                </div>
+
+                <div class="component-card">
+                    <div class="component-title">Secondary Button</div>
+                    <div class="component-preview">
+                        <button class="btn btn-secondary">View Predictions</button>
+                    </div>
+                    <div class="component-info">
+                        Secondary actions. Use for CTAs that complement primary actions.
+                    </div>
+                </div>
+
+                <div class="component-card">
+                    <div class="component-title">Outline Button</div>
+                    <div class="component-preview">
+                        <button class="btn btn-outline">Learn More</button>
+                    </div>
+                    <div class="component-info">
+                        Ghost/outline style. Use for tertiary or text-based actions.
+                    </div>
+                </div>
+
+                <div class="component-card">
+                    <div class="component-title">Success Button</div>
+                    <div class="component-preview">
+                        <button class="btn btn-success">Confirm Prediction</button>
+                    </div>
+                    <div class="component-info">
+                        Positive/confirmation actions. Use for confirmations and positive states.
+                    </div>
+                </div>
+
+                <div class="component-card">
+                    <div class="component-title">Button Sizes</div>
+                    <div class="component-preview" style="gap: 0.75rem; justify-content: flex-start;">
+                        <button class="btn btn-primary btn-sm">Small</button>
+                        <button class="btn btn-primary">Default</button>
+                        <button class="btn btn-primary btn-lg">Large</button>
+                    </div>
+                    <div class="component-info">
+                        Available in 3 sizes: small, default, large
+                    </div>
+                </div>
+
+                <div class="component-card">
+                    <div class="component-title">Button States</div>
+                    <div class="component-preview" style="gap: 0.75rem; justify-content: flex-start;">
+                        <button class="btn btn-primary">Normal</button>
+                        <button class="btn btn-primary" disabled>Disabled</button>
+                    </div>
+                    <div class="component-info">
+                        Buttons have normal and disabled states
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ BADGES ============ -->
+        <section class="section">
+            <h2 class="section-title">Badges</h2>
+            <div class="components-grid">
+                <div class="component-card">
+                    <div class="component-title">Badge Colors</div>
+                    <div class="component-preview" style="gap: 0.5rem; flex-wrap: wrap;">
+                        <span class="badge badge-primary">⭐ Featured</span>
+                        <span class="badge badge-success">✓ Correct</span>
+                        <span class="badge badge-warning">⚠ Challenge</span>
+                        <span class="badge badge-danger">🔴 Live</span>
+                    </div>
+                    <div class="component-info">
+                        Labels for status, categories, and emphasis
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ CARDS ============ -->
+        <section class="section">
+            <h2 class="section-title">Cards</h2>
+            <div class="components-grid">
+                <div class="card">
+                    <div class="card-title">Event Card</div>
+                    <div class="card-subtitle">Arsenal vs Liverpool</div>
+                    <p style="margin-bottom: 1rem;">Premier League • 22:15 UTC</p>
+                    <button class="btn btn-primary" style="width: 100%;">View Details</button>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Prediction Card</div>
+                    <div class="card-subtitle">73% Confidence</div>
+                    <p style="margin-bottom: 1rem;">Home: 58% | Draw: 18% | Away: 24%</p>
+                    <button class="btn btn-primary" style="width: 100%;">Make Prediction</button>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Stat Card</div>
+                    <div class="card-subtitle">Top Form This Week</div>
+                    <div style="font-size: 1.875rem; font-weight: 900; color: var(--primary); margin-top: 0.75rem;">87.5%</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ ALERTS ============ -->
+        <section class="section">
+            <h2 class="section-title">Alerts</h2>
+            <div style="max-width: 600px;">
+                <div class="alert alert-info">
+                    <div class="alert-icon">ℹ️</div>
+                    <div>
+                        <strong>Info Alert:</strong> Use this to provide helpful information to users
+                    </div>
+                </div>
+
+                <div class="alert alert-success">
+                    <div class="alert-icon">✓</div>
+                    <div>
+                        <strong>Success Alert:</strong> Confirm successful actions or positive outcomes
+                    </div>
+                </div>
+
+                <div class="alert alert-warning">
+                    <div class="alert-icon">⚠️</div>
+                    <div>
+                        <strong>Warning Alert:</strong> Alert users to potential issues or degradation
+                    </div>
+                </div>
+
+                <div class="alert alert-danger">
+                    <div class="alert-icon">✕</div>
+                    <div>
+                        <strong>Danger Alert:</strong> Critical errors or urgent actions required
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ FORM ELEMENTS ============ -->
+        <section class="section">
+            <h2 class="section-title">Form Elements</h2>
+            <div style="max-width: 500px;">
+                <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <input type="text" placeholder="Enter your username">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" placeholder="you@example.com">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Favorite Sport</label>
+                    <select>
+                        <option>Football</option>
+                        <option>Basketball</option>
+                        <option>American Football</option>
+                        <option>Ice Hockey</option>
+                        <option>Formula 1</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Bio</label>
+                    <textarea placeholder="Tell us about yourself..."></textarea>
+                </div>
+
+                <button class="btn btn-primary">Save Changes</button>
+            </div>
+        </section>
+
+        <!-- ============ PROGRESS BARS ============ -->
+        <section class="section">
+            <h2 class="section-title">Progress Bars</h2>
+            <div style="max-width: 500px;">
+                <div style="margin-bottom: 1.5rem;">
+                    <div style="margin-bottom: 0.5rem; font-weight: 600;">XP Progress (45%)</div>
+                    <div class="progress">
+                        <div class="progress-fill" style="width: 45%;"></div>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <div style="margin-bottom: 0.5rem; font-weight: 600;">Prediction Accuracy (73%)</div>
+                    <div class="progress">
+                        <div class="progress-fill" style="width: 73%;"></div>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <div style="margin-bottom: 0.5rem; font-weight: 600;">Daily Challenge (89%)</div>
+                    <div class="progress">
+                        <div class="progress-fill" style="width: 89%;"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ STATISTICS ============ -->
+        <section class="section">
+            <h2 class="section-title">Statistics Cards</h2>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-value">342</div>
+                    <div class="stat-label">Events Today</div>
+                </div>
+
+                <div class="stat-box">
+                    <div class="stat-icon">🤖</div>
+                    <div class="stat-value">1,247</div>
+                    <div class="stat-label">Predictions</div>
+                </div>
+
+                <div class="stat-box">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-value">5,842</div>
+                    <div class="stat-label">Active Users</div>
+                </div>
+
+                <div class="stat-box">
+                    <div class="stat-icon">📈</div>
+                    <div class="stat-value">73.5%</div>
+                    <div class="stat-label">Accuracy Rate</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ SKELETON LOADERS ============ -->
+        <section class="section">
+            <h2 class="section-title">Skeleton Loaders</h2>
+            <div class="components-grid">
+                <div class="component-card">
+                    <div class="component-title">Loading State</div>
+                    <div class="component-preview" style="flex-direction: column; align-items: stretch;">
+                        <div class="skeleton skeleton-text" style="width: 80%;"></div>
+                        <div class="skeleton skeleton-text" style="width: 100%;"></div>
+                        <div class="skeleton skeleton-text" style="width: 90%;"></div>
+                    </div>
+                    <div class="component-info">
+                        Use skeleton loaders while content is loading
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ TABS ============ -->
+        <section class="section">
+            <h2 class="section-title">Tabs</h2>
+            <div style="max-width: 600px;">
+                <div class="tabs">
+                    <button class="tab active">📊 Overview</button>
+                    <button class="tab">📈 Statistics</button>
+                    <button class="tab">🔮 Predictions</button>
+                    <button class="tab">📰 News</button>
+                </div>
+                <div style="padding: 1.5rem; background: var(--neutral-100); border-radius: 8px;">
+                    <p><strong>Overview Tab Content</strong></p>
+                    <p style="margin-top: 1rem; color: var(--neutral-500);">This area shows different content based on which tab is selected.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ PAGINATION ============ -->
+        <section class="section">
+            <h2 class="section-title">Pagination</h2>
+            <div class="pagination">
+                <span class="pagination-item">←</span>
+                <span class="pagination-item">1</span>
+                <span class="pagination-item active">2</span>
+                <span class="pagination-item">3</span>
+                <span class="pagination-item">4</span>
+                <span class="pagination-item">5</span>
+                <span class="pagination-item">→</span>
+            </div>
+        </section>
+
+        <!-- ============ RATING ============ -->
+        <section class="section">
+            <h2 class="section-title">Rating Component</h2>
+            <div style="text-align: center;">
+                <p style="margin-bottom: 1rem;">Rate this prediction accuracy:</p>
+                <div class="rating">
+                    <span class="star active">★</span>
+                    <span class="star active">★</span>
+                    <span class="star active">★</span>
+                    <span class="star active">★</span>
+                    <span class="star">★</span>
+                </div>
+                <p style="margin-top: 1rem; color: var(--neutral-500);">4 out of 5 stars</p>
+            </div>
+        </section>
+
+        <!-- ============ TOOLTIP ============ -->
+        <section class="section">
+            <h2 class="section-title">Tooltip</h2>
+            <div style="text-align: center; padding: 2rem;">
+                <div class="tooltip-container">
+                    <button class="btn btn-primary">Hover over me</button>
+                    <div class="tooltip">This is a helpful tooltip!</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ FOOTER ============ -->
+        <div class="divider" style="margin-top: 4rem;"></div>
+        <footer style="padding: 2rem 0; text-align: center; color: var(--neutral-500);">
+            <p>WAGERline Design System v1.0 • © 2026 WAGERline. All rights reserved.</p>
+            <p style="margin-top: 0.5rem; font-size: 0.875rem;">
+                Built with modern web standards. Responsive, accessible, and performant.
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Tabs interactivity
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Rating component
+        document.querySelectorAll('.star').forEach((star, index) => {
+            star.addEventListener('click', function() {
+                document.querySelectorAll('.star').forEach((s, i) => {
+                    if (i <= index) {
+                        s.classList.add('active');
+                    } else {
+                        s.classList.remove('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

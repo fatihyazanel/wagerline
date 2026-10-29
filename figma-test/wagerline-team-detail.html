@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manchester City - WAGERline</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-page: #050817;
+            --bg-card: #0B1020;
+            --bg-card-2: #0E1426;
+            --border: rgba(255,255,255,0.10);
+            --text-primary: #F7F8FA;
+            --text-secondary: #C7CBD5;
+            --text-muted: #7D8494;
+            --brand-yellow: #FFD400;
+            --live-red: #FF3038;
+            --green: #20D879;
+            --blue: #2F8CFF;
+        }
+
+        body {
+            background: var(--bg-page);
+            color: var(--text-primary);
+            font-family: Inter, sans-serif;
+            margin: 0;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: var(--bg-page);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+            z-index: 100;
+            white-space: nowrap;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 48px;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .logo-yellow {
+            color: var(--brand-yellow);
+        }
+
+        .nav {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .nav-item {
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: color 0.3s;
+            position: relative;
+            padding-bottom: 8px;
+        }
+
+        .nav-item.active {
+            color: var(--brand-yellow);
+        }
+
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--brand-yellow);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .search-box {
+            background: rgba(255,255,255,0.025);
+            border: 1px solid rgba(255,255,255,0.10);
+            padding: 8px 16px;
+            border-radius: 18px;
+            width: 275px;
+            height: 36px;
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        .lang-dropdown {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 13px;
+            min-width: 70px;
+        }
+
+        .btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-login {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.18);
+            color: var(--text-secondary);
+        }
+
+        .btn-signup {
+            background: var(--brand-yellow);
+            color: var(--bg-page);
+            font-weight: 700;
+        }
+
+        .page {
+            width: 100%;
+            padding: 60px 15px 0;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            min-height: calc(100vh - 60px);
+        }
+
+        .team-header {
+            background: linear-gradient(135deg, rgba(0,150,255,0.2) 0%, rgba(255,212,0,0.1) 100%);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 14px;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .team-logo {
+            font-size: 96px;
+        }
+
+        .team-info h1 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .team-meta {
+            display: flex;
+            gap: 24px;
+            margin-top: 12px;
+            font-size: 12px;
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .meta-label {
+            color: var(--text-muted);
+        }
+
+        .meta-value {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 24px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 14px;
+            padding-bottom: 12px;
+        }
+
+        .tab {
+            padding-bottom: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .tab.active {
+            color: var(--brand-yellow);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--brand-yellow);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px;
+        }
+
+        .card-title {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .stat-box {
+            background: var(--bg-card-2);
+            border: 1px solid rgba(255,255,255,0.06);
+            padding: 8px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--brand-yellow);
+            margin-bottom: 3px;
+        }
+
+        .stat-label {
+            font-size: 9px;
+            color: var(--text-muted);
+        }
+
+        .team-roster {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .player-item {
+            background: var(--bg-card-2);
+            border: 1px solid rgba(255,255,255,0.06);
+            padding: 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .player-item:hover {
+            border-color: var(--brand-yellow);
+        }
+
+        .player-number {
+            font-size: 10px;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+        }
+
+        .player-name {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+
+        .player-position {
+            font-size: 9px;
+            color: var(--text-muted);
+        }
+
+        .form-card {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-match {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-card-2);
+            border: 1px solid rgba(255,255,255,0.06);
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 10px;
+        }
+
+        .form-date {
+            color: var(--text-muted);
+        }
+
+        .form-result {
+            background: var(--green);
+            color: var(--bg-page);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 700;
+        }
+
+        .form-result.loss {
+            background: var(--live-red);
+        }
+
+        .form-result.draw {
+            background: var(--text-muted);
+        }
+
+        .upcoming-fixtures {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .fixture-item {
+            background: var(--bg-card-2);
+            border: 1px solid rgba(255,255,255,0.06);
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .fixture-item:hover {
+            border-color: var(--brand-yellow);
+        }
+
+        .fixture-date {
+            font-size: 9px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .fixture-teams {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .vs {
+            color: var(--text-muted);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding: 24px 15px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .footer-right {
+            display: flex;
+            gap: 24px;
+        }
+
+        @media (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .team-header {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <div class="logo">
+                WAGER<span class="logo-yellow">line</span>
+            </div>
+            <ul class="nav">
+                <li class="nav-item"><a href="wagerline-d1.html" style="color:inherit;text-decoration:none">Home</a></li>
+                <li class="nav-item"><a href="wagerline-live.html" style="color:inherit;text-decoration:none">Live</a></li>
+                <li class="nav-item"><a href="wagerline-sports.html" style="color:inherit;text-decoration:none">Sports</a></li>
+                <li class="nav-item"><a href="wagerline-league-detail.html" style="color:inherit;text-decoration:none">Leagues</a></li>
+                <li class="nav-item"><a href="wagerline-predictions.html" style="color:inherit;text-decoration:none">Predictions</a></li>
+                <li class="nav-item">Stats</li>
+                <li class="nav-item">News</li>
+                <li class="nav-item">Rewards</li>
+            </ul>
+        </div>
+        <div class="header-right">
+            <input type="text" class="search-box" placeholder="Search teams, players...">
+            <select class="lang-dropdown">
+                <option>EN</option>
+                <option>ES</option>
+                <option>AR</option>
+            </select>
+            <button class="btn btn-login">Login</button>
+            <button class="btn btn-signup">Sign Up</button>
+        </div>
+    </div>
+
+    <div class="page">
+        <main>
+            <div class="team-header">
+                <div class="team-logo">🔵</div>
+                <div class="team-info">
+                    <h1>Manchester City</h1>
+                    <div class="team-meta">
+                        <div class="meta-item">
+                            <div class="meta-label">Founded</div>
+                            <div class="meta-value">1880</div>
+                        </div>
+                        <div class="meta-item">
+                            <div class="meta-label">Stadium</div>
+                            <div class="meta-value">Etihad Stadium</div>
+                        </div>
+                        <div class="meta-item">
+                            <div class="meta-label">Country</div>
+                            <div class="meta-value">England</div>
+                        </div>
+                        <div class="meta-item">
+                            <div class="meta-label">Manager</div>
+                            <div class="meta-value">Pep Guardiola</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <div class="tab active">Overview</div>
+                <div class="tab">Players</div>
+                <div class="tab">Fixtures</div>
+                <div class="tab">Stats</div>
+            </div>
+
+            <div class="content-grid">
+                <div class="card">
+                    <div class="card-title">Season Statistics</div>
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <div class="stat-value">25</div>
+                            <div class="stat-label">Points</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value">8</div>
+                            <div class="stat-label">Wins</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value">62%</div>
+                            <div class="stat-label">Win Rate</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value">24</div>
+                            <div class="stat-label">Goals For</div>
+                        </div>
+                    </div>
+
+                    <div class="card-title" style="margin-top:16px;">Recent Form</div>
+                    <div class="form-card">
+                        <div class="form-match">
+                            <div class="form-date">Aug 24 vs Liverpool</div>
+                            <div class="form-result">W 2-1</div>
+                        </div>
+                        <div class="form-match">
+                            <div class="form-date">Aug 17 vs Chelsea</div>
+                            <div class="form-result">W 3-0</div>
+                        </div>
+                        <div class="form-match">
+                            <div class="form-date">Aug 10 vs Arsenal</div>
+                            <div class="form-result">D 1-1</div>
+                        </div>
+                        <div class="form-match">
+                            <div class="form-date">Aug 3 vs Tottenham</div>
+                            <div class="form-result">W 2-0</div>
+                        </div>
+                        <div class="form-match">
+                            <div class="form-date">Jul 27 vs Brighton</div>
+                            <div class="form-result">W 4-1</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Upcoming Fixtures</div>
+                    <div class="upcoming-fixtures">
+                        <div class="fixture-item">
+                            <div class="fixture-date">Tomorrow 15:00</div>
+                            <div class="fixture-teams">
+                                <span>Man City</span>
+                                <span class="vs">vs</span>
+                                <span>Chelsea</span>
+                            </div>
+                        </div>
+                        <div class="fixture-item">
+                            <div class="fixture-date">Sunday 17:30</div>
+                            <div class="fixture-teams">
+                                <span>Arsenal</span>
+                                <span class="vs">vs</span>
+                                <span>Man City</span>
+                            </div>
+                        </div>
+                        <div class="fixture-item">
+                            <div class="fixture-date">Sep 14 12:00</div>
+                            <div class="fixture-teams">
+                                <span>Man City</span>
+                                <span class="vs">vs</span>
+                                <span>Tottenham</span>
+                            </div>
+                        </div>
+                        <div class="fixture-item">
+                            <div class="fixture-date">Sep 21 15:00</div>
+                            <div class="fixture-teams">
+                                <span>Brighton</span>
+                                <span class="vs">vs</span>
+                                <span>Man City</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-bottom:14px;">
+                <div class="card-title">Squad</div>
+                <div class="team-roster">
+                    <div class="player-item">
+                        <div class="player-number">#1</div>
+                        <div class="player-name">Ederson Moraes</div>
+                        <div class="player-position">Goalkeeper</div>
+                    </div>
+                    <div class="player-item">
+                        <div class="player-number">#2</div>
+                        <div class="player-name">Kyle Walker</div>
+                        <div class="player-position">Defender</div>
+                    </div>
+                    <div class="player-item">
+                        <div class="player-number">#3</div>
+                        <div class="player-name">Rubén Dias</div>
+                        <div class="player-position">Defender</div>
+                    </div>
+                    <div class="player-item">
+                        <div class="player-number">#6</div>
+                        <div class="player-name">João Cancelo</div>
+                        <div class="player-position">Defender</div>
+                    </div>
+                    <div class="player-item">
+                        <div class="player-number">#5</div>
+                        <div class="player-name">Manuel Akanji</div>
+                        <div class="player-position">Defender</div>
+                    </div>
+                    <div class="player-item">
+                        <div class="player-number">#8</div>
+                        <div class="player-name">Kevin De Bruyne</div>
+                        <div class="player-position">Midfielder</div>
+                    </div>
+                    <div class="player-item">
+                        <div class="player-number">#16</div>
+                        <div class="player-name">Rodri Hernández</div>
+                        <div class="player-position">Midfielder</div>
+                    </div>
+                    <div class="player-item">
+                        <div class="player-number">#10</div>
+                        <div class="player-name">Jack Grealish</div>
+                        <div class="player-position">Forward</div>
+                    </div>
+                    <div class="player-item">
+                        <div class="player-number">#9</div>
+                        <div class="player-name">Erling Haaland</div>
+                        <div class="player-position">Striker</div>
+                    </div>
+                    <div class="player-item">
+                        <div class="player-number">#11</div>
+                        <div class="player-name">Jeremy Doku</div>
+                        <div class="player-position">Winger</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div>WAGERline © 2026 All rights reserved.</div>
+        <div class="footer-right">
+            <div>About Us</div>
+            <div>Contact</div>
+            <div>Privacy Policy</div>
+            <div>Terms of Use</div>
+        </div>
+    </footer>
+</body>
+</html>

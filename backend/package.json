@@ -1,0 +1,34 @@
+{
+  "name": "wagerline-api",
+  "version": "1.0.0",
+  "description": "WAGERline Backend API",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "db:migrate": "node scripts/migrate.js",
+    "db:seed": "node scripts/seed.js",
+    "sync": "tsx src/jobs/syncData.ts",
+    "sync:real": "tsx src/jobs/syncRealData.ts",
+    "sync:news": "tsx src/jobs/syncNews.ts",
+    "sync:sports": "tsx src/jobs/syncSports.ts",
+    "sync:live": "tsx src/jobs/syncLive.ts",
+    "sync:super-lig-rosters": "tsx src/jobs/syncSuperLigRosters.ts"
+  },
+  "dependencies": {
+    "@fastify/cors": "^11.3.0",
+    "axios": "^1.6.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "fastify": "^5.0.0",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.6",
+    "zod": "^3.22.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.0.0"
+  }
+}

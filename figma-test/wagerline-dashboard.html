@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WAGERline - Live Sports Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #F8F9FA; }
+
+        /* ========== COLORFUL HEADER ========== */
+        .header {
+            background: linear-gradient(90deg, #FF5252 0%, #FF9100 25%, #6B5FFF 50%, #00BCD4 75%, #4CAF50 100%);
+            padding: 1.5rem 2rem;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .logo { font-size: 1.5rem; font-weight: 800; letter-spacing: -1px; }
+
+        .nav-tabs {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .nav-tab { color: rgba(255,255,255,0.9); cursor: pointer; padding-bottom: 0.5rem; border-bottom: 2px solid transparent; transition: all 0.3s; }
+        .nav-tab:hover { border-bottom-color: white; }
+        .nav-tab.active { border-bottom-color: white; color: white; font-weight: 600; }
+
+        .header-right { display: flex; gap: 1rem; }
+        .search-icon, .filter-icon, .user-icon { font-size: 1.2rem; cursor: pointer; }
+
+        /* ========== MAIN CONTAINER ========== */
+        .container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+
+        /* ========== BREADCRUMB & FILTERS ========== */
+        .breadcrumb-filter {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .filter-buttons { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .filter-btn {
+            background: white;
+            border: 1px solid #E0E0E0;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        .filter-btn:hover { border-color: #6B5FFF; color: #6B5FFF; }
+        .filter-btn.active { background: #6B5FFF; color: white; border-color: #6B5FFF; }
+
+        /* ========== KPI CARDS ========== */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .kpi-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-top: 4px solid;
+        }
+
+        .kpi-card.red { border-top-color: #FF5252; }
+        .kpi-card.blue { border-top-color: #2196F3; }
+        .kpi-card.purple { border-top-color: #6B5FFF; }
+
+        .kpi-label { font-size: 0.85rem; color: #999; margin-bottom: 0.5rem; font-weight: 600; }
+        .kpi-value { font-size: 2.5rem; font-weight: 800; color: #1a1a1a; margin-bottom: 0.5rem; }
+        .kpi-sublabel { font-size: 0.8rem; color: #999; }
+
+        /* ========== SECTIONS ========== */
+        .section { margin-bottom: 2.5rem; }
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 3px;
+            height: 20px;
+            background: #6B5FFF;
+            border-radius: 2px;
+        }
+
+        /* ========== BADGE GRID ========== */
+        .badge-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .badge-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .badge-card:hover { border-color: #6B5FFF; transform: translateY(-2px); }
+
+        .badge-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+        .badge-label { font-size: 0.9rem; font-weight: 600; color: #333; margin-bottom: 0.35rem; }
+        .badge-count { font-size: 0.8rem; color: #999; }
+
+        /* ========== TABLE ========== */
+        .table-section {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        th {
+            background: #F5F5F5;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #666;
+            border-bottom: 2px solid #E0E0E0;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #F0F0F0;
+        }
+
+        tr:hover { background: #F9F9F9; }
+
+        .stat-color { width: 16px; height: 16px; border-radius: 50%; display: inline-block; margin-right: 0.5rem; }
+        .stat-red { background: #FF5252; }
+        .stat-blue { background: #2196F3; }
+        .stat-yellow { background: #FFC107; }
+        .stat-green { background: #4CAF50; }
+        .stat-purple { background: #6B5FFF; }
+
+        /* ========== TWO COLUMN LAYOUT ========== */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .map-section {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .map-placeholder {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .stats-sidebar {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .stat-row {
+            padding: 1rem 0;
+            border-bottom: 1px solid #F0F0F0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stat-row:last-child { border-bottom: none; }
+        .stat-name { font-weight: 600; color: #333; }
+        .stat-value { font-weight: 700; color: #6B5FFF; }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 1024px) {
+            .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+            .badge-grid { grid-template-columns: repeat(3, 1fr); }
+            .two-col { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 640px) {
+            .header { flex-wrap: wrap; gap: 1rem; }
+            .nav-tabs { display: none; }
+            .kpi-grid { grid-template-columns: 1fr; }
+            .badge-grid { grid-template-columns: repeat(2, 1fr); }
+            .breadcrumb-filter { flex-direction: column; align-items: flex-start; gap: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- COLORFUL HEADER -->
+    <div class="header">
+        <div class="header-left">
+            <div class="logo">⚽ WAGERline</div>
+            <div class="nav-tabs">
+                <span class="nav-tab active">📊 Dashboard</span>
+                <span class="nav-tab">⚽ Sports</span>
+                <span class="nav-tab">🤖 Predictions</span>
+                <span class="nav-tab">🏆 Leaderboard</span>
+                <span class="nav-tab">📰 News</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <span class="search-icon">🔍</span>
+            <span class="filter-icon">⚙️</span>
+            <span class="user-icon">👤</span>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- BREADCRUMB & FILTERS -->
+        <div class="breadcrumb-filter">
+            <div>📍 Global View • Last 7 days</div>
+            <div class="filter-buttons">
+                <button class="filter-btn">All Sports</button>
+                <button class="filter-btn active">Football</button>
+                <button class="filter-btn">Basketball</button>
+                <button class="filter-btn">🔄 Filter</button>
+            </div>
+        </div>
+
+        <!-- KPI CARDS -->
+        <div class="kpi-grid">
+            <div class="kpi-card red">
+                <div class="kpi-label">🔴 LIVE MATCHES</div>
+                <div class="kpi-value">24</div>
+                <div class="kpi-sublabel">Active right now</div>
+            </div>
+            <div class="kpi-card blue">
+                <div class="kpi-label">📅 EVENTS TODAY</div>
+                <div class="kpi-value">342</div>
+                <div class="kpi-sublabel">Across 5 sports</div>
+            </div>
+            <div class="kpi-card purple">
+                <div class="kpi-label">📈 ACCURACY RATE</div>
+                <div class="kpi-value">73.5%</div>
+                <div class="kpi-sublabel">Last 1000 predictions</div>
+            </div>
+        </div>
+
+        <!-- SPORTS SEGMENTS -->
+        <div class="section">
+            <div class="section-title">⚽ Lig & Segmentleri</div>
+            <div class="badge-grid">
+                <div class="badge-card">
+                    <div class="badge-icon">⚽</div>
+                    <div class="badge-label">Premier League</div>
+                    <div class="badge-count">126 matches</div>
+                </div>
+                <div class="badge-card">
+                    <div class="badge-icon">⚽</div>
+                    <div class="badge-label">La Liga</div>
+                    <div class="badge-count">114 matches</div>
+                </div>
+                <div class="badge-card">
+                    <div class="badge-icon">🏀</div>
+                    <div class="badge-label">NBA</div>
+                    <div class="badge-count">82 matches</div>
+                </div>
+                <div class="badge-card">
+                    <div class="badge-icon">🏈</div>
+                    <div class="badge-label">NFL</div>
+                    <div class="badge-count">15 matches</div>
+                </div>
+                <div class="badge-card">
+                    <div class="badge-icon">🏎️</div>
+                    <div class="badge-label">Formula 1</div>
+                    <div class="badge-count">5 races</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- EVENT STATISTICS TABLE -->
+        <div class="section">
+            <div class="section-title">📊 Event Statistics</div>
+            <div class="table-section">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Sport / League</th>
+                            <th>Total Events</th>
+                            <th>Live</th>
+                            <th>Completed</th>
+                            <th>Upcoming</th>
+                            <th>Avg Duration</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="stat-color stat-red"></span> <strong>Premier League</strong></td>
+                            <td>126</td>
+                            <td>8</td>
+                            <td>72</td>
+                            <td>46</td>
+                            <td>98 min</td>
+                        </tr>
+                        <tr>
+                            <td><span class="stat-color stat-blue"></span> <strong>La Liga</strong></td>
+                            <td>114</td>
+                            <td>6</td>
+                            <td>65</td>
+                            <td>43</td>
+                            <td>95 min</td>
+                        </tr>
+                        <tr>
+                            <td><span class="stat-color stat-yellow"></span> <strong>NBA</strong></td>
+                            <td>82</td>
+                            <td>4</td>
+                            <td>48</td>
+                            <td>30</td>
+                            <td>145 min</td>
+                        </tr>
+                        <tr>
+                            <td><span class="stat-color stat-green"></span> <strong>NFL</strong></td>
+                            <td>15</td>
+                            <td>2</td>
+                            <td>8</td>
+                            <td>5</td>
+                            <td>200 min</td>
+                        </tr>
+                        <tr>
+                            <td><span class="stat-color stat-purple"></span> <strong>Formula 1</strong></td>
+                            <td>5</td>
+                            <td>0</td>
+                            <td>3</td>
+                            <td>2</td>
+                            <td>180 min</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TWO COLUMN: MAP & STATS -->
+        <div class="two-col">
+            <div class="map-section">
+                <div class="section-title">🌍 Bölgesel Dağıtım</div>
+                <div class="map-placeholder">Global Sports Distribution Map (Interactive)</div>
+            </div>
+
+            <div class="stats-sidebar">
+                <div class="section-title">📈 KPI Özeti</div>
+                <div class="stat-row">
+                    <span class="stat-name">Predictions Generated</span>
+                    <span class="stat-value">1,247</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-name">Prediction Accuracy</span>
+                    <span class="stat-value">73.5%</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-name">Active Users Today</span>
+                    <span class="stat-value">5,842</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-name">Total Predictions Ever</span>
+                    <span class="stat-value">128,543</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-name">Top League</span>
+                    <span class="stat-value">Premier League</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,15 @@
+node_modules
+dist
+dist-ssr
+*.local
+.DS_Store
+
+# Figma working files (not part of the app)
+node_3-2251.json
+texts.txt
+frames.txt
+design_3-2251.png
+crop_*.png
+verify*.png
+.edgeprof*/
+assets/

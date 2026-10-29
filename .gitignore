@@ -1,0 +1,13 @@
+node_modules/
+.next/
+dist/
+build/
+.env*
+*.db
+*.db-*
+*.sqlite*
+*.log
+*.tsbuildinfo
+*.pem
+*.key
+__pycache__/

@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predictions - WAGERline</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-page: #050817;
+            --bg-card: #0B1020;
+            --bg-card-2: #0E1426;
+            --border: rgba(255,255,255,0.10);
+            --text-primary: #F7F8FA;
+            --text-secondary: #C7CBD5;
+            --text-muted: #7D8494;
+            --brand-yellow: #FFD400;
+            --live-red: #FF3038;
+            --green: #20D879;
+            --blue: #2F8CFF;
+            --purple: #8B5CF6;
+        }
+
+        body {
+            background: var(--bg-page);
+            color: var(--text-primary);
+            font-family: Inter, sans-serif;
+            margin: 0;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: var(--bg-page);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+            z-index: 100;
+            white-space: nowrap;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 48px;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .logo-yellow {
+            color: var(--brand-yellow);
+        }
+
+        .nav {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .nav-item {
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: color 0.3s;
+            position: relative;
+            padding-bottom: 8px;
+        }
+
+        .nav-item.active {
+            color: var(--brand-yellow);
+        }
+
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--brand-yellow);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .search-box {
+            background: rgba(255,255,255,0.025);
+            border: 1px solid rgba(255,255,255,0.10);
+            padding: 8px 16px;
+            border-radius: 18px;
+            width: 275px;
+            height: 36px;
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        .lang-dropdown {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 13px;
+            min-width: 70px;
+        }
+
+        .btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-login {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.18);
+            color: var(--text-secondary);
+        }
+
+        .btn-signup {
+            background: var(--brand-yellow);
+            color: var(--bg-page);
+            font-weight: 700;
+        }
+
+        .page {
+            width: 100%;
+            padding: 60px 15px 0;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            min-height: calc(100vh - 60px);
+        }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 14px;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 800;
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 14px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+            overflow-x: auto;
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            border-color: var(--brand-yellow);
+            color: var(--brand-yellow);
+        }
+
+        .predictions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .prediction-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .prediction-card:hover {
+            border-color: var(--brand-yellow);
+        }
+
+        .prediction-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .prediction-competition {
+            font-size: 10px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .confidence-badge {
+            background: var(--purple);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .prediction-match {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .team-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+
+        .team-logo {
+            font-size: 20px;
+            margin-bottom: 3px;
+        }
+
+        .team-name {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-align: center;
+        }
+
+        .vs {
+            font-size: 10px;
+            color: var(--text-muted);
+            margin: 0 8px;
+        }
+
+        .prediction-odds {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .odd-item {
+            background: var(--bg-card-2);
+            border: 1px solid rgba(255,255,255,0.06);
+            padding: 8px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .odd-label {
+            font-size: 10px;
+            color: var(--text-muted);
+            margin-bottom: 3px;
+        }
+
+        .odd-value {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--brand-yellow);
+        }
+
+        .probability-bar {
+            width: 100%;
+            height: 20px;
+            background: rgba(255,255,255,0.04);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 8px;
+            display: flex;
+            gap: 2px;
+            padding: 2px;
+        }
+
+        .prob-segment {
+            flex: 1;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .prob-home {
+            background: var(--blue);
+        }
+
+        .prob-draw {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .prob-away {
+            background: var(--live-red);
+        }
+
+        .prediction-factors {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .factor-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+        }
+
+        .factor-name {
+            color: var(--text-secondary);
+        }
+
+        .factor-value {
+            color: var(--green);
+            font-weight: 600;
+        }
+
+        .make-prediction-btn {
+            width: 100%;
+            background: var(--brand-yellow);
+            color: var(--bg-page);
+            border: none;
+            padding: 8px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+
+        .make-prediction-btn:hover {
+            opacity: 0.9;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding: 24px 15px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .footer-right {
+            display: flex;
+            gap: 24px;
+        }
+
+        @media (max-width: 1280px) {
+            .predictions-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .predictions-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <div class="logo">
+                WAGER<span class="logo-yellow">line</span>
+            </div>
+            <ul class="nav">
+                <li class="nav-item"><a href="wagerline-d1.html" style="color:inherit;text-decoration:none">Home</a></li>
+                <li class="nav-item"><a href="wagerline-live.html" style="color:inherit;text-decoration:none">Live</a></li>
+                <li class="nav-item"><a href="wagerline-sports.html" style="color:inherit;text-decoration:none">Sports</a></li>
+                <li class="nav-item"><a href="wagerline-league-detail.html" style="color:inherit;text-decoration:none">Leagues</a></li>
+                <li class="nav-item active"><a href="wagerline-predictions.html" style="color:inherit;text-decoration:none">Predictions</a></li>
+                <li class="nav-item">Stats</li>
+                <li class="nav-item">News</li>
+                <li class="nav-item">Rewards</li>
+            </ul>
+        </div>
+        <div class="header-right">
+            <input type="text" class="search-box" placeholder="Search teams, players...">
+            <select class="lang-dropdown">
+                <option>EN</option>
+                <option>ES</option>
+                <option>AR</option>
+            </select>
+            <button class="btn btn-login">Login</button>
+            <button class="btn btn-signup">Sign Up</button>
+        </div>
+    </div>
+
+    <div class="page">
+        <main>
+            <div class="page-header">
+                <h1 class="page-title">AI Predictions</h1>
+            </div>
+
+            <div class="filter-controls">
+                <button class="filter-btn active">All</button>
+                <button class="filter-btn">⚽ Football</button>
+                <button class="filter-btn">🏀 Basketball</button>
+                <button class="filter-btn">🏈 American Football</button>
+                <button class="filter-btn">🏒 Ice Hockey</button>
+                <button class="filter-btn">🏎️ Formula 1</button>
+                <button class="filter-btn">High Confidence</button>
+                <button class="filter-btn">This Week</button>
+            </div>
+
+            <div class="predictions-grid">
+                <!-- Prediction 1 -->
+                <div class="prediction-card">
+                    <div class="prediction-header">
+                        <div class="prediction-competition">Premier League</div>
+                        <div class="confidence-badge">78% Confidence</div>
+                    </div>
+                    <div class="prediction-match">
+                        <div class="team-info">
+                            <div class="team-logo">🔵</div>
+                            <div class="team-name">Man City</div>
+                        </div>
+                        <div class="vs">vs</div>
+                        <div class="team-info">
+                            <div class="team-logo">🔴</div>
+                            <div class="team-name">Liverpool</div>
+                        </div>
+                    </div>
+                    <div class="prediction-odds">
+                        <div class="odd-item">
+                            <div class="odd-label">Home Win</div>
+                            <div class="odd-value">58%</div>
+                        </div>
+                        <div class="odd-item">
+                            <div class="odd-label">Draw</div>
+                            <div class="odd-value">22%</div>
+                        </div>
+                        <div class="odd-item">
+                            <div class="odd-label">Away Win</div>
+                            <div class="odd-value">20%</div>
+                        </div>
+                    </div>
+                    <div class="probability-bar">
+                        <div class="prob-segment prob-home">58%</div>
+                        <div class="prob-segment prob-draw">22%</div>
+                        <div class="prob-segment prob-away">20%</div>
+                    </div>
+                    <div class="prediction-factors">
+                        <div class="factor-item">
+                            <div class="factor-name">Form</div>
+                            <div class="factor-value">+8.2</div>
+                        </div>
+                        <div class="factor-item">
+                            <div class="factor-name">Home Advantage</div>
+                            <div class="factor-value">+6.5</div>
+                        </div>
+                        <div class="factor-item">
+                            <div class="factor-name">Player Stats</div>
+                            <div class="factor-value">+4.1</div>
+                        </div>
+                    </div>
+                    <button class="make-prediction-btn">Make Prediction</button>
+                </div>
+
+                <!-- Prediction 2 -->
+                <div class="prediction-card">
+                    <div class="prediction-header">
+                        <div class="prediction-competition">La Liga</div>
+                        <div class="confidence-badge">84% Confidence</div>
+                    </div>
+                    <div class="prediction-match">
+                        <div class="team-info">
+                            <div class="team-logo">👑</div>
+                            <div class="team-name">Real Madrid</div>
+                        </div>
+                        <div class="vs">vs</div>
+                        <div class="team-info">
+                            <div class="team-logo">🔵</div>
+                            <div class="team-name">Barcelona</div>
+                        </div>
+                    </div>
+                    <div class="prediction-odds">
+                        <div class="odd-item">
+                            <div class="odd-label">Home Win</div>
+                            <div class="odd-value">62%</div>
+                        </div>
+                        <div class="odd-item">
+                            <div class="odd-label">Draw</div>
+                            <div class="odd-value">18%</div>
+                        </div>
+                        <div class="odd-item">
+                            <div class="odd-label">Away Win</div>
+                            <div class="odd-value">20%</div>
+                        </div>
+                    </div>
+                    <div class="probability-bar">
+                        <div class="prob-segment prob-home">62%</div>
+                        <div class="prob-segment prob-draw">18%</div>
+                        <div class="prob-segment prob-away">20%</div>
+                    </div>
+                    <div class="prediction-factors">
+                        <div class="factor-item">
+                            <div class="factor-name">Recent Form</div>
+                            <div class="factor-value">+9.1</div>
+                        </div>
+                        <div class="factor-item">
+                            <div class="factor-name">Injury Report</div>
+                            <div class="factor-value">+3.2</div>
+                        </div>
+                        <div class="factor-item">
+                            <div class="factor-name">Head to Head</div>
+                            <div class="factor-value">+5.8</div>
+                        </div>
+                    </div>
+                    <button class="make-prediction-btn">Make Prediction</button>
+                </div>
+
+                <!-- Prediction 3 -->
+                <div class="prediction-card">
+                    <div class="prediction-header">
+                        <div class="prediction-competition">NBA</div>
+                        <div class="confidence-badge">71% Confidence</div>
+                    </div>
+                    <div class="prediction-match">
+                        <div class="team-info">
+                            <div class="team-logo">🏀</div>
+                            <div class="team-name">Lakers</div>
+                        </div>
+                        <div class="vs">vs</div>
+                        <div class="team-info">
+                            <div class="team-logo">🏆</div>
+                            <div class="team-name">Celtics</div>
+                        </div>
+                    </div>
+                    <div class="prediction-odds">
+                        <div class="odd-item">
+                            <div class="odd-label">Home Win</div>
+                            <div class="odd-value">45%</div>
+                        </div>
+                        <div class="odd-item">
+                            <div class="odd-label">Draw</div>
+                            <div class="odd-value">0%</div>
+                        </div>
+                        <div class="odd-item">
+                            <div class="odd-label">Away Win</div>
+                            <div class="odd-value">55%</div>
+                        </div>
+                    </div>
+                    <div class="probability-bar">
+                        <div class="prob-segment prob-home">45%</div>
+                        <div class="prob-segment prob-away">55%</div>
+                    </div>
+                    <div class="prediction-factors">
+                        <div class="factor-item">
+                            <div class="factor-name">Team Strength</div>
+                            <div class="factor-value">+7.5</div>
+                        </div>
+                        <div class="factor-item">
+                            <div class="factor-name">Offensive Power</div>
+                            <div class="factor-value">+5.9</div>
+                        </div>
+                        <div class="factor-item">
+                            <div class="factor-name">Defense Rating</div>
+                            <div class="factor-value">+4.2</div>
+                        </div>
+                    </div>
+                    <button class="make-prediction-btn">Make Prediction</button>
+                </div>
+
+                <!-- Prediction 4 -->
+                <div class="prediction-card">
+                    <div class="prediction-header">
+                        <div class="prediction-competition">Serie A</div>
+                        <div class="confidence-badge">76% Confidence</div>
+                    </div>
+                    <div class="prediction-match">
+                        <div class="team-info">
+                            <div class="team-logo">⚫</div>
+                            <div class="team-name">Juventus</div>
+                        </div>
+                        <div class="vs">vs</div>
+                        <div class="team-info">
+                            <div class="team-logo">🔴</div>
+                            <div class="team-name">AC Milan</div>
+                        </div>
+                    </div>
+                    <div class="prediction-odds">
+                        <div class="odd-item">
+                            <div class="odd-label">Home Win</div>
+                            <div class="odd-value">54%</div>
+                        </div>
+                        <div class="odd-item">
+                            <div class="odd-label">Draw</div>
+                            <div class="odd-value">26%</div>
+                        </div>
+                        <div class="odd-item">
+                            <div class="odd-label">Away Win</div>
+                            <div class="odd-value">20%</div>
+                        </div>
+                    </div>
+                    <div class="probability-bar">
+                        <div class="prob-segment prob-home">54%</div>
+                        <div class="prob-segment prob-draw">26%</div>
+                        <div class="prob-segment prob-away">20%</div>
+                    </div>
+                    <div class="prediction-factors">
+                        <div class="factor-item">
+                            <div class="factor-name">Goal Scoring</div>
+                            <div class="factor-value">+6.8</div>
+                        </div>
+                        <div class="factor-item">
+                            <div class="factor-name">Possession</div>
+                            <div class="factor-value">+5.3</div>
+                        </div>
+                        <div class="factor-item">
+                            <div class="factor-name">Squad Depth</div>
+                            <div class="factor-value">+4.9</div>
+                        </div>
+                    </div>
+                    <button class="make-prediction-btn">Make Prediction</button>
+                </div>
+
+                <!-- Prediction 5 -->
+                <div class="prediction-card">
+                    <div class="prediction-header">
+                        <div class="prediction-competition">Bundesliga</div>
+                        <div class="confidence-badge">82% Confidence</div>
+                    </div>
+                    <div class="prediction-match">
+                        <div class="team-info">
+                            <div class="team-logo">⚫</div>
+                            <div class="team-name">Bayern</div>
+                        </div>
+                        <div class="vs">vs</div>
+                        <div class="team-info">
+                            <div class="team-logo">🟡</div>
+                            <div class="team-name">Dortmund</div>
+                        </div>
+                    </div>
+                    <div class="prediction-odds">
+                        <div class="odd-item">
+                            <div class="odd-label">Home Win</div>
+                            <div class="odd-value">64%</div>
+                        </div>
+                        <div class="odd-item">
+                            <div class="odd-label">Draw</div>
+                            <div class="odd-value">16%</div>
+                        </div>
+                        <div class="odd-item">
+                            <div class="odd-label">Away Win</div>
+                            <div class="odd-value">20%</div>
+                        </div>
+                    </div>
+                    <div class="probability-bar">
+                        <div class="prob-segment prob-home">64%</div>
+                        <div class="prob-segment prob-draw">16%</div>
+                        <div class="prob-segment prob-away">20%</div>
+                    </div>
+                    <div class="prediction-factors">
+                        <div class="factor-item">
+                            <div class="factor-name">Consistency</div>
+                            <div class="factor-value">+8.7</div>
+                        </div>
+                        <div class="factor-item">
+                            <div class="factor-name">Home Record</div>
+                            <div class="factor-value">+6.4</div>
+                        </div>
+                        <div class="factor-item">
+                            <div class="factor-name">Player Form</div>
+                            <div class="factor-value">+4.5</div>
+                        </div>
+                    </div>
+                    <button class="make-prediction-btn">Make Prediction</button>
+                </div>
+
+                <!-- Prediction 6 -->
+                <div class="prediction-card">
+                    <div class="prediction-header">
+                        <div class="prediction-competition">NFL</div>
+                        <div class="confidence-badge">73% Confidence</div>
+                    </div>
+                    <div class="prediction-match">
+                        <div class="team-info">
+                            <div class="team-logo">🏈</div>
+                            <div class="team-name">Chiefs</div>
+                        </div>
+                        <div class="vs">vs</div>
+                        <div class="team-info">
+                            <div class="team-logo">🏈</div>
+                            <div class="team-name">49ers</div>
+                        </div>
+                    </div>
+                    <div class="prediction-odds">
+                        <div class="odd-item">
+                            <div class="odd-label">Home Win</div>
+                            <div class="odd-value">56%</div>
+                        </div>
+                        <div class="odd-item">
+                            <div class="odd-label">Draw</div>
+                            <div class="odd-value">0%</div>
+                        </div>
+                        <div class="odd-item">
+                            <div class="odd-label">Away Win</div>
+                            <div class="odd-value">44%</div>
+                        </div>
+                    </div>
+                    <div class="probability-bar">
+                        <div class="prob-segment prob-home">56%</div>
+                        <div class="prob-segment prob-away">44%</div>
+                    </div>
+                    <div class="prediction-factors">
+                        <div class="factor-item">
+                            <div class="factor-name">Quarterback</div>
+                            <div class="factor-value">+7.2</div>
+                        </div>
+                        <div class="factor-item">
+                            <div class="factor-name">Defense</div>
+                            <div class="factor-value">+5.8</div>
+                        </div>
+                        <div class="factor-item">
+                            <div class="factor-name">Running Game</div>
+                            <div class="factor-value">+3.9</div>
+                        </div>
+                    </div>
+                    <button class="make-prediction-btn">Make Prediction</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div>WAGERline © 2026 All rights reserved.</div>
+        <div class="footer-right">
+            <div>About Us</div>
+            <div>Contact</div>
+            <div>Privacy Policy</div>
+            <div>Terms of Use</div>
+        </div>
+    </footer>
+</body>
+</html>

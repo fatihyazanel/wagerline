@@ -1,0 +1,23 @@
+{
+  "name": "wagerline",
+  "version": "0.1.0",
+  "type": "commonjs",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "node src/index.js",
+    "build": "tsc",
+    "db:migrate": "node src/database/migrations.js",
+    "sync:sports": "node src/jobs/sync-sports.js",
+    "sync:events": "node src/jobs/sync-events.js"
+  },
+  "dependencies": {
+    "fastify": "^4.25.0",
+    "sqlite3": "^5.1.6",
+    "axios": "^1.6.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.0",
+    "@types/node": "^20.0.0"
+  }
+}

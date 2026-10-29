@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Man City vs Liverpool - WAGERline</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-page: #050817;
+            --bg-card: #0B1020;
+            --bg-card-2: #0E1426;
+            --border: rgba(255,255,255,0.10);
+            --text-primary: #F7F8FA;
+            --text-secondary: #C7CBD5;
+            --text-muted: #7D8494;
+            --brand-yellow: #FFD400;
+            --live-red: #FF3038;
+            --green: #20D879;
+            --blue: #2F8CFF;
+        }
+
+        body {
+            background: var(--bg-page);
+            color: var(--text-primary);
+            font-family: Inter, sans-serif;
+            margin: 0;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: var(--bg-page);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+            z-index: 100;
+            white-space: nowrap;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 48px;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .logo-yellow {
+            color: var(--brand-yellow);
+        }
+
+        .nav {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .nav-item {
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: color 0.3s;
+            position: relative;
+            padding-bottom: 8px;
+        }
+
+        .nav-item.active {
+            color: var(--brand-yellow);
+        }
+
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--brand-yellow);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .search-box {
+            background: rgba(255,255,255,0.025);
+            border: 1px solid rgba(255,255,255,0.10);
+            padding: 8px 16px;
+            border-radius: 18px;
+            width: 275px;
+            height: 36px;
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        .lang-dropdown {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 13px;
+            min-width: 70px;
+        }
+
+        .btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-login {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.18);
+            color: var(--text-secondary);
+        }
+
+        .btn-signup {
+            background: var(--brand-yellow);
+            color: var(--bg-page);
+            font-weight: 700;
+        }
+
+        .page {
+            width: 100%;
+            padding: 60px 15px 0;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            min-height: calc(100vh - 60px);
+        }
+
+        .event-header {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 14px;
+        }
+
+        .event-competition {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .event-teams-layout {
+            display: grid;
+            grid-template-columns: 1fr 120px 1fr;
+            gap: 16px;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .team-block {
+            text-align: center;
+        }
+
+        .team-logo {
+            font-size: 64px;
+            margin-bottom: 8px;
+        }
+
+        .team-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .score-display {
+            text-align: center;
+        }
+
+        .final-score {
+            font-size: 48px;
+            font-weight: 900;
+            color: var(--brand-yellow);
+            margin-bottom: 8px;
+        }
+
+        .event-status {
+            font-size: 13px;
+            color: var(--live-red);
+            font-weight: 700;
+        }
+
+        .event-meta {
+            display: flex;
+            justify-content: space-around;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .meta-item {
+            text-align: center;
+        }
+
+        .meta-label {
+            color: var(--text-muted);
+            font-size: 10px;
+            margin-bottom: 4px;
+        }
+
+        .meta-value {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 24px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 14px;
+            padding-bottom: 12px;
+        }
+
+        .tab {
+            padding-bottom: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .tab.active {
+            color: var(--brand-yellow);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--brand-yellow);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px;
+        }
+
+        .card-title {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .stat-item {
+            background: var(--bg-card-2);
+            border: 1px solid rgba(255,255,255,0.06);
+            padding: 10px;
+            border-radius: 6px;
+        }
+
+        .stat-label {
+            font-size: 10px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .stat-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--brand-yellow);
+        }
+
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 8px;
+            padding: 8px;
+            background: var(--bg-card-2);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 6px;
+            font-size: 11px;
+        }
+
+        .timeline-time {
+            color: var(--brand-yellow);
+            font-weight: 700;
+            min-width: 40px;
+        }
+
+        .timeline-event {
+            color: var(--text-secondary);
+        }
+
+        .prediction-box {
+            background: var(--bg-card-2);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+
+        .prediction-label {
+            font-size: 10px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .prediction-odds {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+        }
+
+        .odd-box {
+            background: var(--bg-card);
+            border: 1px solid rgba(255,255,255,0.06);
+            padding: 6px;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .odd-label {
+            font-size: 9px;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+        }
+
+        .odd-value {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--brand-yellow);
+        }
+
+        .confidence-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .confidence-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #2F8CFF, #8B5CF6);
+            width: 76%;
+        }
+
+        .news-items {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .news-item {
+            background: var(--bg-card-2);
+            border: 1px solid rgba(255,255,255,0.06);
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .news-item:hover {
+            border-color: var(--brand-yellow);
+        }
+
+        .news-headline {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .news-meta {
+            font-size: 9px;
+            color: var(--text-muted);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding: 24px 15px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .footer-right {
+            display: flex;
+            gap: 24px;
+        }
+
+        @media (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .event-teams-layout {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <div class="logo">
+                WAGER<span class="logo-yellow">line</span>
+            </div>
+            <ul class="nav">
+                <li class="nav-item"><a href="wagerline-d1.html" style="color:inherit;text-decoration:none">Home</a></li>
+                <li class="nav-item"><a href="wagerline-live.html" style="color:inherit;text-decoration:none">Live</a></li>
+                <li class="nav-item"><a href="wagerline-sports.html" style="color:inherit;text-decoration:none">Sports</a></li>
+                <li class="nav-item"><a href="wagerline-league-detail.html" style="color:inherit;text-decoration:none">Leagues</a></li>
+                <li class="nav-item"><a href="wagerline-predictions.html" style="color:inherit;text-decoration:none">Predictions</a></li>
+                <li class="nav-item">Stats</li>
+                <li class="nav-item">News</li>
+                <li class="nav-item">Rewards</li>
+            </ul>
+        </div>
+        <div class="header-right">
+            <input type="text" class="search-box" placeholder="Search teams, players...">
+            <select class="lang-dropdown">
+                <option>EN</option>
+                <option>ES</option>
+                <option>AR</option>
+            </select>
+            <button class="btn btn-login">Login</button>
+            <button class="btn btn-signup">Sign Up</button>
+        </div>
+    </div>
+
+    <div class="page">
+        <main>
+            <div class="event-header">
+                <div class="event-competition">Premier League - Round 1</div>
+                <div class="event-teams-layout">
+                    <div class="team-block">
+                        <div class="team-logo">🔵</div>
+                        <div class="team-name">Man City</div>
+                    </div>
+                    <div class="score-display">
+                        <div class="final-score">2 - 1</div>
+                        <div class="event-status">FINAL</div>
+                    </div>
+                    <div class="team-block">
+                        <div class="team-logo">🔴</div>
+                        <div class="team-name">Liverpool</div>
+                    </div>
+                </div>
+                <div class="event-meta">
+                    <div class="meta-item">
+                        <div class="meta-label">Venue</div>
+                        <div class="meta-value">Etihad Stadium</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">Attendance</div>
+                        <div class="meta-value">55,097</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">Referee</div>
+                        <div class="meta-value">Michael Oliver</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">Date</div>
+                        <div class="meta-value">Aug 24, 2026</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <div class="tab active">Overview</div>
+                <div class="tab">Timeline</div>
+                <div class="tab">Statistics</div>
+                <div class="tab">Lineups</div>
+                <div class="tab">H2H</div>
+            </div>
+
+            <div class="content-grid">
+                <div class="card">
+                    <div class="card-title">Match Statistics</div>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-label">Possession</div>
+                            <div class="stat-value">62%</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Possession</div>
+                            <div class="stat-value">38%</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Shots on Target</div>
+                            <div class="stat-value">8</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Shots on Target</div>
+                            <div class="stat-value">5</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Total Shots</div>
+                            <div class="stat-value">14</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Total Shots</div>
+                            <div class="stat-value">9</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Corners</div>
+                            <div class="stat-value">7</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Corners</div>
+                            <div class="stat-value">5</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Fouls</div>
+                            <div class="stat-value">12</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Fouls</div>
+                            <div class="stat-value">14</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Yellow Cards</div>
+                            <div class="stat-value">2</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Yellow Cards</div>
+                            <div class="stat-value">1</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">AI Prediction</div>
+                    <div class="prediction-box">
+                        <div class="prediction-label">Model Prediction</div>
+                        <div class="prediction-odds">
+                            <div class="odd-box">
+                                <div class="odd-label">Home Win</div>
+                                <div class="odd-value">58%</div>
+                            </div>
+                            <div class="odd-box">
+                                <div class="odd-label">Draw</div>
+                                <div class="odd-value">22%</div>
+                            </div>
+                            <div class="odd-box">
+                                <div class="odd-label">Away Win</div>
+                                <div class="odd-value">20%</div>
+                            </div>
+                        </div>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill"></div>
+                        </div>
+                        <div style="font-size:10px;color:var(--text-muted);margin-top:8px;">Confidence: 78%</div>
+                    </div>
+                    <div style="font-size:11px;color:var(--text-secondary);line-height:1.4;">
+                        <p>Model correctly predicted home win. Key factors: Strong home form (+8.2), possession advantage (+6.5).</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-bottom:14px;">
+                <div class="card-title">Match Timeline</div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-time">23'</div>
+                        <div class="timeline-event">GOAL - Haaland (Man City) - Assisted by De Bruyne</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-time">37'</div>
+                        <div class="timeline-event">GOAL - Salah (Liverpool) - Penalty Kick</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-time">45+2'</div>
+                        <div class="timeline-event">GOAL - De Bruyne (Man City)</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-time">67'</div>
+                        <div class="timeline-event">Yellow Card - Dias (Man City)</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-time">78'</div>
+                        <div class="timeline-event">Substitution - Grealish replaces De Bruyne</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-time">82'</div>
+                        <div class="timeline-event">Yellow Card - Robertson (Liverpool)</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-time">90'</div>
+                        <div class="timeline-event">Full Time - Final Score 2-1</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-bottom:14px;">
+                <div class="card-title">Latest News</div>
+                <div class="news-items">
+                    <div class="news-item">
+                        <div class="news-headline">Haaland's Hat-Trick Leads City to Victory</div>
+                        <div class="news-meta">2 hours ago • Sky Sports</div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-headline">Salah Penalty Gives Liverpool Hope in Second Half</div>
+                        <div class="news-meta">1 hour ago • BBC Sport</div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-headline">De Bruyne's Performance Impresses Analysts</div>
+                        <div class="news-meta">45 minutes ago • ESPN</div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-headline">City Extends Winning Streak to 8 Games</div>
+                        <div class="news-meta">30 minutes ago • Guardian</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div>WAGERline © 2026 All rights reserved.</div>
+        <div class="footer-right">
+            <div>About Us</div>
+            <div>Contact</div>
+            <div>Privacy Policy</div>
+            <div>Terms of Use</div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sports - WAGERline</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-page: #050817;
+            --bg-card: #0B1020;
+            --bg-card-2: #0E1426;
+            --border: rgba(255,255,255,0.10);
+            --text-primary: #F7F8FA;
+            --text-secondary: #C7CBD5;
+            --text-muted: #7D8494;
+            --brand-yellow: #FFD400;
+            --live-red: #FF3038;
+            --green: #20D879;
+            --blue: #2F8CFF;
+        }
+
+        body {
+            background: var(--bg-page);
+            color: var(--text-primary);
+            font-family: Inter, sans-serif;
+            margin: 0;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: var(--bg-page);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+            z-index: 100;
+            white-space: nowrap;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 48px;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .logo-yellow {
+            color: var(--brand-yellow);
+        }
+
+        .nav {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .nav-item {
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: color 0.3s;
+            position: relative;
+            padding-bottom: 8px;
+        }
+
+        .nav-item.active {
+            color: var(--brand-yellow);
+        }
+
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--brand-yellow);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .search-box {
+            background: rgba(255,255,255,0.025);
+            border: 1px solid rgba(255,255,255,0.10);
+            padding: 8px 16px;
+            border-radius: 18px;
+            width: 275px;
+            height: 36px;
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        .lang-dropdown {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 13px;
+            min-width: 70px;
+        }
+
+        .btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-login {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.18);
+            color: var(--text-secondary);
+        }
+
+        .btn-signup {
+            background: var(--brand-yellow);
+            color: var(--bg-page);
+            font-weight: 700;
+        }
+
+        .page {
+            width: 100%;
+            padding: 60px 15px 0;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            min-height: calc(100vh - 60px);
+        }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 14px;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 800;
+        }
+
+        .sports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 16px;
+            margin-bottom: 14px;
+        }
+
+        .sport-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .sport-card:hover {
+            border-color: var(--brand-yellow);
+            transform: translateY(-4px);
+        }
+
+        .sport-banner {
+            width: 100%;
+            height: 160px;
+            background: linear-gradient(135deg, rgba(255,212,0,0.1) 0%, rgba(47,140,255,0.1) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 64px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sport-content {
+            padding: 16px;
+        }
+
+        .sport-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .sport-description {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+
+        .sport-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--brand-yellow);
+        }
+
+        .stat-label {
+            font-size: 10px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .sport-leagues {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .league-badge {
+            background: var(--bg-card-2);
+            border: 1px solid rgba(255,255,255,0.06);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            color: var(--text-secondary);
+            white-space: nowrap;
+        }
+
+        .sport-button {
+            width: 100%;
+            background: transparent;
+            border: 1px solid var(--brand-yellow);
+            color: var(--brand-yellow);
+            padding: 8px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .sport-button:hover {
+            background: var(--brand-yellow);
+            color: var(--bg-page);
+        }
+
+        .football-section {
+            margin-top: 28px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .leagues-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .league-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .league-card:hover {
+            border-color: var(--brand-yellow);
+        }
+
+        .league-icon {
+            font-size: 40px;
+            margin-bottom: 8px;
+        }
+
+        .league-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .league-meta {
+            font-size: 10px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .league-btn {
+            width: 100%;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .league-btn:hover {
+            border-color: var(--brand-yellow);
+            color: var(--brand-yellow);
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding: 24px 15px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .footer-right {
+            display: flex;
+            gap: 24px;
+        }
+
+        @media (max-width: 1280px) {
+            .sports-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sports-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .leagues-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <div class="logo">
+                WAGER<span class="logo-yellow">line</span>
+            </div>
+            <ul class="nav">
+                <li class="nav-item"><a href="wagerline-d1.html" style="color:inherit;text-decoration:none">Home</a></li>
+                <li class="nav-item"><a href="wagerline-live.html" style="color:inherit;text-decoration:none">Live</a></li>
+                <li class="nav-item active"><a href="wagerline-sports.html" style="color:inherit;text-decoration:none">Sports</a></li>
+                <li class="nav-item"><a href="wagerline-league-detail.html" style="color:inherit;text-decoration:none">Leagues</a></li>
+                <li class="nav-item"><a href="wagerline-predictions.html" style="color:inherit;text-decoration:none">Predictions</a></li>
+                <li class="nav-item">Stats</li>
+                <li class="nav-item">News</li>
+                <li class="nav-item">Rewards</li>
+            </ul>
+        </div>
+        <div class="header-right">
+            <input type="text" class="search-box" placeholder="Search teams, players...">
+            <select class="lang-dropdown">
+                <option>EN</option>
+                <option>ES</option>
+                <option>AR</option>
+            </select>
+            <button class="btn btn-login">Login</button>
+            <button class="btn btn-signup">Sign Up</button>
+        </div>
+    </div>
+
+    <div class="page">
+        <main>
+            <div class="page-header">
+                <h1 class="page-title">All Sports</h1>
+            </div>
+
+            <div class="sports-grid">
+                <!-- Football -->
+                <div class="sport-card">
+                    <div class="sport-banner">⚽</div>
+                    <div class="sport-content">
+                        <div class="sport-name">Football</div>
+                        <div class="sport-description">The world's most popular sport. Live scores, standings, and predictions.</div>
+                        <div class="sport-leagues">
+                            <span class="league-badge">Premier League</span>
+                            <span class="league-badge">La Liga</span>
+                            <span class="league-badge">Serie A</span>
+                        </div>
+                        <div class="sport-stats">
+                            <div class="stat">
+                                <div class="stat-number">6</div>
+                                <div class="stat-label">Leagues</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-number">480+</div>
+                                <div class="stat-label">Teams</div>
+                            </div>
+                        </div>
+                        <button class="sport-button">Explore Football</button>
+                    </div>
+                </div>
+
+                <!-- Basketball -->
+                <div class="sport-card">
+                    <div class="sport-banner">🏀</div>
+                    <div class="sport-content">
+                        <div class="sport-name">Basketball</div>
+                        <div class="sport-description">NBA action. Live scores, stats, and expert analysis.</div>
+                        <div class="sport-leagues">
+                            <span class="league-badge">NBA</span>
+                        </div>
+                        <div class="sport-stats">
+                            <div class="stat">
+                                <div class="stat-number">1</div>
+                                <div class="stat-label">League</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-number">30</div>
+                                <div class="stat-label">Teams</div>
+                            </div>
+                        </div>
+                        <button class="sport-button">Explore Basketball</button>
+                    </div>
+                </div>
+
+                <!-- American Football -->
+                <div class="sport-card">
+                    <div class="sport-banner">🏈</div>
+                    <div class="sport-content">
+                        <div class="sport-name">American Football</div>
+                        <div class="sport-description">NFL matches with live updates and in-depth coverage.</div>
+                        <div class="sport-leagues">
+                            <span class="league-badge">NFL</span>
+                        </div>
+                        <div class="sport-stats">
+                            <div class="stat">
+                                <div class="stat-number">1</div>
+                                <div class="stat-label">League</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-number">32</div>
+                                <div class="stat-label">Teams</div>
+                            </div>
+                        </div>
+                        <button class="sport-button">Explore NFL</button>
+                    </div>
+                </div>
+
+                <!-- Ice Hockey -->
+                <div class="sport-card">
+                    <div class="sport-banner">🏒</div>
+                    <div class="sport-content">
+                        <div class="sport-name">Ice Hockey</div>
+                        <div class="sport-description">NHL action. Fast-paced hockey with live scoring.</div>
+                        <div class="sport-leagues">
+                            <span class="league-badge">NHL</span>
+                        </div>
+                        <div class="sport-stats">
+                            <div class="stat">
+                                <div class="stat-number">1</div>
+                                <div class="stat-label">League</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-number">32</div>
+                                <div class="stat-label">Teams</div>
+                            </div>
+                        </div>
+                        <button class="sport-button">Explore Hockey</button>
+                    </div>
+                </div>
+
+                <!-- Formula 1 -->
+                <div class="sport-card">
+                    <div class="sport-banner">🏎️</div>
+                    <div class="sport-content">
+                        <div class="sport-name">Formula 1</div>
+                        <div class="sport-description">F1 racing championship. Live race updates and standings.</div>
+                        <div class="sport-leagues">
+                            <span class="league-badge">Formula 1</span>
+                        </div>
+                        <div class="sport-stats">
+                            <div class="stat">
+                                <div class="stat-number">24</div>
+                                <div class="stat-label">Races/Season</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-number">10</div>
+                                <div class="stat-label">Teams</div>
+                            </div>
+                        </div>
+                        <button class="sport-button">Explore F1</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="football-section">
+                <h2 class="section-title">Football Leagues</h2>
+                <div class="leagues-grid">
+                    <div class="league-card">
+                        <div class="league-icon">🏴󠁧󠁢󠁥󠁮󠁧󠁿</div>
+                        <div class="league-name">Premier League</div>
+                        <div class="league-meta">England • 20 Teams</div>
+                        <button class="league-btn">View Standings</button>
+                    </div>
+                    <div class="league-card">
+                        <div class="league-icon">🇪🇸</div>
+                        <div class="league-name">La Liga</div>
+                        <div class="league-meta">Spain • 20 Teams</div>
+                        <button class="league-btn">View Standings</button>
+                    </div>
+                    <div class="league-card">
+                        <div class="league-icon">🇮🇹</div>
+                        <div class="league-name">Serie A</div>
+                        <div class="league-meta">Italy • 20 Teams</div>
+                        <button class="league-btn">View Standings</button>
+                    </div>
+                    <div class="league-card">
+                        <div class="league-icon">🇩🇪</div>
+                        <div class="league-name">Bundesliga</div>
+                        <div class="league-meta">Germany • 18 Teams</div>
+                        <button class="league-btn">View Standings</button>
+                    </div>
+                    <div class="league-card">
+                        <div class="league-icon">🇫🇷</div>
+                        <div class="league-name">Ligue 1</div>
+                        <div class="league-meta">France • 20 Teams</div>
+                        <button class="league-btn">View Standings</button>
+                    </div>
+                    <div class="league-card">
+                        <div class="league-icon">🇹🇷</div>
+                        <div class="league-name">Süper Lig</div>
+                        <div class="league-meta">Turkey • 20 Teams</div>
+                        <button class="league-btn">View Standings</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div>WAGERline © 2026 All rights reserved.</div>
+        <div class="footer-right">
+            <div>About Us</div>
+            <div>Contact</div>
+            <div>Privacy Policy</div>
+            <div>Terms of Use</div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <title>SALES CHAMPIONS LEAGUE - UX Brief</title>
+    <style>
+      @page {
+        size: A4;
+        margin: 16mm 14mm;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        color: #172033;
+        background: #f4f7fb;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 12.2px;
+        line-height: 1.52;
+      }
+
+      .page {
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 28px;
+        background: #ffffff;
+      }
+
+      .hero {
+        padding: 26px;
+        border-radius: 18px;
+        color: #07152f;
+        background:
+          radial-gradient(circle at 92% 18%, rgba(255, 192, 0, 0.36), transparent 26%),
+          linear-gradient(135deg, #eaf4ff 0%, #ffffff 48%, #fff7d6 100%);
+        border: 1px solid #d7e5ff;
+      }
+
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+        color: #061a3f;
+        line-height: 1.18;
+      }
+
+      h1 {
+        font-size: 30px;
+        letter-spacing: 0;
+      }
+
+      h2 {
+        margin-top: 26px;
+        padding-top: 16px;
+        border-top: 2px solid #e6edf8;
+        font-size: 19px;
+      }
+
+      h3 {
+        margin-top: 16px;
+        font-size: 14.5px;
+      }
+
+      p {
+        margin: 8px 0;
+      }
+
+      ul,
+      ol {
+        margin: 8px 0 0;
+        padding-left: 20px;
+      }
+
+      li {
+        margin: 4px 0;
+      }
+
+      table {
+        width: 100%;
+        margin-top: 10px;
+        border-collapse: collapse;
+        page-break-inside: avoid;
+      }
+
+      th,
+      td {
+        padding: 8px 9px;
+        vertical-align: top;
+        border: 1px solid #dce5f2;
+      }
+
+      th {
+        color: #073169;
+        background: #eef6ff;
+        text-align: left;
+      }
+
+      .meta {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-top: 16px;
+      }
+
+      .meta div,
+      .note,
+      .callout,
+      .principle {
+        border: 1px solid #dce6f5;
+        border-radius: 13px;
+        background: #f9fbff;
+      }
+
+      .meta div {
+        padding: 12px;
+      }
+
+      .label {
+        display: block;
+        margin-bottom: 4px;
+        color: #5f6e85;
+        font-size: 10.5px;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      .summary {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-top: 14px;
+      }
+
+      .callout {
+        padding: 13px 14px;
+        border-left: 5px solid #ffc400;
+      }
+
+      .principle {
+        padding: 12px 14px;
+        border-left: 5px solid #0f6bdc;
+      }
+
+      .note {
+        padding: 12px 14px;
+        background: #fffaf0;
+        border-color: #f4d58d;
+      }
+
+      .pill {
+        display: inline-block;
+        margin: 3px 4px 3px 0;
+        padding: 4px 9px;
+        border-radius: 999px;
+        color: #073169;
+        background: #e8f2ff;
+        font-size: 11px;
+        font-weight: 700;
+      }
+
+      .good {
+        color: #08783d;
+        font-weight: 700;
+      }
+
+      .risk {
+        color: #b64b00;
+        font-weight: 700;
+      }
+
+      .formula {
+        margin: 9px 0;
+        padding: 10px 12px;
+        border-radius: 10px;
+        background: #f2f6fb;
+        border: 1px solid #dfe8f5;
+        font-family: Consolas, "Courier New", monospace;
+        font-size: 11.4px;
+      }
+
+      .break {
+        page-break-before: always;
+      }
+
+      .footer {
+        margin-top: 30px;
+        padding-top: 12px;
+        border-top: 1px solid #dce5f2;
+        color: #64748b;
+        font-size: 10.5px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero">
+        <h1>SALES CHAMPIONS LEAGUE</h1>
+        <p><strong>UX Brief ve İş İhtiyacı Özeti</strong></p>
+        <p>
+          Bu doküman, satış kanalı gamification uygulaması için şimdiye kadar tarif edilen iş hedeflerini,
+          puanlama mantığını, rol bazlı ekran ihtiyaçlarını ve beklenen kullanıcı deneyimi hissini UX ekibine
+          aktarılabilir şekilde düzenler.
+        </p>
+        <div class="meta">
+          <div><span class="label">Ürün Amacı</span>Satış performansını lig, rozet, streak ve challenge mekanikleriyle görünür ve motive edici hale getirmek.</div>
+          <div><span class="label">Ana Kullanıcılar</span>Bayi, CSM, Bölge Müdürü, Direktör, Admin.</div>
+          <div><span class="label">Tasarım Dili</span>Canlı, oyunlaştırılmış, hareketli, renkli; statik dashboard hissinden uzak.</div>
+        </div>
+      </section>
+
+      <h2>1. Ürün Vizyonu</h2>
+      <div class="principle">
+        SALES CHAMPIONS LEAGUE, bayinin performansını sadece tablo ve KPI olarak gösteren klasik bir raporlama
+        ekranı olmamalı. Kullanıcı uygulamaya girdiğinde bir lig/menejer oyunu hissi almalı; yükselişleri,
+        düşüşleri, rakipleri, rozet kazanımları ve sıradaki hedefleri canlı biçimde görmelidir.
+      </div>
+      <p>
+        İş hedefi, satış davranışını pozitif rekabetle yönlendirmek ve bayi, CSM, bölge ve direktör seviyelerinde
+        aynı gerçekleri farklı çözünürlüklerde okunabilir hale getirmektir. Bayi ekranı motivasyon ve aksiyon;
+        yönetici ekranları izleme, kıyaslama ve müdahale; admin ekranları ise kural yönetimi için tasarlanmalıdır.
+      </p>
+
+      <div class="summary">
+        <div class="callout">
+          <strong>Deneyim Beklentisi</strong>
+          <p>Clash of Clans / menajer oyunu benzeri canlı lig hissi: sıralar, ikonlar, güç barları, hover efektleri, kazanılan rozetlerde kutlama hissi.</p>
+        </div>
+        <div class="callout">
+          <strong>Veri Beklentisi</strong>
+          <p>Puanların her yerde aynı mantıkla hesaplanması: ana kırılım, stratejik ürün kartları, masked lig panosu ve rozet detayları birbirini tutmalı.</p>
+        </div>
+      </div>
+
+      <h2>2. Temel Kavramlar</h2>
+      <table>
+        <tr>
+          <th>Kavram</th>
+          <th>Açıklama</th>
+          <th>UX Karşılığı</th>
+        </tr>
+        <tr>
+          <td>Lig</td>
+          <td>Uygulamada sabit 5 lig bulunur: Elmas, Platin, Altın, Gümüş, Bronz. "Bölge sıram" gibi ayrı bir bayi kavramı yoktur; bayi esas olarak kendi liginde değerlendirilir.</td>
+          <td>Her lig farklı ikon/renk diliyle ayrışmalı. Bayi kendi total gamification sırasını, stratejik ürün sırasını ve segmentasyon sırasını görebilmeli.</td>
+        </tr>
+        <tr>
+          <td>Rozet</td>
+          <td>Stratejik ürünler, segmentasyon ve genel gamification için kazanılabilir başarı işaretleri. Rozetler admin tarafından aktif/pasif ve oranları parametrik yönetilir.</td>
+          <td>Aktif rozetler görünür olmalı; kazanılanlar kutlama, badge, konfeti veya benzeri mikro etkileşimlerle ayrışmalı.</td>
+        </tr>
+        <tr>
+          <td>Streak / Ateş</td>
+          <td>Üründen ürüne değişmeyen global bonus kuralıdır. Admin %20 dediyse tüm rozetlerde aynı uygulanır.</td>
+          <td>Ateş ikonu, seri hissi ve bonus etkisi net gösterilmeli; ürün bazlı ayrı ayrı değişiyor algısı yaratılmamalı.</td>
+        </tr>
+        <tr>
+          <td>Challenge</td>
+          <td>Bayi ile rakip arasındaki hedef yarışıdır. Kendisinin ve rakibinin adet/ciro performansı, güç barı veya benzeri karşılaştırmalı yapı ile gösterilir.</td>
+          <td>Aktif challenge alanı oyunlaştırılmış arena gibi çalışmalı; statik metin yerine rekabet hissi vermeli.</td>
+        </tr>
+        <tr>
+          <td>Masked Lig Panosu</td>
+          <td>Bayi ekranında rakipler maskelenir. Bayi kendisini görür; üst ve altındaki bayiler **** olarak gösterilir.</td>
+          <td>İlk n yeşil, yakın takipçiler sarı, uzak/kritik durumlar kırmızı tonlarla gösterilebilir. Önceki aya göre yukarı/aşağı ikonları sadece bayi için gösterilmeli.</td>
+        </tr>
+      </table>
+
+      <h2>3. Puanlama Mantığı</h2>
+      <p>
+        Tasarımın en kritik ilkesi şudur: <strong>aynı seçili rozet/ürün/period için puan, tüm ekranlarda aynı
+        hesap sonucunu göstermelidir.</strong> "Puan nasıl oluştu?", "Aktif Stratejik Ürünler" ve "Masked Lig
+        Panosu" birbiriyle çelişmemelidir.
+      </p>
+      <div class="formula">
+        Normalize ürün puanı = ürün metriğinin 0-100 aralığına normalize edilmiş değeri<br />
+        Rozet bonuslu puan = Normalize puan x (1 + rozet bonus oranı)<br />
+        Streak bonuslu puan = Rozet bonuslu puan x (1 + streak bonus oranı)<br />
+        Challenge bonuslu puan = Streak bonuslu puan x (1 + challenge bonus oranı)<br />
+        Stratejik ürün katkısı = Ürün final puanı x ürün ağırlığı<br />
+        Total gamification = Stratejik ürün katkıları + Segmentasyon katkısı + aktif diğer ana metrik katkıları
+      </div>
+      <p>
+        Örnek: Normalize 81, rozet %10, streak %20 ise sonuç 81 x 1,10 x 1,20 = 106,92 olmalıdır. Bu değer
+        hem ürün kartında hem puan kırılımında hem de seçili rozet panosunda aynı mantıkla görünmelidir.
+        Puan 100'ü geçebilir; tüm metriklerde lider olmak zor olduğu için bu demo dünyasında gerçekçi bir yüksek başarı
+        senaryosu olarak kabul edilir.
+      </p>
+
+      <h3>Ana Ağırlıklar</h3>
+      <ul>
+        <li>Demo genel kurgusunda stratejik ürün ağırlığı %70, segmentasyon ağırlığı %30 olmalıdır.</li>
+        <li>HGO ve Büyüme faz 1'de sayfalarda görünebilir ancak ağırlığı %0 veya devre dışı senaryo olarak ele alınabilir.</li>
+        <li>Segmentasyon, bayi kendi kulvarındaki gelişim değil; kendi ligindeki dealer_score sıralaması ve normalize puanıdır.</li>
+        <li>Admin panelinde aktif stratejik ürünlerin ağırlıkları yönetilir; toplam ağırlık 100'ü geçmemelidir.</li>
+      </ul>
+
+      <h2 class="break">4. Bayi Deneyimi</h2>
+      <p>
+        Bayi ekranı ürünün en kritik yüzüdür. Kullanıcı uygulamaya girdiğinde "ne durumdayım, kime yakınım,
+        ne kazanmışım, nerede düşmüşüm, hangi rozet bana puan getirdi?" sorularına hızlı cevap almalıdır.
+      </p>
+
+      <h3>Ana Sayfa</h3>
+      <ul>
+        <li>Uygulama adı SALES CHAMPIONS LEAGUE olmalıdır.</li>
+        <li>Karşılama metni gerçek isim yerine "Hoş geldin Bayi-3234" gibi random 4 haneli bayi koduyla görünmelidir.</li>
+        <li>Bayi ana ekranında üst/alt rakip bayiler **** olarak maskelenmelidir. CSM, Bölge Müdürü ve Direktör ekranlarında gerçek bayi kodları görülebilir.</li>
+        <li>"Bölge sıram" bayi ana kavramı olarak kullanılmamalıdır; bayi kendi ligindeki sıralarını görmelidir.</li>
+        <li>Üst bar scroll sırasında sabit kalmalıdır.</li>
+      </ul>
+
+      <h3>Puan Nasıl Oluştu?</h3>
+      <ul>
+        <li>Rozet, streak ve challenge etkileri ayrı ayrı görünmelidir.</li>
+        <li>Bu oranlar admin parametrelerinden geliyormuş gibi gösterilmelidir.</li>
+        <li>Alan daha kompakt, ikonlu, canlı ve okunabilir olmalıdır.</li>
+        <li>Kırılım örneği sadece yüzde göstermemeli; ham puandan final puana giden matematiği de anlaşılır kılmalıdır.</li>
+      </ul>
+
+      <h3>Aktif Stratejik Ürünler</h3>
+      <ul>
+        <li>6 stratejik ürün desteklenmelidir; hepsi her zaman iyi performans göstermemelidir. Demo gerçekçi olmalı: bazı ürünlerde bayi iyi, bazılarında orta/kötü olmalıdır.</li>
+        <li>Her ürün için 0-100 normalize ham puan, rozet katkısı, streak katkısı, challenge katkısı ve ağırlıklı total katkı görünmelidir.</li>
+        <li>Örneğin stratejik ürün puanı 65 ise bunun %70 ana stratejik ürün ağırlığına nasıl katkı verdiği ayrıca görülebilmelidir.</li>
+        <li>Seçili ürünün önceki aya göre yüzdesel artış/düşüşü gösterilmelidir.</li>
+        <li>Hover efektleri ve kazanılmış rozetlerde küçük kutlama/konfeti hissi olmalıdır.</li>
+      </ul>
+
+      <h3>Masked Lig Panosu</h3>
+      <ul>
+        <li>Bu alan büyütülmeli ve stratejik ürün kartlarına göre daha baskın hale getirilmelidir.</li>
+        <li>Aktif tüm rozetler için dinamik sekmeler olmalıdır: 6 stratejik ürün, segmentasyon ve gamification rozeti.</li>
+        <li>Sekme değişince puan, adet, ciro, rozet ve sıralama verileri güncellenmelidir.</li>
+        <li>Adet bazlı ürünlerde adet; ciro bazlı ürünlerde TL ciro gösterilmelidir.</li>
+        <li>İlk n içindekiler yeşil; takip mesafesine göre sarıdan kırmızıya giden renk skalası kullanılmalıdır.</li>
+        <li>Sadece bayi satırında önceki aya göre yukarı/aşağı hareket ikonu gösterilmelidir.</li>
+      </ul>
+
+      <h3>Challenge Alanı</h3>
+      <ul>
+        <li>Kendisinin kaç adet/ciro yaptığı ve rakibinin kaçta olduğu ikonlu biçimde görünmelidir.</li>
+        <li>Güç barı veya oyunlaştırılmış karşılaşma barı kullanılmalıdır.</li>
+        <li>Challenge sonucu puana nasıl etki ediyorsa "Puan nasıl oluştu?" alanında aynı oranla yansımalıdır.</li>
+      </ul>
+
+      <h3>Lig Pozisyonu</h3>
+      <ul>
+        <li>Bayi total gamification sırasını, stratejik ürün özelindeki sırasını ve segmentasyon sırasını görmelidir.</li>
+        <li>Platin Lig Puan Dağılımı gibi grafiklerde her puan aralığında kaç bayi olduğu sütun içinde yazmalıdır.</li>
+        <li>Örneğin seçili rozette kendi liginde 176 bayi varsa, 0-50, 50-60 gibi aralıklarda kaç bayi bulunduğu görülmelidir.</li>
+        <li>Bu alan renkli, hareketli ve oyun hissini destekleyen mikro etkileşimlerle tasarlanmalıdır.</li>
+      </ul>
+
+      <h3>Rozet Koleksiyonum</h3>
+      <ul>
+        <li>Bayi hangi rozeti kaç defa aldı, hangi aylarda aldı, önceki ay normalize puanı neydi, mevcut durumu nedir görebilmelidir.</li>
+        <li>Kazanılan rozetler badge ve kutlama hissiyle öne çıkarılmalıdır.</li>
+        <li>"Seçili Rozet: Fiber Yıldızı" gibi tek seçenek hissi verilmemeli; seçilebilir, detaylandırılmış rozet yapısı olmalıdır.</li>
+      </ul>
+
+      <h2 class="break">5. Genel / Yönetici Deneyimi</h2>
+      <p>
+        Genel sayfa, CSM, Bölge Müdürü ve Direktör için ekosistemi hızlı okumaya yarayan canlı bir kontrol alanı
+        gibi çalışmalıdır. Bu sayfa statik ve renksiz olmamalı; seçilen rozet, dönem ve stratejik ürün filtreleriyle
+        tüm ana panolar değişmelidir.
+      </p>
+
+      <h3>Filtre ve Dönem Davranışı</h3>
+      <ul>
+        <li>Rozet/ürün seçilince Lig & Segment Dağılımı, Bayi Bazlı Liderler Zirvesi, Bölgesel Özet ve Ekosistem Nabzı değişmelidir.</li>
+        <li>Bu ay, önceki ay ve yılbaşından beri seçimleri sayıları ve liderleri değiştirmelidir.</li>
+        <li>Demo verisi random/dinamik hissi vermeli; her seçim aynı tabloyu göstermemelidir.</li>
+      </ul>
+
+      <h3>Bölgesel Özet</h3>
+      <p>Bu alan Lig & Segment Dağılımı'ndan önce gelmelidir ve harita ile birlikte bölge bazlı tablo/özet sunmalıdır.</p>
+      <ul>
+        <li>Bölge bazlı ortalama gamification puanı.</li>
+        <li>Bölge bazlı stratejik ürün puan ortalaması.</li>
+        <li>Bölge bazlı segmentasyon puan ortalaması.</li>
+        <li>Challenge kazanan bayi sayısı ve challenge katılan bayi sayısı.</li>
+        <li>Bölge bazlı en çok challenge olan ürün.</li>
+        <li>Seçilen rozete göre bölge renkleri değişmelidir; hep aynı renk kalmamalıdır.</li>
+      </ul>
+
+      <h3>Ekosistem Nabzı</h3>
+      <ul>
+        <li>Aktif bayi sayısı.</li>
+        <li>En çok challenge alan ürün.</li>
+        <li>Geçen aya göre yüzdesel olarak en çok artan stratejik ürün.</li>
+        <li>Toplam rozet sayısı gibi gereksiz kalabalık metriklere ihtiyaç yoktur.</li>
+      </ul>
+
+      <h3>Lig & Segment Dağılımı</h3>
+      <ul>
+        <li>Her ligdeki en çok rozet alan bayiler ve bölgeler görünmelidir.</li>
+        <li>Ortalama puan, ligin ortalama puanı olmalıdır; yanında bayi total gamification puanı da yer almalıdır.</li>
+        <li>Liglerin ikonları ve renkleri farklı olmalıdır.</li>
+        <li>Toplam rozet sayısı gerçekçi olmalıdır. 8 rozetin tamamını almak çok zor olacağı için dağılım 3-6 arası öbeklenebilir.</li>
+        <li>Aynı rozet sayısına sahip bayiler total gamification puanına göre sıralanmalıdır.</li>
+      </ul>
+
+      <h3>Bayi Bazlı Liderler Zirvesi</h3>
+      <ul>
+        <li>Son 2 ayda en çok rozet alan ve yükselen bayiler gösterilmelidir.</li>
+        <li>Tüm rozetlerde ilk 30 bayi scroll içinde görülebilmeli; alan tüm sayfayı kaplamamalıdır.</li>
+        <li>Seçili rozete göre tablo ve görsel vurgu değişmelidir.</li>
+      </ul>
+
+      <h3>Rozet Şampiyonları Sekmesi</h3>
+      <ul>
+        <li>Her aktif rozet için her ligin birincisi gösterilmelidir.</li>
+        <li>Örneğin Fiber Şampiyonları: 5 lig için 5 bayi.</li>
+        <li>Yapı ikonlu, renkli ve hover etkileşimli olmalıdır.</li>
+      </ul>
+
+      <h2>6. CSM, Bölge Müdürü ve Direktör İhtiyaçları</h2>
+      <table>
+        <tr>
+          <th>Rol</th>
+          <th>Beklenen Odak</th>
+          <th>Önemli Not</th>
+        </tr>
+        <tr>
+          <td>CSM</td>
+          <td>Kendi bayilerini 100'lük final gamification puanı, stratejik ürün ortalaması ve segmentasyon ortalamasıyla izler.</td>
+          <td>Bayi detayında 2-3 örnek bayi arasında geçiş olmalı; seçilen ürün/rozet/lig geçmişi değişmelidir.</td>
+        </tr>
+        <tr>
+          <td>Bölge Müdürü</td>
+          <td>CSM performanslarını, bölge ortalamalarını ve rozet/challenge yoğunluklarını takip eder.</td>
+          <td>Renkli, canlı ve seçime göre değişen panolar kullanılmalıdır.</td>
+        </tr>
+        <tr>
+          <td>Direktör</td>
+          <td>Bölgeler arası kıyas, lig dağılımı, yükselen/düşen alanlar ve genel ekosistem sağlığını görür.</td>
+          <td>Harita ve liderlik panoları karar almayı kolaylaştıracak yoğunlukta olmalıdır.</td>
+        </tr>
+      </table>
+
+      <h2 class="break">7. Admin Paneli</h2>
+      <p>
+        Admin panelinde "komuta merkezi" gibi genel metrik tekrarına gerek yoktur; bu bilgiler genel sayfada
+        karşılanır. Admin tarafı lig hesaplama, rozet, aktif ürün ve bonus kural yönetimine odaklanmalıdır.
+      </p>
+
+      <h3>Lig Hesaplama</h3>
+      <ul>
+        <li>Lig sayısı admin tarafından belirlenmeyecek; sabit 5 lig olacaktır: Elmas, Platin, Altın, Gümüş, Bronz.</li>
+        <li>Lig bazlı min, max, ortalama ve bayi kendi puanı görünmelidir.</li>
+      </ul>
+
+      <h3>Rozet ve Ürün Yönetimi</h3>
+      <ul>
+        <li>Bu Ay Aktif Stratejik Ürünler alanında ürün aktif/pasif edilebilmelidir.</li>
+        <li>Aktif ürünlerin ağırlıkları değiştirilebilmeli; toplam 100'ü geçmemelidir.</li>
+        <li>3 ürün aktifse de toplam 100 olacak şekilde ayarlanmalıdır; 6 ürün aktifse de aynı kural geçerlidir.</li>
+        <li>Streak tek global seçenek olmalıdır: var/yok ve oran. Üründen ürüne değişmemelidir.</li>
+        <li>Rozet bonus oranı admin parametresi olmalıdır; bazı rozetlerde %10, bazılarında %5 gibi farklı oranlar yönetilebilir.</li>
+      </ul>
+
+      <h3>Sıra ve Bonus Oranları</h3>
+      <ul>
+        <li>İlk n değeri bu alandan yönetilmelidir.</li>
+        <li>n = 5 ise ilk 5 sıra aktif; n = 3 ise 4. ve 5. sıra pasif görünmelidir.</li>
+        <li>Bu nedenle ürün tablosundan "İlk n" sütunu kaldırılabilir; kural merkezi bu alan olmalıdır.</li>
+      </ul>
+
+      <h2>8. Görsel ve Etkileşim Prensipleri</h2>
+      <div class="summary">
+        <div class="principle">
+          <strong>Canlı ve oyunsal</strong>
+          <p>Lig ikonları, rozetler, ateş/streak, güç barları, hover parlamaları, kazanım animasyonları ve küçük konfeti efektleri kullanılmalı.</p>
+        </div>
+        <div class="principle">
+          <strong>Yoğun ama okunabilir</strong>
+          <p>Operasyonel kullanıcı çok veri görür; alanlar kompakt ama boğucu olmamalı. Gereksiz boş beyaz alanlar azaltılmalı.</p>
+        </div>
+        <div class="principle">
+          <strong>Renk anlam taşımalı</strong>
+          <p>Yeşil başarı/ilk n, sarı yaklaşma, kırmızı risk/uzaklaşma, mavi bilgi, altın başarı hissi için kullanılabilir.</p>
+        </div>
+        <div class="principle">
+          <strong>Her seçim ekranı değiştirmeli</strong>
+          <p>Rozet, dönem, ürün veya lig değişince ilgili panolar güncellenmeli. Demo bile olsa statik hissedilmemeli.</p>
+        </div>
+      </div>
+
+      <h2>9. Veri Tutarlılığı ve Demo Gerçekçiliği</h2>
+      <ul>
+        <li>Bayi her metrikte lider olmamalıdır; iyi ve kötü performanslar birlikte görünmelidir.</li>
+        <li>Puanlar 100'ü geçebilir, ancak bu durum matematiksel olarak bonuslardan kaynaklandığı için açık gösterilmelidir.</li>
+        <li>Final puan yönetici listelerinde 100'lük skala ile anlaşılır sunulmalıdır; detayda bonuslu katkılar ayrıca açıklanabilir.</li>
+        <li>Seçili rozet ve dönem değiştiğinde sayılar random/dinamik hissi vermeli ama birbirleriyle mantıksal olarak tutarlı kalmalıdır.</li>
+        <li>Adet ve ciro metrikleri aynı formatta gösterilmemeli; ciro olan yerlerde TL formatı kullanılmalıdır.</li>
+      </ul>
+
+      <h2>10. UX Ekibinden Beklenen Çıktı</h2>
+      <ol>
+        <li>Bayi ana sayfası için daha canlı, oyunlaştırılmış ve dinamik yeni layout önerisi.</li>
+        <li>Masked Lig Panosu için sekmeli, ikonlu, rozet/adet/ciro/puan gösterimli gelişmiş tasarım.</li>
+        <li>Puan Nasıl Oluştu ve Aktif Stratejik Ürünler alanlarının tutarlı, kompakt ve görsel olarak güçlü yeniden tasarımı.</li>
+        <li>Genel sayfa için bölgesel özet, ekosistem nabzı, lig dağılımı, top 30 lider tablosu ve rozet şampiyonları alanlarının tasarımı.</li>
+        <li>Admin panelinde rozet, aktif ürün, ağırlık, streak ve sıra/bonus oranları yönetim ekranlarının sadeleştirilmiş UX akışı.</li>
+        <li>Rol bazlı görünürlük ve maskeleme kuralları: bayi tarafında ****, yönetici tarafında bayi kodları.</li>
+      </ol>
+
+      <h2>11. Önceliklendirme</h2>
+      <table>
+        <tr>
+          <th>Öncelik</th>
+          <th>Kapsam</th>
+          <th>Gerekçe</th>
+        </tr>
+        <tr>
+          <td><span class="good">P0</span></td>
+          <td>Bayi ana sayfası, puan tutarlılığı, masked lig panosu, challenge gösterimi.</td>
+          <td>Ürünün motivasyon ve güvenilirlik algısını belirleyen ana deneyimdir.</td>
+        </tr>
+        <tr>
+          <td><span class="good">P1</span></td>
+          <td>Genel sayfa, bölgesel özet, liderler zirvesi, rozet şampiyonları.</td>
+          <td>Yönetici kullanıcıların ekosistemi okumasını ve aksiyon almasını sağlar.</td>
+        </tr>
+        <tr>
+          <td><span class="risk">P2</span></td>
+          <td>Admin sadeleştirme, detay parametre ekranları, ek animasyonlar.</td>
+          <td>Kural yönetimi için gereklidir; görsel deneyimin ardından olgunlaştırılabilir.</td>
+        </tr>
+      </table>
+
+      <div class="note">
+        <strong>UX için ana cümle:</strong>
+        Bu ürün bir raporlama ekranı değil, satış kanalının lig ve başarı oyunudur. Tasarım kullanıcının
+        performansını anlamasını, motive olmasını ve bir sonraki hedefe gitmesini sağlamalıdır.
+      </div>
+
+      <div class="footer">
+        Hazırlanan brief: SALES CHAMPIONS LEAGUE prototip geri bildirimleri ve iş sahibi taleplerinin düzenlenmiş özeti.
+      </div>
+    </main>
+  </body>
+</html>

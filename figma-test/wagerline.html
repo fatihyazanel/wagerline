@@ -1,0 +1,2033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WAGERline - Premium Sports Intelligence</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #05080D;
+            --bg-alt: #080C12;
+            --surface: #0B1119;
+            --surface-alt: #0E151E;
+            --surface-light: #101822;
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --border-light: rgba(255, 255, 255, 0.08);
+            --border-strong: rgba(255, 255, 255, 0.12);
+            --primary: #F4D900;
+            --primary-dark: #D4B800;
+            --success: #32D583;
+            --danger: #FF4D5A;
+            --warning: #FFB547;
+            --info: #4DA3FF;
+            --purple: #9B7BFF;
+            --text-primary: rgba(255, 255, 255, 0.95);
+            --text-secondary: rgba(255, 255, 255, 0.70);
+            --text-tertiary: rgba(255, 255, 255, 0.45);
+            --text-muted: rgba(255, 255, 255, 0.30);
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: 13px;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        /* ============ HEADER ============ */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            background: var(--bg-dark);
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            gap: 40px;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 16px;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            white-space: nowrap;
+        }
+
+        .logo-accent {
+            color: var(--primary);
+        }
+
+        .nav {
+            display: flex;
+            list-style: none;
+            gap: 32px;
+            flex: 1;
+        }
+
+        .nav-item {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            cursor: pointer;
+            position: relative;
+            transition: color 0.2s;
+        }
+
+        .nav-item:hover {
+            color: var(--text-secondary);
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+        }
+
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-left: auto;
+        }
+
+        .search-input {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+            padding: 6px 12px;
+            border-radius: 18px;
+            width: 200px;
+            font-size: 11px;
+        }
+
+        .search-input::placeholder {
+            color: var(--text-tertiary);
+        }
+
+        .btn {
+            padding: 6px 14px;
+            border: none;
+            border-radius: 5px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--border-strong);
+            color: var(--text-primary);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--bg-dark);
+            font-weight: 700;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        /* ============ CONTAINER ============ */
+        .container {
+            margin-top: 56px;
+            padding: 24px;
+            max-width: 1600px;
+            margin-left: auto;
+            margin-right: auto;
+            min-height: calc(100vh - 56px);
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* ============ TYPOGRAPHY ============ */
+        h1 {
+            font-size: 28px;
+            font-weight: 900;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+
+        h2 {
+            font-size: 16px;
+            font-weight: 800;
+            margin-bottom: 14px;
+        }
+
+        h3 {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        /* ============ GRID ============ */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+        }
+
+        .grid-5 {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 14px;
+        }
+
+        .grid-6040 {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 14px;
+        }
+
+        /* ============ CARDS ============ */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 14px;
+            transition: border-color 0.2s;
+        }
+
+        .card:hover {
+            border-color: var(--border-light);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 10px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .card-title {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-tertiary);
+        }
+
+        .card-link {
+            font-size: 10px;
+            color: var(--text-tertiary);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .card-link:hover {
+            color: var(--text-secondary);
+        }
+
+        /* ============ KPI ============ */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+        }
+
+        .kpi {
+            background: linear-gradient(135deg, var(--surface-light) 0%, var(--surface) 100%);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 14px;
+            text-align: center;
+        }
+
+        .kpi-label {
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            color: var(--text-tertiary);
+            margin-bottom: 6px;
+        }
+
+        .kpi-value {
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .kpi-change {
+            font-size: 9px;
+            font-weight: 700;
+            color: var(--success);
+        }
+
+        /* ============ BADGES ============ */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: var(--danger);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        /* ============ TABS ============ */
+        .tabs {
+            display: flex;
+            gap: 16px;
+            border-bottom: 1px solid var(--border-subtle);
+            padding-bottom: 10px;
+            margin-bottom: 14px;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            color: var(--text-tertiary);
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 0;
+            white-space: nowrap;
+            transition: color 0.2s;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-secondary);
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+        }
+
+        /* ============ MATCH ROW ============ */
+        .match-row {
+            display: grid;
+            grid-template-columns: 40px 1fr 50px;
+            gap: 12px;
+            padding: 10px;
+            border-radius: 6px;
+            align-items: center;
+            font-size: 11px;
+            cursor: pointer;
+            border-left: 2px solid transparent;
+            transition: all 0.15s;
+            margin-bottom: 4px;
+        }
+
+        .match-row:hover {
+            background: rgba(255, 255, 255, 0.02);
+            border-left-color: var(--primary);
+        }
+
+        .match-row.active {
+            background: rgba(244, 217, 0, 0.08);
+            border-left-color: var(--primary);
+        }
+
+        .match-league {
+            font-size: 9px;
+            color: var(--text-tertiary);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .match-teams {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .match-score {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--primary);
+            text-align: center;
+        }
+
+        .match-time {
+            font-size: 9px;
+            color: var(--text-tertiary);
+            text-align: right;
+        }
+
+        /* ============ DETAIL PANEL ============ */
+        .detail-header {
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-subtle);
+            margin-bottom: 10px;
+        }
+
+        .detail-teams {
+            display: grid;
+            grid-template-columns: 1fr 60px 1fr;
+            gap: 8px;
+            align-items: center;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .detail-team {
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .detail-score {
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--primary);
+        }
+
+        .detail-meta {
+            font-size: 9px;
+            color: var(--text-tertiary);
+        }
+
+        .stat-bar {
+            display: flex;
+            height: 4px;
+            background: var(--surface-light);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .stat-fill {
+            background: var(--primary);
+            height: 100%;
+        }
+
+        /* ============ TABLE ============ */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 10px;
+        }
+
+        th {
+            padding: 8px 0;
+            text-align: left;
+            color: var(--text-tertiary);
+            font-weight: 700;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        td {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .rank {
+            color: var(--text-tertiary);
+            font-weight: 700;
+            width: 20px;
+        }
+
+        .highlight {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* ============ HERO ============ */
+        .hero {
+            background: linear-gradient(135deg, rgba(244, 217, 0, 0.08) 0%, rgba(77, 163, 255, 0.04) 100%);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 48px;
+            min-height: 340px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            right: -100px;
+            top: -100px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(244, 217, 0, 0.08), transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero h1 {
+            position: relative;
+            z-index: 1;
+            font-size: 36px;
+            line-height: 1.2;
+            margin-bottom: 16px;
+            max-width: 700px;
+        }
+
+        .hero p {
+            position: relative;
+            z-index: 1;
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            max-width: 600px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 10px;
+            position: relative;
+            z-index: 1;
+            width: fit-content;
+        }
+
+        /* ============ SPORT CARD ============ */
+        .sport-card {
+            background: linear-gradient(135deg, var(--surface-light) 0%, var(--surface) 100%);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .sport-card:hover {
+            border-color: var(--primary);
+            background: var(--surface);
+        }
+
+        .sport-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .sport-name {
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .sport-count {
+            font-size: 9px;
+            color: var(--text-tertiary);
+        }
+
+        /* ============ COMPETITION BUTTONS ============ */
+        .competition-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .comp-btn {
+            background: var(--surface-light);
+            border: 1px solid var(--border-subtle);
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .comp-btn:hover {
+            background: var(--surface);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* ============ PREDICTION CARD ============ */
+        .pred-card {
+            background: var(--surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 12px;
+        }
+
+        .pred-match {
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .pred-time {
+            font-size: 9px;
+            color: var(--text-tertiary);
+            margin-bottom: 10px;
+        }
+
+        .pred-bar {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            font-size: 9px;
+            margin-bottom: 6px;
+        }
+
+        .pred-label {
+            width: 40px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .pred-fill {
+            flex: 1;
+            height: 4px;
+            background: var(--surface-light);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .pred-fill-val {
+            display: flex;
+            height: 100%;
+            background: var(--primary);
+        }
+
+        .pred-pct {
+            width: 25px;
+            text-align: right;
+            font-weight: 700;
+        }
+
+        .pred-conf {
+            font-size: 9px;
+            background: var(--surface-light);
+            padding: 6px;
+            border-radius: 4px;
+            text-align: center;
+            color: var(--text-tertiary);
+            margin-top: 8px;
+        }
+
+        /* ============ NEWS CARD ============ */
+        .news-featured {
+            background: var(--surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            height: 220px;
+        }
+
+        .news-img {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--info) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+        }
+
+        .news-content {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .news-cat {
+            font-size: 8px;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            margin-bottom: 8px;
+        }
+
+        .news-title {
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        .news-meta {
+            font-size: 9px;
+            color: var(--text-tertiary);
+        }
+
+        .news-card {
+            background: var(--surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .news-card:hover {
+            border-color: var(--primary);
+        }
+
+        .news-card-img {
+            height: 100px;
+            background: linear-gradient(135deg, var(--purple) 0%, var(--info) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+        }
+
+        .news-card-content {
+            padding: 10px;
+        }
+
+        .news-card-title {
+            font-size: 10px;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 4px;
+        }
+
+        /* ============ BADGE CARD ============ */
+        .badge-card {
+            background: linear-gradient(135deg, var(--surface-light) 0%, var(--surface) 100%);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .badge-card:hover {
+            border-color: var(--primary);
+        }
+
+        .badge-icon {
+            font-size: 36px;
+            margin-bottom: 8px;
+        }
+
+        .badge-name {
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .badge-desc {
+            font-size: 8px;
+            color: var(--text-tertiary);
+        }
+
+        /* ============ PROGRESS ============ */
+        .progress {
+            background: var(--surface-light);
+            height: 4px;
+            border-radius: 2px;
+            overflow: hidden;
+            margin: 8px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        /* ============ LEADERBOARD ============ */
+        .lb-row {
+            display: grid;
+            grid-template-columns: 30px 1fr 80px;
+            gap: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-subtle);
+            align-items: center;
+            font-size: 10px;
+        }
+
+        .lb-rank {
+            font-weight: 700;
+            color: var(--text-tertiary);
+        }
+
+        .lb-rank.user {
+            color: var(--primary);
+        }
+
+        .lb-score {
+            text-align: right;
+            font-weight: 700;
+        }
+
+        /* ============ ADMIN ============ */
+        .admin-grid {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 14px;
+        }
+
+        .admin-menu {
+            background: var(--surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            height: fit-content;
+            position: sticky;
+            top: 72px;
+        }
+
+        .admin-item {
+            padding: 8px 10px;
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            cursor: pointer;
+            border-radius: 4px;
+            border-left: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .admin-item:hover {
+            color: var(--text-primary);
+            background: var(--surface-light);
+        }
+
+        .admin-item.active {
+            color: var(--primary);
+            background: rgba(244, 217, 0, 0.08);
+            border-left-color: var(--primary);
+        }
+
+        /* ============ CHART ============ */
+        .chart-box {
+            display: flex;
+            align-items: flex-end;
+            gap: 3px;
+            height: 140px;
+            padding: 10px 0;
+        }
+
+        .chart-bar {
+            flex: 1;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        /* ============ TIMELINE ============ */
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 8px 1fr;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-subtle);
+            font-size: 10px;
+        }
+
+        .timeline-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--primary);
+            border-radius: 50%;
+            margin-top: 2px;
+        }
+
+        .timeline-title {
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .timeline-time {
+            font-size: 8px;
+            color: var(--text-tertiary);
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 1280px) {
+            .grid-5 {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .grid-6040 {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .competition-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .grid-4 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .nav {
+                gap: 20px;
+            }
+
+            .competition-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .header {
+                padding: 0 12px;
+                gap: 12px;
+            }
+
+            .container {
+                padding: 12px;
+            }
+
+            .nav {
+                gap: 12px;
+                font-size: 11px;
+            }
+
+            .search-input {
+                width: 120px;
+            }
+
+            .hero {
+                padding: 24px;
+                min-height: 260px;
+            }
+
+            .hero h1 {
+                font-size: 24px;
+            }
+
+            .grid-5,
+            .grid-4 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="logo">WAGER<span class="logo-accent">line</span></div>
+        <nav class="nav">
+            <div class="nav-item active" onclick="switchPage('live')">Live</div>
+            <div class="nav-item" onclick="switchPage('sports')">Sports</div>
+            <div class="nav-item" onclick="switchPage('leagues')">Leagues</div>
+            <div class="nav-item" onclick="switchPage('predictions')">Predictions</div>
+            <div class="nav-item" onclick="switchPage('stats')">Stats</div>
+            <div class="nav-item" onclick="switchPage('news')">News</div>
+            <div class="nav-item" onclick="switchPage('rewards')">Rewards</div>
+            <div class="nav-item" onclick="switchPage('admin')">Admin</div>
+        </nav>
+        <div class="header-right">
+            <input type="text" class="search-input" placeholder="Search teams, players...">
+            <button class="btn btn-secondary">Login</button>
+            <button class="btn btn-primary">Sign Up</button>
+        </div>
+    </header>
+
+    <!-- CONTAINER -->
+    <div class="container">
+        <!-- ============ LIVE PAGE ============ -->
+        <div id="live" class="page active">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <h1>Live</h1>
+                <div class="badge">● LIVE</div>
+            </div>
+
+            <div class="tabs">
+                <div class="tab-btn active" onclick="filterLiveByTeam('all')">All</div>
+                <div class="tab-btn" onclick="filterLiveByTeam('football')">Football</div>
+                <div class="tab-btn" onclick="filterLiveByTeam('basketball')">Basketball</div>
+                <div class="tab-btn" onclick="filterLiveByTeam('ice-hockey')">Ice Hockey</div>
+                <div class="tab-btn" onclick="filterLiveByTeam('american-football')">American Football</div>
+                <div class="tab-btn" onclick="filterLiveByTeam('formula-1')">Formula 1</div>
+            </div>
+
+            <div class="grid-6040">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Live Now (12)</span>
+                    </div>
+                    <div id="liveMatches"></div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Match Details</span>
+                    </div>
+                    <div id="matchDetails" style="padding: 20px 0; color: var(--text-tertiary); text-align: center; font-size: 12px;">
+                        Select a match to view details
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Upcoming Matches</span>
+                    <span class="card-link">View All</span>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 6px; font-size: 10px;">
+                    <div style="display: grid; grid-template-columns: 1fr 80px; gap: 12px; padding: 6px 0; border-bottom: 1px solid var(--border-subtle);">
+                        <span style="color: var(--text-secondary);">Dortmund vs Leipzig</span>
+                        <span style="text-align: right; color: var(--text-tertiary);">18:30</span>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 80px; gap: 12px; padding: 6px 0; border-bottom: 1px solid var(--border-subtle);">
+                        <span style="color: var(--text-secondary);">Inter vs Atalanta</span>
+                        <span style="text-align: right; color: var(--text-tertiary);">20:45</span>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 80px; gap: 12px; padding: 6px 0;">
+                        <span style="color: var(--text-secondary);">PSG vs Marseille</span>
+                        <span style="text-align: right; color: var(--text-tertiary);">21:00</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Top Scorers</span>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Player</th>
+                            <th>Team</th>
+                            <th style="text-align: right;">Goals</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="rank">1</td>
+                            <td><strong>Erling Haaland</strong></td>
+                            <td>Man City</td>
+                            <td class="highlight" style="text-align: right;">27</td>
+                        </tr>
+                        <tr>
+                            <td class="rank">2</td>
+                            <td><strong>Mohamed Salah</strong></td>
+                            <td>Liverpool</td>
+                            <td class="highlight" style="text-align: right;">22</td>
+                        </tr>
+                        <tr>
+                            <td class="rank">3</td>
+                            <td><strong>Harry Kane</strong></td>
+                            <td>Bayern Munich</td>
+                            <td class="highlight" style="text-align: right;">21</td>
+                        </tr>
+                        <tr>
+                            <td class="rank">4</td>
+                            <td><strong>Kylian Mbappé</strong></td>
+                            <td>Paris SG</td>
+                            <td class="highlight" style="text-align: right;">19</td>
+                        </tr>
+                        <tr>
+                            <td class="rank">5</td>
+                            <td><strong>Vinicius Jr</strong></td>
+                            <td>Real Madrid</td>
+                            <td class="highlight" style="text-align: right;">18</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ============ SPORTS PAGE ============ -->
+        <div id="sports" class="page">
+            <div class="hero">
+                <h1>ALL SPORTS.<br>ALL INTELLIGENCE.<br><span style="color: var(--primary);">ONE PLATFORM.</span></h1>
+                <p>Live scores, stats, AI predictions and everything you need to stay ahead.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary">Explore All Sports</button>
+                    <button class="btn btn-secondary">Learn More</button>
+                </div>
+            </div>
+
+            <h2>Sports</h2>
+            <div class="grid-5">
+                <div class="sport-card">
+                    <div class="sport-icon">⚽</div>
+                    <div class="sport-name">Football</div>
+                    <div class="sport-count">1,247 Competitions</div>
+                </div>
+                <div class="sport-card">
+                    <div class="sport-icon">🏀</div>
+                    <div class="sport-name">Basketball</div>
+                    <div class="sport-count">312 Competitions</div>
+                </div>
+                <div class="sport-card">
+                    <div class="sport-icon">🏈</div>
+                    <div class="sport-name">American Football</div>
+                    <div class="sport-count">120 Competitions</div>
+                </div>
+                <div class="sport-card">
+                    <div class="sport-icon">🏒</div>
+                    <div class="sport-name">Ice Hockey</div>
+                    <div class="sport-count">108 Competitions</div>
+                </div>
+                <div class="sport-card">
+                    <div class="sport-icon">🏎️</div>
+                    <div class="sport-name">Formula 1</div>
+                    <div class="sport-count">23 Competitions</div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 20px;">
+                <div class="card-header">
+                    <span class="card-title">Popular Competitions</span>
+                </div>
+                <div class="competition-grid">
+                    <div class="comp-btn">Premier League</div>
+                    <div class="comp-btn">La Liga</div>
+                    <div class="comp-btn">Serie A</div>
+                    <div class="comp-btn">Bundesliga</div>
+                    <div class="comp-btn">Ligue 1</div>
+                    <div class="comp-btn">NBA</div>
+                    <div class="comp-btn">NFL</div>
+                    <div class="comp-btn">NHL</div>
+                    <div class="comp-btn">Champions League</div>
+                    <div class="comp-btn">World Cup</div>
+                    <div class="comp-btn">Super Lig</div>
+                    <div class="comp-btn">Formula 1</div>
+                </div>
+            </div>
+
+            <div class="grid-2" style="margin-top: 20px;">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Trending Teams</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 6px; font-size: 10px;">
+                        <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border-subtle); color: var(--text-secondary);">
+                            <span>1. Man City 2–1 Liverpool</span>
+                            <span style="color: var(--success);">▲</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border-subtle); color: var(--text-secondary);">
+                            <span>2. Barcelona 1–0 Madrid</span>
+                            <span style="color: var(--success);">▲</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border-subtle); color: var(--text-secondary);">
+                            <span>3. Lakers 83–78 Warriors</span>
+                            <span style="color: var(--danger);">▼</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 6px 0; color: var(--text-secondary);">
+                            <span>4. Maple Leafs 3–2 Habs</span>
+                            <span style="color: var(--success);">▲</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Top Players</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 8px; font-size: 10px;">
+                        <div style="padding: 6px 0; border-bottom: 1px solid var(--border-subtle);">
+                            <div style="font-weight: 700; color: var(--text-primary);">Erling Haaland</div>
+                            <div style="color: var(--text-tertiary); font-size: 9px;">Man City · 27 Goals</div>
+                        </div>
+                        <div style="padding: 6px 0; border-bottom: 1px solid var(--border-subtle);">
+                            <div style="font-weight: 700; color: var(--text-primary);">Mohamed Salah</div>
+                            <div style="color: var(--text-tertiary); font-size: 9px;">Liverpool · 22 Goals</div>
+                        </div>
+                        <div style="padding: 6px 0;">
+                            <div style="font-weight: 700; color: var(--text-primary);">Harry Kane</div>
+                            <div style="color: var(--text-tertiary); font-size: 9px;">Bayern · 21 Goals</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ LEAGUES PAGE ============ -->
+        <div id="leagues" class="page">
+            <h1>Leagues</h1>
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">League Table</span>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>League</th>
+                                <th>Country</th>
+                                <th>Teams</th>
+                                <th>Matches</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Premier League</strong></td>
+                                <td>England</td>
+                                <td>20</td>
+                                <td>380</td>
+                                <td><span style="color: var(--success);">Active</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>La Liga</strong></td>
+                                <td>Spain</td>
+                                <td>20</td>
+                                <td>380</td>
+                                <td><span style="color: var(--success);">Active</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Serie A</strong></td>
+                                <td>Italy</td>
+                                <td>20</td>
+                                <td>380</td>
+                                <td><span style="color: var(--success);">Active</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Bundesliga</strong></td>
+                                <td>Germany</td>
+                                <td>18</td>
+                                <td>306</td>
+                                <td><span style="color: var(--success);">Active</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ligue 1</strong></td>
+                                <td>France</td>
+                                <td>18</td>
+                                <td>306</td>
+                                <td><span style="color: var(--success);">Active</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Super Lig</strong></td>
+                                <td>Türkiye</td>
+                                <td>20</td>
+                                <td>380</td>
+                                <td><span style="color: var(--success);">Active</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>NBA</strong></td>
+                                <td>USA</td>
+                                <td>30</td>
+                                <td>1,230</td>
+                                <td><span style="color: var(--success);">Active</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>NFL</strong></td>
+                                <td>USA</td>
+                                <td>32</td>
+                                <td>1,320</td>
+                                <td><span style="color: var(--success);">Active</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card">
+                    <div style="text-align: center; padding: 16px 0;">
+                        <div style="font-size: 12px; font-weight: 700; margin-bottom: 4px;">Premier League</div>
+                        <div style="font-size: 9px; color: var(--text-tertiary); margin-bottom: 12px;">England · Season 2025/26</div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px;">
+                            <div>
+                                <div style="font-size: 8px; color: var(--text-tertiary); margin-bottom: 4px;">TEAMS</div>
+                                <div style="font-size: 18px; font-weight: 900;">20</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 8px; color: var(--text-tertiary); margin-bottom: 4px;">MATCHES</div>
+                                <div style="font-size: 18px; font-weight: 900;">380</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%;">View League</button>
+                    </div>
+                    <div style="border-top: 1px solid var(--border-subtle); padding-top: 12px;">
+                        <div style="font-size: 11px; font-weight: 700; margin-bottom: 8px;">Top Scorers</div>
+                        <div style="display: flex; flex-direction: column; gap: 4px; font-size: 9px;">
+                            <div style="display: flex; justify-content: space-between;"><span>Erling Haaland</span><span class="highlight">27</span></div>
+                            <div style="display: flex; justify-content: space-between;"><span>Mohamed Salah</span><span class="highlight">22</span></div>
+                            <div style="display: flex; justify-content: space-between;"><span>Harry Kane</span><span class="highlight">21</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ PREDICTIONS PAGE ============ -->
+        <div id="predictions" class="page">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h1>Predictions</h1>
+                <button class="btn btn-secondary">Filters</button>
+            </div>
+
+            <div class="tabs">
+                <div class="tab-btn active">All Predictions</div>
+                <div class="tab-btn">My Predictions</div>
+            </div>
+
+            <div class="kpi-grid">
+                <div class="kpi">
+                    <div class="kpi-label">Accuracy</div>
+                    <div class="kpi-value">86%</div>
+                    <div class="kpi-change">+7.2%</div>
+                </div>
+                <div class="kpi">
+                    <div class="kpi-label">Total Predictions</div>
+                    <div class="kpi-value">1,248</div>
+                </div>
+                <div class="kpi">
+                    <div class="kpi-label">Win Rate</div>
+                    <div class="kpi-value">68%</div>
+                </div>
+                <div class="kpi">
+                    <div class="kpi-label">ROI</div>
+                    <div class="kpi-value">+24.5%</div>
+                    <div class="kpi-change">+5.1%</div>
+                </div>
+            </div>
+
+            <div class="grid-2" id="predictionsGrid" style="margin-top: 20px;"></div>
+
+            <div class="grid-3" style="margin-top: 20px;">
+                <div style="background: linear-gradient(135deg, rgba(244,217,0,0.08) 0%, rgba(50,213,131,0.04) 100%); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 16px; text-align: center;">
+                    <div style="font-size: 28px; margin-bottom: 8px;">📊</div>
+                    <h3>Data Analysis</h3>
+                    <p style="font-size: 9px; color: var(--text-tertiary); line-height: 1.4; margin: 0;">Historical and current performance data</p>
+                </div>
+                <div style="background: linear-gradient(135deg, rgba(77,163,255,0.08) 0%, rgba(155,123,255,0.04) 100%); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 16px; text-align: center;">
+                    <div style="font-size: 28px; margin-bottom: 8px;">🤖</div>
+                    <h3>AI Prediction</h3>
+                    <p style="font-size: 9px; color: var(--text-tertiary); line-height: 1.4; margin: 0;">Model-generated probability</p>
+                </div>
+                <div style="background: linear-gradient(135deg, rgba(255,181,71,0.08) 0%, rgba(255,77,90,0.04) 100%); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 16px; text-align: center;">
+                    <div style="font-size: 28px; margin-bottom: 8px;">💡</div>
+                    <h3>Smart Insights</h3>
+                    <p style="font-size: 9px; color: var(--text-tertiary); line-height: 1.4; margin: 0;">Human-readable interpretation</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ STATS PAGE ============ -->
+        <div id="stats" class="page">
+            <h1>Stats</h1>
+
+            <div class="kpi-grid">
+                <div class="kpi">
+                    <div class="kpi-label">Matches</div>
+                    <div class="kpi-value">128</div>
+                </div>
+                <div class="kpi">
+                    <div class="kpi-label">Goals Today</div>
+                    <div class="kpi-value">356</div>
+                </div>
+                <div class="kpi">
+                    <div class="kpi-label">Avg Goals/Match</div>
+                    <div class="kpi-value">2.78</div>
+                </div>
+                <div class="kpi">
+                    <div class="kpi-label">Clean Sheets</div>
+                    <div class="kpi-value">42</div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 20px;">
+                <div class="card-header">
+                    <span class="card-title">Top Players</span>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Player</th>
+                            <th>Team</th>
+                            <th>Goals</th>
+                            <th>Assists</th>
+                            <th style="text-align: right;">Rating</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="rank">1</td>
+                            <td><strong>Erling Haaland</strong></td>
+                            <td>Man City</td>
+                            <td>27</td>
+                            <td>7</td>
+                            <td class="highlight" style="text-align: right;">7.91</td>
+                        </tr>
+                        <tr>
+                            <td class="rank">2</td>
+                            <td><strong>Mohamed Salah</strong></td>
+                            <td>Liverpool</td>
+                            <td>22</td>
+                            <td>6</td>
+                            <td class="highlight" style="text-align: right;">7.89</td>
+                        </tr>
+                        <tr>
+                            <td class="rank">3</td>
+                            <td><strong>Harry Kane</strong></td>
+                            <td>Bayern Munich</td>
+                            <td>21</td>
+                            <td>6</td>
+                            <td class="highlight" style="text-align: right;">7.72</td>
+                        </tr>
+                        <tr>
+                            <td class="rank">4</td>
+                            <td><strong>Kylian Mbappé</strong></td>
+                            <td>Paris SG</td>
+                            <td>19</td>
+                            <td>7</td>
+                            <td class="highlight" style="text-align: right;">7.68</td>
+                        </tr>
+                        <tr>
+                            <td class="rank">5</td>
+                            <td><strong>Vinicius Junior</strong></td>
+                            <td>Real Madrid</td>
+                            <td>18</td>
+                            <td>8</td>
+                            <td class="highlight" style="text-align: right;">7.60</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="grid-3" style="margin-top: 20px;">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Goals Trend</span>
+                    </div>
+                    <div class="chart-box">
+                        <div class="chart-bar" style="height: 60%;"></div>
+                        <div class="chart-bar" style="height: 75%;"></div>
+                        <div class="chart-bar" style="height: 55%;"></div>
+                        <div class="chart-bar" style="height: 80%;"></div>
+                        <div class="chart-bar" style="height: 65%;"></div>
+                        <div class="chart-bar" style="height: 70%;"></div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Shots on Target</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 6px; font-size: 9px;">
+                        <div style="display: grid; grid-template-columns: 45px 1fr 30px; gap: 8px; align-items: center;">
+                            <span style="font-weight: 700;">Man City</span>
+                            <div style="height: 3px; background: var(--surface-light); border-radius: 1.5px; overflow: hidden;"><div style="height: 100%; background: var(--primary); width: 86%;"></div></div>
+                            <span style="text-align: right; font-weight: 700;">86%</span>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 45px 1fr 30px; gap: 8px; align-items: center;">
+                            <span style="font-weight: 700;">Liverpool</span>
+                            <div style="height: 3px; background: var(--surface-light); border-radius: 1.5px; overflow: hidden;"><div style="height: 100%; background: var(--info); width: 80%;"></div></div>
+                            <span style="text-align: right; font-weight: 700;">80%</span>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 45px 1fr 30px; gap: 8px; align-items: center;">
+                            <span style="font-weight: 700;">Bayern</span>
+                            <div style="height: 3px; background: var(--surface-light); border-radius: 1.5px; overflow: hidden;"><div style="height: 100%; background: var(--purple); width: 72%;"></div></div>
+                            <span style="text-align: right; font-weight: 700;">72%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Possession</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 4px; font-size: 9px;">
+                        <div style="display: flex; justify-content: space-between;"><span>Man City</span><span style="color: var(--primary); font-weight: 700;">61%</span></div>
+                        <div style="display: flex; justify-content: space-between;"><span>Barcelona</span><span style="color: var(--info); font-weight: 700;">58%</span></div>
+                        <div style="display: flex; justify-content: space-between;"><span>Bayern</span><span style="color: var(--purple); font-weight: 700;">57%</span></div>
+                        <div style="display: flex; justify-content: space-between;"><span>Arsenal</span><span style="color: var(--success); font-weight: 700;">55%</span></div>
+                        <div style="display: flex; justify-content: space-between;"><span>PSG</span><span style="color: var(--warning); font-weight: 700;">54%</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ NEWS PAGE ============ -->
+        <div id="news" class="page">
+            <h1>News</h1>
+
+            <div class="grid-2" style="margin-bottom: 20px;">
+                <div class="news-featured">
+                    <div class="news-img">🎬</div>
+                    <div class="news-content">
+                        <div>
+                            <div class="news-cat">La Liga</div>
+                            <div class="news-title">Mbappé returns as Real Madrid win big in La Liga</div>
+                        </div>
+                        <div class="news-meta">La Liga · 2 hours ago</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Headlines</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <div style="display: grid; grid-template-columns: 35px 1fr; gap: 8px;">
+                            <div style="background: linear-gradient(135deg, var(--primary), var(--warning)); border-radius: 4px; height: 35px;"></div>
+                            <div style="font-size: 9px;">
+                                <div style="font-weight: 700; line-height: 1.3; margin-bottom: 2px;">NBA Playoffs: Celtics take control of the series</div>
+                                <div style="color: var(--text-tertiary);">3 hours ago</div>
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 35px 1fr; gap: 8px;">
+                            <div style="background: linear-gradient(135deg, var(--info), var(--purple)); border-radius: 4px; height: 35px;"></div>
+                            <div style="font-size: 9px;">
+                                <div style="font-weight: 700; line-height: 1.3; margin-bottom: 2px;">NFL Draft 2026: Top prospects to watch</div>
+                                <div style="color: var(--text-tertiary);">5 hours ago</div>
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 35px 1fr; gap: 8px;">
+                            <div style="background: linear-gradient(135deg, var(--warning), var(--danger)); border-radius: 4px; height: 35px;"></div>
+                            <div style="font-size: 9px;">
+                                <div style="font-weight: 700; line-height: 1.3; margin-bottom: 2px;">Verstappen takes pole in dramatic qualifying</div>
+                                <div style="color: var(--text-tertiary);">6 hours ago</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">News</span>
+                </div>
+                <div class="grid-3">
+                    <div class="news-card">
+                        <div class="news-card-img">🏆</div>
+                        <div class="news-card-content">
+                            <div class="news-cat">PREMIER LEAGUE</div>
+                            <div class="news-card-title">Manchester City extend lead with dominant performance</div>
+                            <div style="font-size: 8px; color: var(--text-tertiary);">2 hours ago</div>
+                        </div>
+                    </div>
+                    <div class="news-card">
+                        <div class="news-card-img">🇩🇪</div>
+                        <div class="news-card-content">
+                            <div class="news-cat">BUNDESLIGA</div>
+                            <div class="news-card-title">Bayern Munich secure championship title</div>
+                            <div style="font-size: 8px; color: var(--text-tertiary);">3 hours ago</div>
+                        </div>
+                    </div>
+                    <div class="news-card">
+                        <div class="news-card-img">🔴</div>
+                        <div class="news-card-content">
+                            <div class="news-cat">ARSENAL</div>
+                            <div class="news-card-title">Arsenal maintain top 4 position in fierce battle</div>
+                            <div style="font-size: 8px; color: var(--text-tertiary);">4 hours ago</div>
+                        </div>
+                    </div>
+                    <div class="news-card">
+                        <div class="news-card-img">🏀</div>
+                        <div class="news-card-content">
+                            <div class="news-cat">NBA</div>
+                            <div class="news-card-title">Miami Heat advance to NBA Finals</div>
+                            <div style="font-size: 8px; color: var(--text-tertiary);">1 hour ago</div>
+                        </div>
+                    </div>
+                    <div class="news-card">
+                        <div class="news-card-img">🏎️</div>
+                        <div class="news-card-content">
+                            <div class="news-cat">FORMULA 1</div>
+                            <div class="news-card-title">Dramatic finish in Monaco Grand Prix</div>
+                            <div style="font-size: 8px; color: var(--text-tertiary);">2 hours ago</div>
+                        </div>
+                    </div>
+                    <div class="news-card">
+                        <div class="news-card-img">🏒</div>
+                        <div class="news-card-content">
+                            <div class="news-cat">NHL</div>
+                            <div class="news-card-title">Toronto Maple Leafs edge Bruins in OT</div>
+                            <div style="font-size: 8px; color: var(--text-tertiary);">1 hour ago</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ REWARDS PAGE ============ -->
+        <div id="rewards" class="page">
+            <h1>Rewards</h1>
+
+            <div class="grid-3">
+                <div class="card" style="text-align: center; padding: 20px;">
+                    <div style="font-size: 32px; font-weight: 900; color: var(--primary); margin-bottom: 4px;">7</div>
+                    <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px; font-weight: 600;">Elite Fan</div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+                        <div style="background: var(--surface-light); padding: 8px; border-radius: 6px;">
+                            <div style="font-size: 8px; color: var(--text-tertiary); text-transform: uppercase; margin-bottom: 4px;">Badges</div>
+                            <div style="font-size: 16px; font-weight: 800; color: var(--primary);">12</div>
+                        </div>
+                        <div style="background: var(--surface-light); padding: 8px; border-radius: 6px;">
+                            <div style="font-size: 8px; color: var(--text-tertiary); text-transform: uppercase; margin-bottom: 4px;">Points</div>
+                            <div style="font-size: 16px; font-weight: 800; color: var(--primary);">2.4K</div>
+                        </div>
+                        <div style="background: var(--surface-light); padding: 8px; border-radius: 6px;">
+                            <div style="font-size: 8px; color: var(--text-tertiary); text-transform: uppercase; margin-bottom: 4px;">Rank</div>
+                            <div style="font-size: 16px; font-weight: 800; color: var(--primary);">#3K</div>
+                        </div>
+                    </div>
+                    <div style="font-size: 8px; color: var(--text-tertiary); margin-bottom: 8px;">2,450 XP</div>
+                    <div class="progress">
+                        <div class="progress-fill" style="width: 78%;"></div>
+                    </div>
+                    <div style="font-size: 8px; color: var(--text-tertiary); margin-top: 6px;">78% to Next Level</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Daily Tasks</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 6px; font-size: 9px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px; background: rgba(244,217,0,0.1); border-radius: 4px;">
+                            <span>✓ Login to platform</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px;">
+                            <span>View 3 live matches</span>
+                            <span style="color: var(--warning); font-weight: 700;">+20</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px;">
+                            <span>Make a prediction</span>
+                            <span style="color: var(--warning); font-weight: 700;">+50</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px;">
+                            <span>Read a news article</span>
+                            <span style="color: var(--warning); font-weight: 700;">+10</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="text-align: center;">
+                    <div style="font-size: 8px; color: var(--text-tertiary); margin-bottom: 4px; text-transform: uppercase;">Current Streak</div>
+                    <div style="font-size: 32px; font-weight: 900; color: var(--primary); margin-bottom: 8px;">7</div>
+                    <div style="font-size: 10px;">Days 🔥</div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 20px;">
+                <div class="card-header">
+                    <span class="card-title">Badges (12 Unlocked)</span>
+                </div>
+                <div class="grid-5">
+                    <div class="badge-card">
+                        <div class="badge-icon">🌅</div>
+                        <div class="badge-name">Early Bird</div>
+                        <div class="badge-desc">Watch 10 matches</div>
+                    </div>
+                    <div class="badge-card">
+                        <div class="badge-icon">🔮</div>
+                        <div class="badge-name">Predictor</div>
+                        <div class="badge-desc">Make 50 predictions</div>
+                    </div>
+                    <div class="badge-card">
+                        <div class="badge-icon">📊</div>
+                        <div class="badge-name">Stat Hunter</div>
+                        <div class="badge-desc">View 100 stats</div>
+                    </div>
+                    <div class="badge-card">
+                        <div class="badge-icon">🔥</div>
+                        <div class="badge-name">Streak Master</div>
+                        <div class="badge-desc">7 day streak</div>
+                    </div>
+                    <div class="badge-card">
+                        <div class="badge-icon">📰</div>
+                        <div class="badge-name">News Reader</div>
+                        <div class="badge-desc">Read 25 articles</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-2" style="margin-top: 20px;">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Monthly Leaderboard</span>
+                    </div>
+                    <div class="lb-row">
+                        <div class="lb-rank">1</div>
+                        <div style="color: var(--text-secondary); font-weight: 600;">AlexFanatic</div>
+                        <div class="lb-score">8,900 XP</div>
+                    </div>
+                    <div class="lb-row">
+                        <div class="lb-rank">2</div>
+                        <div style="color: var(--text-secondary); font-weight: 600;">SportsGuru</div>
+                        <div class="lb-score">7,620 XP</div>
+                    </div>
+                    <div class="lb-row">
+                        <div class="lb-rank">3</div>
+                        <div style="color: var(--text-secondary); font-weight: 600;">GameMaster</div>
+                        <div class="lb-score">6,430 XP</div>
+                    </div>
+                    <div class="lb-row">
+                        <div class="lb-rank">4</div>
+                        <div style="color: var(--text-secondary); font-weight: 600;">DataKing</div>
+                        <div class="lb-score">5,210 XP</div>
+                    </div>
+                    <div class="lb-row">
+                        <div class="lb-rank user">5</div>
+                        <div style="font-weight: 700;">You</div>
+                        <div class="lb-score">2,450 XP</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Active Challenges</span>
+                    </div>
+                    <div style="padding: 10px; background: rgba(244,217,0,0.1); border: 1px solid var(--primary); border-radius: 6px; margin-bottom: 8px;">
+                        <div style="font-size: 11px; font-weight: 700; margin-bottom: 6px;">Weekly Prediction Master</div>
+                        <div style="font-size: 9px; color: var(--text-tertiary); margin-bottom: 6px;">12 / 15</div>
+                        <div class="progress">
+                            <div class="progress-fill" style="width: 80%;"></div>
+                        </div>
+                        <div style="font-size: 9px; color: var(--success); font-weight: 700;">+500 XP</div>
+                    </div>
+                    <div style="padding: 10px; background: var(--surface-light); border-radius: 6px; margin-bottom: 8px;">
+                        <div style="font-size: 11px; font-weight: 700; margin-bottom: 6px;">Monthly Streak</div>
+                        <div style="font-size: 9px; color: var(--text-tertiary); margin-bottom: 6px;">12 / 20</div>
+                        <div class="progress">
+                            <div class="progress-fill" style="width: 60%;"></div>
+                        </div>
+                        <div style="font-size: 9px; color: var(--success); font-weight: 700;">+700 XP</div>
+                    </div>
+                    <div style="padding: 10px; background: var(--surface-light); border-radius: 6px;">
+                        <div style="font-size: 11px; font-weight: 700; margin-bottom: 6px;">Accuracy Expert</div>
+                        <div style="font-size: 9px; color: var(--text-tertiary); margin-bottom: 6px;">68 / 70</div>
+                        <div class="progress">
+                            <div class="progress-fill" style="width: 97%;"></div>
+                        </div>
+                        <div style="font-size: 9px; color: var(--success); font-weight: 700;">+600 XP</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ ADMIN PAGE ============ -->
+        <div id="admin" class="page">
+            <div class="admin-grid">
+                <div class="admin-menu">
+                    <div class="admin-item active" onclick="selectAdminItem(this)">Dashboard</div>
+                    <div class="admin-item" onclick="selectAdminItem(this)">Users</div>
+                    <div class="admin-item" onclick="selectAdminItem(this)">Content</div>
+                    <div class="admin-item" onclick="selectAdminItem(this)">Events</div>
+                    <div class="admin-item" onclick="selectAdminItem(this)">Leagues</div>
+                    <div class="admin-item" onclick="selectAdminItem(this)">News</div>
+                    <div class="admin-item" onclick="selectAdminItem(this)">Predictions</div>
+                    <div class="admin-item" onclick="selectAdminItem(this)">Rewards</div>
+                    <div class="admin-item" onclick="selectAdminItem(this)">Analytics</div>
+                    <div class="admin-item" onclick="selectAdminItem(this)">Settings</div>
+                    <div class="admin-item" onclick="selectAdminItem(this)">System</div>
+                </div>
+                <div>
+                    <h1>Admin Dashboard</h1>
+
+                    <div class="kpi-grid">
+                        <div class="kpi">
+                            <div class="kpi-label">Total Users</div>
+                            <div class="kpi-value">12,458</div>
+                            <div class="kpi-change">+2.5%</div>
+                        </div>
+                        <div class="kpi">
+                            <div class="kpi-label">Active Users</div>
+                            <div class="kpi-value">3,245</div>
+                            <div class="kpi-change">+4.2%</div>
+                        </div>
+                        <div class="kpi">
+                            <div class="kpi-label">Total Events</div>
+                            <div class="kpi-value">5,432</div>
+                            <div class="kpi-change">+16.3%</div>
+                        </div>
+                        <div class="kpi">
+                            <div class="kpi-label">Predictions</div>
+                            <div class="kpi-value">1,245</div>
+                            <div class="kpi-change">+5.1%</div>
+                        </div>
+                    </div>
+
+                    <div class="grid-3" style="margin-top: 20px;">
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="card-title">Users Overview</span>
+                            </div>
+                            <div class="chart-box">
+                                <div class="chart-bar" style="background: var(--primary); height: 65%;"></div>
+                                <div class="chart-bar" style="background: var(--info); height: 72%;"></div>
+                                <div class="chart-bar" style="background: var(--primary); height: 58%;"></div>
+                                <div class="chart-bar" style="background: var(--info); height: 80%;"></div>
+                                <div class="chart-bar" style="background: var(--primary); height: 68%;"></div>
+                                <div class="chart-bar" style="background: var(--info); height: 75%;"></div>
+                            </div>
+                            <div style="font-size: 8px; color: var(--text-tertiary); margin-top: 8px;">● New Users  ● Active Users</div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="card-title">Events by Sport</span>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 4px; font-size: 9px;">
+                                <div style="display: flex; justify-content: space-between;"><span>Football</span><span style="color: var(--primary); font-weight: 700;">45%</span></div>
+                                <div style="display: flex; justify-content: space-between;"><span>Basketball</span><span style="color: var(--info); font-weight: 700;">25%</span></div>
+                                <div style="display: flex; justify-content: space-between;"><span>American Football</span><span style="color: var(--purple); font-weight: 700;">15%</span></div>
+                                <div style="display: flex; justify-content: space-between;"><span>Ice Hockey</span><span style="color: var(--success); font-weight: 700;">10%</span></div>
+                                <div style="display: flex; justify-content: space-between;"><span>Formula 1</span><span style="color: var(--warning); font-weight: 700;">5%</span></div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="card-title">System Health</span>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 6px; font-size: 10px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span>API</span>
+                                    <span style="display: flex; align-items: center; gap: 4px; color: var(--primary);"><span style="width: 4px; height: 4px; background: var(--primary); border-radius: 50%;"></span>Operational</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span>Database</span>
+                                    <span style="display: flex; align-items: center; gap: 4px; color: var(--success);"><span style="width: 4px; height: 4px; background: var(--success); border-radius: 50%;"></span>Operational</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span>Cache</span>
+                                    <span style="display: flex; align-items: center; gap: 4px; color: var(--success);"><span style="width: 4px; height: 4px; background: var(--success); border-radius: 50%;"></span>Operational</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span>Queue</span>
+                                    <span style="display: flex; align-items: center; gap: 4px; color: var(--success);"><span style="width: 4px; height: 4px; background: var(--success); border-radius: 50%;"></span>Operational</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" style="margin-top: 20px;">
+                        <div class="card-header">
+                            <span class="card-title">Recent Activity</span>
+                        </div>
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div>
+                                    <div class="timeline-title">New user registered: john_doe</div>
+                                    <div class="timeline-time">2m ago</div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div>
+                                    <div class="timeline-title">Match updated - Man City vs Liverpool</div>
+                                    <div class="timeline-time">5m ago</div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div>
+                                    <div class="timeline-title">News article published: Top 10 players</div>
+                                    <div class="timeline-time">12m ago</div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div>
+                                    <div class="timeline-title">Prediction model generated</div>
+                                    <div class="timeline-time">15m ago</div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div>
+                                    <div class="timeline-title">League standings updated</div>
+                                    <div class="timeline-time">20m ago</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const matches = [
+            { id: 1, league: 'PL', home: 'Man City', away: 'Liverpool', hs: 2, as: 1, min: 75, sport: 'football' },
+            { id: 2, league: 'LA', home: 'Barcelona', away: 'Real Madrid', hs: 1, as: 0, min: 62, sport: 'football' },
+            { id: 3, league: 'NBA', home: 'Lakers', away: 'Warriors', hs: 83, as: 78, min: 'Q3', sport: 'basketball' },
+            { id: 4, league: 'NHL', home: 'Maple Leafs', away: 'Canadiens', hs: 3, as: 2, min: '3rd', sport: 'ice-hockey' },
+            { id: 5, league: 'SA', home: 'AC Milan', away: 'Juventus', hs: 2, as: 1, min: 68, sport: 'football' },
+            { id: 6, league: 'BUN', home: 'Dortmund', away: 'Bayern', hs: 1, as: 0, min: 58, sport: 'football' },
+            { id: 7, league: 'PL', home: 'Arsenal', away: 'Tottenham', hs: 2, as: 2, min: 80, sport: 'football' },
+            { id: 8, league: 'NBA', home: 'Celtics', away: 'Heat', hs: 95, as: 88, min: 'Q4', sport: 'basketball' },
+            { id: 9, league: 'NFL', home: 'Cowboys', away: 'Eagles', hs: 24, as: 21, min: '4Q', sport: 'american-football' },
+            { id: 10, league: 'F1', home: 'Verstappen', away: 'Norris', hs: 1, as: 2, min: 'Lap 42', sport: 'formula-1' },
+            { id: 11, league: 'NBA', home: 'Nuggets', away: 'Suns', hs: 110, as: 105, min: 'Q4', sport: 'basketball' },
+            { id: 12, league: 'PL', home: 'Chelsea', away: 'City', hs: 0, as: 3, min: 85, sport: 'football' },
+        ];
+
+        const predictions = [
+            { match: 'Man City vs Liverpool', time: 'Tomorrow 18:30', h: 56, d: 24, a: 20, conf: 86 },
+            { match: 'Barcelona vs Real Madrid', time: 'Tomorrow 21:00', h: 45, d: 28, a: 27, conf: 72 },
+        ];
+
+        let selectedMatch = null;
+        let selectedSport = 'all';
+
+        function switchPage(pageName) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageName).classList.add('active');
+
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function filterLiveByTeam(sport) {
+            selectedSport = sport;
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderMatches();
+        }
+
+        function renderMatches() {
+            const container = document.getElementById('liveMatches');
+            const filtered = selectedSport === 'all' ? matches : matches.filter(m => m.sport === selectedSport);
+            container.innerHTML = filtered.map(m => `
+                <div class="match-row ${selectedMatch === m.id ? 'active' : ''}" onclick="selectMatch(${m.id})">
+                    <div class="match-league">${m.league}</div>
+                    <div class="match-teams">
+                        <span>${m.home}</span>
+                        <span class="match-score">${m.hs} - ${m.as}</span>
+                        <span>${m.away}</span>
+                    </div>
+                    <div class="match-time">${m.min}'</div>
+                </div>
+            `).join('');
+        }
+
+        function selectMatch(id) {
+            selectedMatch = id;
+            renderMatches();
+            const m = matches.find(x => x.id === id);
+            document.getElementById('matchDetails').innerHTML = `
+                <div class="detail-header">
+                    <div class="detail-meta">${m.league} · Round 36</div>
+                    <div class="detail-teams">
+                        <div class="detail-team">${m.home}</div>
+                        <div class="detail-score">${m.hs}</div>
+                        <div class="detail-team" style="text-align: right;">${m.away}</div>
+                    </div>
+                    <div class="detail-teams">
+                        <div></div>
+                        <div class="detail-score">${m.as}</div>
+                        <div></div>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 4px; margin-bottom: 12px;">
+                    <span style="color: var(--success);">● LIVE</span>
+                    <span style="color: var(--text-tertiary);">${m.min}'</span>
+                </div>
+                <div class="stat-bar" style="margin-bottom: 8px;">
+                    <div class="stat-fill" style="width: 58%;"></div>
+                </div>
+                <div style="font-size: 9px; color: var(--text-tertiary); margin-bottom: 8px;">Possession: 58% / 42%</div>
+                <div style="font-size: 9px; color: var(--text-secondary); font-weight: 600; margin-top: 12px;">Shots: 15 / 7</div>
+                <div style="font-size: 9px; color: var(--text-secondary); font-weight: 600; margin-top: 4px;">On Target: 6 / 3</div>
+            `;
+        }
+
+        function selectAdminItem(element) {
+            document.querySelectorAll('.admin-item').forEach(item => item.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const grid = document.getElementById('predictionsGrid');
+            if (grid) {
+                grid.innerHTML = predictions.map(p => `
+                    <div class="pred-card">
+                        <div class="pred-match">${p.match}</div>
+                        <div class="pred-time">${p.time}</div>
+                        <div class="pred-bar">
+                            <div class="pred-label">Home</div>
+                            <div class="pred-fill"><div class="pred-fill-val" style="width: ${p.h}%;"></div></div>
+                            <div class="pred-pct">${p.h}%</div>
+                        </div>
+                        <div class="pred-bar">
+                            <div class="pred-label">Draw</div>
+                            <div class="pred-fill"><div class="pred-fill-val" style="width: ${p.d}%;"></div></div>
+                            <div class="pred-pct">${p.d}%</div>
+                        </div>
+                        <div class="pred-bar">
+                            <div class="pred-label">Away</div>
+                            <div class="pred-fill"><div class="pred-fill-val" style="width: ${p.a}%;"></div></div>
+                            <div class="pred-pct">${p.a}%</div>
+                        </div>
+                        <div class="pred-conf">AI Confidence ${p.conf}%</div>
+                    </div>
+                `).join('');
+            }
+            renderMatches();
+        });
+    </script>
+</body>
+</html>

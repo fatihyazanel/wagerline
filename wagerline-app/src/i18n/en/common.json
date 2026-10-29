@@ -1,0 +1,107 @@
+{
+  "app_title": "WAGERline",
+  "nav": {
+    "home": "Home",
+    "live": "Live",
+    "sports": "Sports",
+    "leagues": "Leagues",
+    "predictions": "Predictions",
+    "news": "News",
+    "rewards": "Rewards"
+  },
+  "header": {
+    "search": "Search teams, players...",
+    "language": "Language",
+    "login": "Login",
+    "signup": "Sign Up"
+  },
+  "hero": {
+    "title": "All Sports. All Intelligence. One Platform.",
+    "subtitle": "Live scores, stats, AI predictions and everything you need to stay ahead.",
+    "cta_primary": "Explore Live",
+    "cta_secondary": "View Predictions"
+  },
+  "live": {
+    "title": "Live Now",
+    "view_all": "View All Live →"
+  },
+  "predictions": {
+    "title": "AI Predictions",
+    "see_all": "See All →",
+    "confidence": "AI {{confidence}}% Confidence"
+  },
+  "league_table": {
+    "title": "League Table",
+    "view_full": "View Full Table →"
+  },
+  "top_leagues": {
+    "title": "Top Leagues"
+  },
+  "top_news": {
+    "title": "Top News",
+    "view_all": "View All →"
+  },
+  "rewards": {
+    "title": "Your Rewards",
+    "view_all": "View All Rewards",
+    "leaderboard": "Leaderboard",
+    "balance": "Your Balance",
+    "daily_tasks": "Daily Tasks"
+  },
+  "rewards_page": {
+    "title": "Rewards Hub",
+    "subtitle": "Complete tasks, earn points, climb the leaderboard and unlock exclusive rewards.",
+    "daily_tasks": "Daily Tasks",
+    "resets_in": "Resets in",
+    "achievements": "Achievements",
+    "leaderboard": "Leaderboard",
+    "this_week": "This Week",
+    "this_month": "This Month",
+    "all_time": "All Time",
+    "recent_activity": "Recent Activity"
+  },
+  "news": {
+    "title": "Latest Sports News",
+    "subtitle": "Stay updated with breaking stories across all major sports",
+    "featured": "Featured Story",
+    "latest": "Latest News",
+    "trending": "Trending Now"
+  },
+  "buttons": {
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "view": "View",
+    "explore": "Explore",
+    "read_more": "Read More",
+    "close": "Close"
+  },
+  "errors": {
+    "not_found": "Not Found",
+    "server_error": "Server Error",
+    "try_again": "Try Again"
+  },
+  "common": {
+    "done": "Done",
+    "view_all": "View All",
+    "points": "Points",
+    "xp": "XP",
+    "pts": "PTS",
+    "reward": "Reward",
+    "make_prediction": "Make a Prediction",
+    "submit": "Submit",
+    "cancel": "Cancel"
+  },
+  "news_page": {
+    "title": "Latest Sports News",
+    "subtitle": "Stay updated with breaking stories across all major sports",
+    "featured_story": "Featured Story",
+    "latest_news": "Latest News",
+    "trending_now": "Trending Now",
+    "filters": "Filters",
+    "sport": "Sport",
+    "league": "League",
+    "all": "All",
+    "read_time": "{{time}} min",
+    "views": "{{count}} views"
+  }
+}

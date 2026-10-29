@@ -1,0 +1,137 @@
+ 3794,  914  14px w600 Plus Jakarta Sans  rgb(255,255,255)  | GAMIFY
+ 3930,  914  13px w600 Inter  rgb(15,23,43)  | GENEL DURUM
+ 4102,  914  13px w600 Inter  rgb(255,255,255)  | Bayİ Detay
+ 4277,  914  13px w600 Inter  rgb(255,255,255)  | Meydan Okuma
+ 4466,  914  13px w600 Inter  rgb(255,255,255)  | Admin Panelİ
+ 5539,  914  14px w500 Inter  rgb(255,255,255)  | Profili Yönet
+ 5634,  916  12px w500 Inter  rgb(255,255,255)  | 2
+ 5615,  918  11px w600 SF Pro Text  rgb(255,255,255)  | 3
+ 3814,  972  30px w700 Inter  rgb(15,23,43)  | Türkiye Özeti
+ 4020,  982  10px w600 Inter  rgb(79,57,246)  | Ekosistem Görünümü
+ 3814, 1020  14px w400 Inter  rgb(98,116,142)  | Tüm Türkiye satış ekosisteminin anlık performans ve lig gelişim verileri.
+ 4042, 1104  13px w500 Inter  rgb(15,23,43)  | Bu ay
+ 4109, 1104  13px w500 Inter  rgb(49,65,88)  | Önceki ay
+ 4203, 1104  13px w500 Inter  rgb(49,65,88)  | Yılbaşından beri
+ 4335, 1104  13px w500 Inter  rgb(49,65,88)  | Son 1 yıl
+ 4434, 1104  13px w500 Inter  rgb(49,65,88)  | Tarihe göre ara...
+ 5071, 1104  12px w500 Inter  rgb(49,65,88)  | Filtrele
+ 5142, 1104  12px w500 Inter  rgb(49,65,88)  | Tüm Bölgeler
+ 5268, 1104  12px w500 Inter  rgb(49,65,88)  | Tüm Lig ve Segmentler
+ 4051, 1173  13px w600 Inter  rgb(49,65,88)  | Ekosistem Ortalaması
+ 4526, 1173  13px w600 Inter  rgb(49,65,88)  | Segmentasyon Skoru
+ 5000, 1173  13px w600 Inter  rgb(49,65,88)  | Stratejik Ürünler Skoru
+ 4051, 1193  12px w400 Inter  rgb(98,116,142)  | Formül: Seg. Ağırlığı + Strat. Ürün Ağırlığı
+ 4526, 1193  12px w400 Inter  rgb(98,116,142)  | Kendi kulvarındaki gelişim
+ 5000, 1193  12px w400 Inter  rgb(98,116,142)  | Odak ürün satışı başarısı
+ 4051, 1228  36px w700 Inter  rgb(15,23,43)  | 85.6
+ 4526, 1228  36px w700 Inter  rgb(15,23,43)  | 85.6
+ 5000, 1228  36px w700 Inter  rgb(15,23,43)  | 85.6
+ 4132, 1238  18px w400 Inter  rgb(144,161,185)  | /100
+ 4607, 1238  18px w400 Inter  rgb(144,161,185)  | /100
+ 5082, 1238  18px w400 Inter  rgb(144,161,185)  | /100
+ 4208, 1242  14px w700 Inter  rgb(0,153,102)  |  %12,4
+ 4683, 1242  14px w700 Inter  rgb(0,153,102)  |  %6,2
+ 5158, 1242  14px w700 Inter  rgb(0,153,102)  |  %6,7
+ 4051, 1269  11px w400 Inter  rgb(98,116,142)  | Önceki aya göre
+ 4187, 1269  11px w400 Inter  rgb(98,116,142)  | Önceki aya göre
+ 4526, 1269  11px w400 Inter  rgb(98,116,142)  | Önceki aya göre
+ 4662, 1269  11px w400 Inter  rgb(98,116,142)  | Önceki aya göre
+ 5000, 1269  11px w400 Inter  rgb(98,116,142)  | Önceki aya göre
+ 5137, 1269  11px w400 Inter  rgb(98,116,142)  | Önceki aya göre
+ 4051, 1314  13px w400 Inter  rgb(98,116,142)  | Toplam Bayi Katılımı:
+ 4526, 1314  13px w400 Inter  rgb(98,116,142)  | Ağırlık Etkisi (Admin):
+ 5000, 1314  13px w400 Inter  rgb(98,116,142)  | Ağırlık Etkisi (Admin):
+ 4365, 1315  13px w600 Inter  rgb(15,23,43)  | 1,150 Aktif Bayi
+ 4862, 1315  13px w600 Inter  rgb(15,23,43)  | %60 Ağırlık
+ 5337, 1315  13px w600 Inter  rgb(15,23,43)  | %40 Ağırlık
+ 5090, 1395  13px w600 Inter  rgb(15,23,43)  |  Meydan Okuma Özeti
+ 4083, 1397  16px w600 Inter  rgb(15,23,43)  |  Lig & Segment Dağılımları
+ 4885, 1414  10px w600 Inter  rgb(79,57,246)  | Marmara Platin 1
+ 4055, 1429  12px w400 Inter  rgb(98,116,142)  | Bayilerin toplam puanlarına göre yerleştiği rekabet seviyeleri.
+ 5062, 1429  12px w400 Inter  rgb(98,116,142)  | Toplam Meydan Okuma
+ 5231, 1429  12px w400 Inter  rgb(98,116,142)  | Katılım Oranı
+ 5062, 1457  28px w700 Inter  rgb(15,23,43)  | 72
+ 5231, 1457  28px w700 Inter  rgb(15,23,43)  | %68
+ 5074, 1517  10px w600 Inter  rgb(144,161,185)  | En Başarılı Meydan Okuma
+ 5074, 1536  12px w600 Inter  rgb(15,23,43)  | Marmara Bölge Şampiyonu Challenge
+ 4099, 1538  17px w600 Inter  rgb(15,23,43)  | Elmas Ligi
+ 4294, 1538  17px w600 Inter  rgb(15,23,43)  | Platin Lig
+ 4487, 1538  17px w600 Inter  rgb(15,23,43)  | Altın Ligi
+ 4669, 1538  17px w600 Inter  rgb(15,23,43)  | Gümüş Ligi
+ 4865, 1538  17px w600 Inter  rgb(15,23,43)  | Bronz Ligi
+ 4117, 1562  12px w400 Inter  rgb(49,65,88)  | 156 Bayi
+ 4308, 1562  12px w400 Inter  rgb(49,65,88)  | 156 Bayi
+ 4498, 1562  12px w400 Inter  rgb(49,65,88)  | 245 Bayi
+ 4691, 1562  12px w400 Inter  rgb(49,65,88)  | 312 Bayi
+ 4881, 1562  12px w400 Inter  rgb(49,65,88)  | 437 Bayi
+ 5286, 1571  12px w400 Inter  rgb(98,116,142)  | 12 Bayi Tamamladı
+ 5089, 1572  12px w600 Inter  rgb(15,23,43)  |  1.250 Ek Puan
+ 4101, 1588  12px w600 Inter  rgb(255,16,68)  | Ort. 87.7 Puan
+ 4292, 1588  12px w600 Inter  rgb(0,146,184)  | Ort. 87.7 Puan
+ 4481, 1588  12px w600 Inter  rgb(225,113,0)  | Ort. 84.3 Puan
+ 4675, 1588  12px w600 Inter  rgb(69,85,108)  | Ort. 81.9 Puan
+ 4866, 1588  12px w600 Inter  rgb(245,73,0)  | Ort. 71.2 Puan
+ 5237, 1633  12px w500 Inter  rgb(15,23,43)  | Tüm meydan okumaları gör
+ 4055, 1646  12px w600 Inter  rgb(144,161,185)  | Lig Segmenti
+ 4235, 1646  12px w600 Inter  rgb(144,161,185)  | Bayi Sayısı
+ 4370, 1646  12px w600 Inter  rgb(144,161,185)  | Hedef Ort.
+ 4616, 1646  12px w600 Inter  rgb(144,161,185)  | Güncel Ort.
+ 4883, 1646  12px w600 Inter  rgb(144,161,185)  | En Başarılı Bayi
+ 4235, 1683  13px w400 Inter  rgb(15,23,43)  | 156
+ 4386, 1683  13px w400 Inter  rgb(15,23,43)  | %90
+ 4632, 1683  13px w600 Inter  rgb(15,23,43)  | %87.7
+ 4826, 1683  13px w400 Inter  rgb(15,23,43)  | Marmara Platin 1 (Maskeli)
+ 4069, 1684  13px w600 Inter  rgb(15,23,43)  | Elmas Ligi
+ 5090, 1716  13px w600 Inter  rgb(15,23,43)  | AI ANALİZİ
+ 4235, 1724  13px w400 Inter  rgb(15,23,43)  | 156
+ 4386, 1724  13px w400 Inter  rgb(15,23,43)  | %90
+ 4632, 1724  13px w600 Inter  rgb(15,23,43)  | %87.7
+ 4826, 1724  13px w400 Inter  rgb(15,23,43)  | Marmara Platin 1 (Maskeli)
+ 4069, 1725  13px w600 Inter  rgb(15,23,43)  | Platin Lig
+ 5062, 1750  13px w400 Inter  rgb(15,23,43)  | Bayiler, 14 Bölge Müdürlüğü'ne doğrudan bağlı değildir. Operasyonel tüm bağ, bayilerden sorumlu Channel Sales Manager (CSM) üzerinden kurulur.
+ 4235, 1765  13px w400 Inter  rgb(15,23,43)  | 245
+ 4386, 1765  13px w400 Inter  rgb(15,23,43)  | %80
+ 4628, 1765  13px w600 Inter  rgb(15,23,43)  | %84.3
+ 4873, 1765  13px w400 Inter  rgb(15,23,43)  | İç Anadolu Altın 12
+ 4069, 1766  13px w600 Inter  rgb(15,23,43)  | Altın Lig
+ 4235, 1806  13px w400 Inter  rgb(15,23,43)  | 312
+ 4386, 1806  13px w400 Inter  rgb(15,23,43)  | %70
+ 4631, 1806  13px w600 Inter  rgb(15,23,43)  | %81.9
+ 4905, 1806  13px w400 Inter  rgb(15,23,43)  | Ege Gümüş 4
+ 4069, 1807  13px w600 Inter  rgb(15,23,43)  | Gümüş Lig
+ 5062, 1822  13px w400 Inter  rgb(15,23,43)  | Bayiler, 14 Bölge Müdürlüğü'ne doğrudan bağlı değildir. Operasyonel tüm bağ, bayilerden sorumlu Channel Sales Manager (CSM) üzerinden kurulur.
+ 4235, 1847  13px w400 Inter  rgb(15,23,43)  | 312
+ 4386, 1847  13px w400 Inter  rgb(15,23,43)  | %70
+ 4631, 1847  13px w600 Inter  rgb(15,23,43)  | %81.9
+ 4905, 1847  13px w400 Inter  rgb(15,23,43)  | Ege Gümüş 4
+ 4069, 1848  13px w600 Inter  rgb(15,23,43)  | Bronz Lig
+ 4885, 1913  12px w500 Inter  rgb(15,23,43)  | Tüm ligleri gGör
+ 5270, 1917  12px w500 Inter  rgb(15,23,43)  | Daha fazla içgörü Ver
+ 4079, 1998  16px w600 Inter  rgb(15,23,43)  | Bölgesel Özet
+ 5316, 2014  12px w700 Plus Jakarta Sans  rgb(15,23,43)  |  Rapor Al (XLSX)
+ 4051, 2030  12px w400 Inter  rgb(98,116,142)  | Bayilerin toplam puanlarına bayilere göre kırılımı
+ 4741, 2071  12px w600 Inter  rgb(144,161,185)  | BÖLGE
+ 5226, 2071  12px w600 Inter  rgb(144,161,185)  | Ort. PUAN
+ 5354, 2071  12px w600 Inter  rgb(144,161,185)  | DEĞİŞİM
+ 5238, 2108  13px w600 Inter  rgb(15,23,43)  | %87.7
+ 5375, 2108  13px w400 Inter  rgb(15,23,43)  | %4.2
+ 4741, 2109  13px w600 Inter  rgb(15,23,43)  | Marmara
+ 5234, 2144  13px w600 Inter  rgb(15,23,43)  | %84.3
+ 5375, 2144  13px w400 Inter  rgb(15,23,43)  | %4.2
+ 4741, 2145  13px w600 Inter  rgb(15,23,43)  | İç Anadolu
+ 5237, 2180  13px w600 Inter  rgb(15,23,43)  | %81.9
+ 5375, 2180  13px w400 Inter  rgb(15,23,43)  | %4.2
+ 4741, 2181  13px w600 Inter  rgb(15,23,43)  | Ege
+ 5237, 2216  13px w600 Inter  rgb(15,23,43)  | %81.9
+ 5375, 2216  13px w400 Inter  rgb(15,23,43)  | %4.2
+ 4741, 2217  13px w600 Inter  rgb(15,23,43)  | Akdeniz
+ 5237, 2252  13px w600 Inter  rgb(15,23,43)  | %81.9
+ 5375, 2252  13px w400 Inter  rgb(15,23,43)  | %4.2
+ 4741, 2253  13px w600 Inter  rgb(15,23,43)  | Karadeniz
+ 5237, 2288  13px w600 Inter  rgb(15,23,43)  | %81.9
+ 5375, 2288  13px w400 Inter  rgb(15,23,43)  | %4.2
+ 4741, 2289  13px w600 Inter  rgb(15,23,43)  | Doğu Anadolu
+ 5237, 2324  13px w600 Inter  rgb(15,23,43)  | %81.9
+ 4741, 2325  13px w600 Inter  rgb(15,23,43)  | Güneydoğu Anadolu
+ 5375, 2325  13px w400 Inter  rgb(15,23,43)  | %4.2
+ 5274, 2387  12px w500 Inter  rgb(15,23,43)  | Bölge detaylarını gör

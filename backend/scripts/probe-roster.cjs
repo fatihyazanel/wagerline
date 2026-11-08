@@ -1,0 +1,1 @@
+﻿const axios=require('axios');require('dotenv').config({quiet:true});(async()=>{try{const r=await axios.get('https://api.sportdb.dev/api/flashscore/team/portland-trail-blazers/4Awl14c5/',{headers:{'X-API-Key':process.env.SPORTDB_KEY},timeout:12000});console.log(JSON.stringify(r.data).slice(0,3000))}catch(e){console.log(e.response?.status,e.code)}})()

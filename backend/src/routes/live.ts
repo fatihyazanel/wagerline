@@ -1,9 +1,16 @@
+import {recordFreshness} from '../services/data-freshness'
 import { FastifyInstance } from 'fastify'
 import { liveEngine } from '../services/live/liveEngine'
 import { liveCache } from '../services/live/liveCache'
-import { getDb } from '../database/init'
+import { db as database } from '../database/init'
+import {officialRefreshStatus} from '../services/official-refresh'
+import {sportscoreStatus} from '../services/sportscore-refresh'
 
-const db = getDb()
+async function readLiveMatches(){return (await database.prepare(`SELECT e.id AS fixtureId,e.status,NULL AS minute,COALESCE(hn.name,h.slug) AS homeTeamName,COALESCE(an.name,a.slug) AS awayTeamName,h.logo_url AS homeLogo,a.logo_url AS awayLogo,
+ (SELECT score FROM event_scores WHERE event_id=e.id AND participant_id=h.id ORDER BY id DESC LIMIT 1) AS homeScore,
+ (SELECT score FROM event_scores WHERE event_id=e.id AND participant_id=a.id ORDER BY id DESC LIMIT 1) AS awayScore,e.updated_at AS lastUpdated
+ FROM events e JOIN teams h ON h.id=e.home_team_id JOIN teams a ON a.id=e.away_team_id LEFT JOIN team_translations hn ON hn.team_id=h.id AND hn.language='en' LEFT JOIN team_translations an ON an.team_id=a.id AND an.language='en'
+ WHERE e.status IN ('live','halftime','ht','1h','2h','et','period_break') AND NOT EXISTS(SELECT 1 FROM event_aliases ea WHERE ea.alias_event_id=e.id) ORDER BY e.start_time`).all()).map(m=>({...m,...recordFreshness(m.status,m.lastUpdated)}))}
 
 // Store active SSE connections
 const sseConnections: Set<any> = new Set()
@@ -12,15 +19,16 @@ export const liveRoutes = async (app: FastifyInstance) => {
   // GET /api/v1/live - Get all live matches (snapshot)
   app.get('/live', async (request, reply) => {
     try {
-      const matches = liveEngine.getActiveLiveMatches()
+      reply.header('Cache-Control','no-store')
+      const matches = await readLiveMatches()
 
       return {
         success: true,
-        data: matches,
+        data: matches.map(m=>({...m,...recordFreshness(m.status,m.lastUpdated)})),
         meta: {
           count: matches.length,
           timestamp: new Date().toISOString(),
-          source: 'live-engine',
+          source: 'verified-database',
           cacheStatus: liveCache.getStatus(),
         },
       }
@@ -38,22 +46,7 @@ export const liveRoutes = async (app: FastifyInstance) => {
       const { eventId } = request.params
       const fixtureId = parseInt(eventId)
 
-      // Check cache first
-      const cached = liveCache.get(`fixture:${fixtureId}`)
-      if (cached) {
-        return {
-          success: true,
-          data: cached,
-          meta: {
-            timestamp: new Date().toISOString(),
-            source: 'cache',
-            freshness: liveCache.isFresh(`fixture:${fixtureId}`) ? 'fresh' : 'stale',
-          },
-        }
-      }
-
-      // Get from engine
-      const match = liveEngine.getLiveMatch(fixtureId)
+      const match=(await readLiveMatches()).find(row=>row.fixtureId===fixtureId)
       if (!match) {
         return reply.code(404).send({
           success: false,
@@ -66,7 +59,7 @@ export const liveRoutes = async (app: FastifyInstance) => {
         data: match,
         meta: {
           timestamp: new Date().toISOString(),
-          source: 'live-engine',
+          source: 'verified-database',
         },
       }
     } catch (error) {
@@ -85,6 +78,7 @@ export const liveRoutes = async (app: FastifyInstance) => {
       reply.header('Cache-Control', 'no-cache')
       reply.header('Connection', 'keep-alive')
       reply.header('X-Accel-Buffering', 'no')
+      reply.header('X-Robots-Tag','noindex, nofollow')
 
       const connection = {
         id: Math.random().toString(36),
@@ -95,7 +89,7 @@ export const liveRoutes = async (app: FastifyInstance) => {
       sseConnections.add(connection)
 
       // Send initial data
-      const matches = liveEngine.getActiveLiveMatches()
+      const matches = await readLiveMatches()
       const initialEvent = {
         event: 'live.matches.init',
         data: JSON.stringify({
@@ -105,28 +99,36 @@ export const liveRoutes = async (app: FastifyInstance) => {
         }),
       }
 
-      reply.send(`event: ${initialEvent.event}\n`)
-      reply.send(`data: ${initialEvent.data}\n\n`)
+      reply.hijack()
+      for (const [name, value] of Object.entries(reply.getHeaders())) {
+        if (value !== undefined) reply.raw.setHeader(name, value)
+      }
+      reply.raw.writeHead(200)
+      reply.raw.write(`event: ${initialEvent.event}\ndata: ${initialEvent.data}\n\n`)
 
+      const updateInterval=setInterval(()=>{void readLiveMatches().then(matches=>{if(!reply.raw.destroyed)reply.raw.write('event: live.matches.update\ndata: '+JSON.stringify({matches,count:matches.length,timestamp:new Date().toISOString()})+'\n\n')}).catch(()=>{clearInterval(updateInterval);reply.raw.end()})},15000)
       // Send heartbeat every 30 seconds
       const heartbeatInterval = setInterval(() => {
         try {
-          reply.send(`: heartbeat at ${new Date().toISOString()}\n\n`)
+          reply.raw.write(`: heartbeat at ${new Date().toISOString()}\n\n`)
         } catch (error) {
           clearInterval(heartbeatInterval)
+        clearInterval(updateInterval)
           sseConnections.delete(connection)
         }
       }, 30000)
 
       // Clean up on connection close
-      request.raw.on('close', () => {
+      reply.raw.on('close', () => {
         clearInterval(heartbeatInterval)
+        clearInterval(updateInterval)
         sseConnections.delete(connection)
         console.log(`🔌 SSE connection closed (${sseConnections.size} remaining)`)
       })
 
       request.raw.on('error', () => {
         clearInterval(heartbeatInterval)
+        clearInterval(updateInterval)
         sseConnections.delete(connection)
       })
 
@@ -141,7 +143,7 @@ export const liveRoutes = async (app: FastifyInstance) => {
   })
 
   // POST /api/v1/live/broadcast - Internal endpoint to broadcast events
-  app.post<{ Body: any }>('/live/broadcast', async (request, reply) => {
+  app.post<{ Body: { event: string; data: unknown } }>('/live/broadcast', { schema: { body: { type: 'object', required: ['event', 'data'], properties: { event: { type: 'string', pattern: '^[a-zA-Z0-9_.-]+$', maxLength: 100 }, data: {} } } } }, async (request, reply) => {
     try {
       const { event, data } = request.body
 
@@ -161,7 +163,7 @@ export const liveRoutes = async (app: FastifyInstance) => {
 
   // GET /api/v1/live/health - Live system health
   app.get('/live/health', async (request, reply) => {
-    const engineStatus = liveEngine.getStatus()
+    const engineStatus = {official:officialRefreshStatus,sportscore:sportscoreStatus}
     const cacheStatus = liveCache.getStatus()
 
     return {
@@ -184,7 +186,7 @@ export function broadcastToAllClients(event: string, data: any): void {
 
   for (const connection of sseConnections) {
     try {
-      connection.reply.send(message)
+      connection.reply.raw.write(message)
     } catch (error) {
       // Connection likely closed
       sseConnections.delete(connection)

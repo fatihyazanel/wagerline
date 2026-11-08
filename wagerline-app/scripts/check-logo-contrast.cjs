@@ -1,0 +1,1 @@
+﻿const sharp=require('sharp');sharp('public/league-logos/19.png').stats().then(s=>console.log(JSON.stringify({isOpaque:s.isOpaque,entropy:s.entropy,channels:s.channels.map(c=>({min:c.min,max:c.max,mean:c.mean,stdev:c.stdev}))})));

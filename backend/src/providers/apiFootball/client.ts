@@ -1,7 +1,8 @@
+import {config} from '../../config'
 import axios, { AxiosInstance } from 'axios'
 import { quotaManager } from '../../services/quota/quotaManager'
 
-const API_KEY = process.env.API_SPORTS_KEY || process.env.API_FOOTBALL_KEY || ''
+const API_KEY = config.providers.apisports.apiKey
 const BASE_URL = 'https://v3.football.api-sports.io'
 
 interface ApiFootballError {

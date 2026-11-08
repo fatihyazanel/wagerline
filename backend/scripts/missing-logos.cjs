@@ -1,0 +1,1 @@
+﻿const db=new(require('sqlite3').Database)('data/wagerline.db');db.all("SELECT t.id,t.slug,t.external_id,n.name FROM teams t LEFT JOIN team_translations n ON n.team_id=t.id AND n.language='en' WHERE logo_url IS NULL OR logo_url=''",(e,r)=>{console.log(e||JSON.stringify(r));db.close()});

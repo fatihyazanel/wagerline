@@ -2,7 +2,11 @@ node_modules/
 .next/
 dist/
 build/
+out/
+coverage/
 .env*
+!.env.example
+!.env.*.example
 *.db
 *.db-*
 *.sqlite*
@@ -10,4 +14,11 @@ build/
 *.tsbuildinfo
 *.pem
 *.key
+*.pfx
 __pycache__/
+artifacts/
+test-results/
+playwright-report/
+.agents/
+.claude/
+.codex/

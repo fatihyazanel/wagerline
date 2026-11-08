@@ -1,0 +1,4 @@
+import {apiRead} from '@/lib/seo-data'
+import type {PublicLanguage} from '@/lib/locale-routing'
+import {copy} from '@/lib/hub-translations'
+export default async function PlayerSourceStats({id,lang='en'}:{id:number|string;lang?:PublicLanguage}){const r=await apiRead<{source_stats?:{provider:string;competition_key:string;season_name:string;fetched_at:string;payload:{stats:{name:string;label:string;value:number;display:string}[]}}[]}>(`players/${id}/stats`);const rows=r?.source_stats?.filter(s=>s.payload.stats.length)||[];if(!rows.length)return null;const t=(k:string)=>copy(lang,k);return <section><h2>{lang==='en'?'Provider season statistics':`${t('Source')} · ${t('Season')}`}</h2>{rows.map(s=><article key={s.competition_key+s.season_name}><h3>{s.season_name}</h3><p>{t('Source')}: {s.provider} · {t('Updated')}: {s.fetched_at} UTC</p><dl>{s.payload.stats.map(v=><div key={v.name}><dt>{v.label}</dt><dd>{v.display}</dd></div>)}</dl></article>)}</section>}

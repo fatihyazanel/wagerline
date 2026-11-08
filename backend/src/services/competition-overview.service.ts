@@ -1,6 +1,6 @@
 import { db } from '../database/init'
 
-export type Competition = { id:number; slug:string; name_key:string; external_provider:string|null; external_id:string|null }
+export type Competition = { id:number; slug:string; name_key:string; sport?:string; external_provider:string|null; external_id:string|null }
 export type MatchRow = {
   id:number; start_time:string; status:string; round:number|null
   home_team_id:number; home_team_name:string; home_team_slug:string; home_logo:string|null
@@ -24,16 +24,18 @@ export const publicCompetition = (competition: Competition) => ({
 })
 
 export const findCompetition = (slug:string) => db.prepare(`
-  SELECT id,slug,name_key,external_provider,external_id FROM competitions WHERE slug=? AND active=1
+  SELECT c.id,c.slug,c.name_key,c.external_provider,c.external_id,(SELECT logo_url FROM competition_assets WHERE competition_id=c.id) AS logo_url,s.slug AS sport FROM competitions c JOIN sports s ON s.id=c.sport_id WHERE c.slug=? AND c.active=1
 `).get(slug) as Promise<Competition|null>
 
 export const currentSeason = (competitionId:number) => db.prepare(`
   SELECT id,name FROM seasons WHERE competition_id=? ORDER BY is_current DESC,id DESC LIMIT 1
 `).get(competitionId) as Promise<{id:number;name:string}|null>
 
-export async function competitionMatches(competitionId:number, seasonId:number|null, lang:string) {
+export async function competitionMatches(competitionId:number, seasonId:number|null, lang:string, options?:{status?:string;limit:number;offset:number}) {
   const seasonClause = seasonId ? 'AND e.season_id=?' : ''
   const params = seasonId ? [lang,lang,competitionId,seasonId] : [lang,lang,competitionId]
+  let extra='';if(options?.status&&options.status!=='all'){if(options.status==='live')extra=" AND e.status IN ('live','halftime','ht','1h','2h','et','period_break')";else{extra=' AND e.status=?';params.push(options.status)}}
+  if(options)params.push(options.limit,options.offset)
   return db.prepare(`
     SELECT e.id,e.start_time,e.status,e.round,
       home.id AS home_team_id,COALESCE(ht.name,home.slug) AS home_team_name,
@@ -45,7 +47,7 @@ export async function competitionMatches(competitionId:number, seasonId:number|n
     FROM events e JOIN teams home ON home.id=e.home_team_id JOIN teams away ON away.id=e.away_team_id
     LEFT JOIN team_translations ht ON ht.team_id=home.id AND ht.language=?
     LEFT JOIN team_translations at ON at.team_id=away.id AND at.language=?
-    WHERE e.competition_id=? ${seasonClause} ORDER BY e.start_time DESC
+    WHERE e.competition_id=? ${seasonClause} AND NOT EXISTS(SELECT 1 FROM event_aliases ea WHERE ea.alias_event_id=e.id) ${extra} ORDER BY e.start_time ${options?.status==='scheduled'?'ASC':'DESC'},e.id ${options?'LIMIT ? OFFSET ?':''}
   `).all(...params) as Promise<MatchRow[]>
 }
 

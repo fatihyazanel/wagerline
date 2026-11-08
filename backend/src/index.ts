@@ -1,4 +1,17 @@
+import {shopAdminRoutes} from './routes/shop'
+import {startRefreshes} from './services/refresh-supervisor'
+import {dataHealthRoutes} from './routes/data-health'
+import {adminRecordsRoutes} from './routes/admin-records'
+import {discoveryRoutes} from './routes/discovery'
+import {recordAnalysisRoutes} from './routes/record-analysis'
+import {refreshEspnTennis} from './jobs/syncEspnTennis'
+import {refreshTennis} from './jobs/syncIndividualSports'
+import {individualRoutes} from './routes/individual'
+import {registerGuards} from './services/operations-guard'
+import {startJobs} from './services/operation-jobs'
+import {refreshSportscore,sportscoreStatus} from './services/sportscore-refresh'
 import Fastify from 'fastify'
+import cors from '@fastify/cors'
 import { initDatabase } from './database/init'
 import { sportsRoutes } from './routes/sports'
 import { competitionsRoutes } from './routes/competitions-v2'
@@ -14,32 +27,43 @@ import { statsRoutes } from './routes/stats'
 import { predictionsRoutes } from './routes/predictions'
 import { healthRoutes } from './routes/health'
 import { liveRoutes } from './routes/live'
+import { workspaceRoutes } from './routes/workspace'
+import { personalRoutes } from './routes/personal'
+import {refreshOfficial,officialRefreshStatus} from './services/official-refresh'
 import { config } from './config'
 
 console.log('[Server] All imports loaded')
 
 const app = Fastify({
   logger: config.app.env === 'production',
+  trustProxy:['127.0.0.1','::1'],
+})
+registerGuards(app)
+app.addHook('onSend',async(_request,reply,payload)=>{
+  reply.header('X-Robots-Tag','noindex, nofollow')
+  return payload
 })
 console.log('[Server] Fastify app created')
 
-// Add CORS headers manually
-app.addHook('onRequest', async (request, reply) => {
-  reply.headers({
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-  })
-
-  if (request.method === 'OPTIONS') {
-    return reply.send()
-  }
+app.register(cors, {
+  origin: config.api.cors.origin === '*' ? '*' : config.api.cors.origin.split(',').map(origin => origin.trim()),
+  credentials: config.api.cors.origin !== '*' && config.api.cors.credentials,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept-Language'],
 })
 
 // Routes
 console.log('[Server] Registering routes...')
 try {
+  app.register(adminRecordsRoutes)
+  app.register(dataHealthRoutes,{prefix:'/api/v1'})
+  app.register(discoveryRoutes,{prefix:'/api/v1/discovery'})
+  app.register(recordAnalysisRoutes,{prefix:'/api/v1/discovery'})
   app.register(sportsRoutes, { prefix: '/api/v1/sports' })
+  app.register(individualRoutes,{prefix:'/api/v1/workspace'})
+  app.register(workspaceRoutes, { prefix: '/api/v1/workspace' })
+  app.register(personalRoutes, { prefix: '/api/v1/personal' })
+  app.register(shopAdminRoutes)
   console.log('[Server] Sports routes registered')
   app.register(competitionsRoutes, { prefix: '/api/v1/competitions' })
   console.log('[Server] Competitions routes registered')
@@ -92,6 +116,7 @@ app.get('/api/v1/admin/status', async (request, reply) => {
   }
 })
 
+app.get('/api/v1/integrations/status',async()=>({data:{official:officialRefreshStatus,sportscore:sportscoreStatus}}))
 // Health check
 app.get('/api/health', async (request, reply) => {
   return {
@@ -104,6 +129,8 @@ app.get('/api/health', async (request, reply) => {
 const start = async () => {
   try {
     await initDatabase()
+    await startJobs(app)
+    await startRefreshes(app)
     console.log('[Server] Starting listen on port', config.app.port)
     await app.listen({ port: config.app.port, host: config.app.host })
     console.log(`✅ WAGERline API running on http://${config.app.host}:${config.app.port}`)
@@ -117,3 +144,5 @@ const start = async () => {
 
 console.log('[Server] Calling start()...')
 start().then(() => console.log('[Server] Start completed')).catch(err => console.error('[Server] Start promise error:', err))
+
+for(const signal of ['SIGINT','SIGTERM'] as const)process.once(signal,()=>{void app.close().then(()=>process.exit(0))})

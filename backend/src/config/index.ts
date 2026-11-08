@@ -1,11 +1,15 @@
 import dotenv from 'dotenv'
+import path from 'path'
 
-dotenv.config()
+const backendRoot = path.resolve(__dirname, '../..')
+dotenv.config({ path: path.join(backendRoot, '.env') })
+dotenv.config({ path: path.join(backendRoot, '..', '.env') })
+const credential=(...names:string[])=>names.map(n=>process.env[n]||'').find(v=>v&&!/^(your_|placeholder|replace|xxx|changeme)/i.test(v))||''
 
 export const config = {
   // App
   app: {
-    port: parseInt(process.env.API_PORT || '3001'),
+    port: parseInt(process.env.API_PORT || '3101'),
     host: process.env.API_HOST || '0.0.0.0',
     env: process.env.NODE_ENV || 'development',
     defaultLanguage: process.env.DEFAULT_LANGUAGE || 'en',
@@ -13,7 +17,7 @@ export const config = {
 
   // Database
   database: {
-    path: process.env.DATABASE_PATH || './data/wagerline.db',
+    path: path.resolve(backendRoot, process.env.DATABASE_PATH || './data/wagerline.db'),
   },
 
   // Provider Configuration
@@ -36,10 +40,10 @@ export const config = {
     sportscore: {
       name: 'SportScore',
       baseUrl: 'https://sportscore.com/api/widget',
-      apiKey: process.env.SPORTSCORE_KEY || '',
+      apiKey: credential('SPORTSCORE_KEY','SPORTSCORE_API_KEY'),
       priority: 2,
       rateLimit: 150,
-      enabled: !!process.env.SPORTSCORE_KEY,
+      enabled: !!credential('SPORTSCORE_KEY','SPORTSCORE_API_KEY'),
       endpoints: {
         matches: '/matches',
         competitions: '/competitions',
@@ -50,7 +54,7 @@ export const config = {
     thesportsdb: {
       name: 'TheSportsDB',
       baseUrl: 'https://www.thesportsdb.com/api/v1/json',
-      apiKey: process.env.THESPORTSDB_KEY || '123', // Public API doesn't require key
+      apiKey: credential('THESPORTSDB_KEY','THESPORTSDB_API_KEY') || '123',
       priority: 3,
       rateLimit: 100,
       enabled: true,
@@ -64,10 +68,10 @@ export const config = {
     apisports: {
       name: 'API-Sports',
       baseUrl: 'https://v3.football.api-sports.io',
-      apiKey: process.env.API_SPORTS_KEY || '',
+      apiKey: credential('API_SPORTS_KEY','API_FOOTBALL_KEY'),
       priority: 4,
       rateLimit: 100,
-      enabled: !!process.env.API_SPORTS_KEY,
+      enabled: !!credential('API_SPORTS_KEY','API_FOOTBALL_KEY'),
       endpoints: {
         fixtures: '/fixtures',
         standings: '/standings',

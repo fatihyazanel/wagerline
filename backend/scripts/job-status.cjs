@@ -1,0 +1,1 @@
+﻿const sqlite3=require('sqlite3');const d=new sqlite3.Database('data/wagerline.db',sqlite3.OPEN_READONLY);d.all('SELECT id,kind,status,attempts,error FROM operation_jobs ORDER BY id',(e,r)=>console.log(r));d.close()

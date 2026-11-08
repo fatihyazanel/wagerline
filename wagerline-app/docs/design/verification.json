@@ -1,0 +1,132 @@
+{
+  "routes": [
+    {
+      "route": "home",
+      "width": 1440,
+      "status": "passed"
+    },
+    {
+      "route": "live",
+      "width": 1440,
+      "status": "passed"
+    },
+    {
+      "route": "sports",
+      "width": 1440,
+      "status": "passed"
+    },
+    {
+      "route": "leagues",
+      "width": 1440,
+      "status": "passed"
+    },
+    {
+      "route": "predictions",
+      "width": 1440,
+      "status": "passed"
+    },
+    {
+      "route": "news",
+      "width": 1440,
+      "status": "passed"
+    },
+    {
+      "route": "rewards",
+      "width": 1440,
+      "status": "passed"
+    },
+    {
+      "route": "admin",
+      "width": 1440,
+      "status": "passed"
+    },
+    {
+      "route": "home",
+      "width": 768,
+      "status": "passed"
+    },
+    {
+      "route": "live",
+      "width": 768,
+      "status": "passed"
+    },
+    {
+      "route": "sports",
+      "width": 768,
+      "status": "passed"
+    },
+    {
+      "route": "leagues",
+      "width": 768,
+      "status": "passed"
+    },
+    {
+      "route": "predictions",
+      "width": 768,
+      "status": "passed"
+    },
+    {
+      "route": "news",
+      "width": 768,
+      "status": "passed"
+    },
+    {
+      "route": "rewards",
+      "width": 768,
+      "status": "passed"
+    },
+    {
+      "route": "admin",
+      "width": 768,
+      "status": "passed"
+    },
+    {
+      "route": "home",
+      "width": 390,
+      "status": "passed"
+    },
+    {
+      "route": "live",
+      "width": 390,
+      "status": "passed"
+    },
+    {
+      "route": "sports",
+      "width": 390,
+      "status": "passed"
+    },
+    {
+      "route": "leagues",
+      "width": 390,
+      "status": "passed"
+    },
+    {
+      "route": "predictions",
+      "width": 390,
+      "status": "passed"
+    },
+    {
+      "route": "news",
+      "width": 390,
+      "status": "passed"
+    },
+    {
+      "route": "rewards",
+      "width": 390,
+      "status": "passed"
+    },
+    {
+      "route": "admin",
+      "width": 390,
+      "status": "passed"
+    }
+  ],
+  "interactions": [
+    "sport filter",
+    "save and unsave",
+    "saved empty state",
+    "Spanish heading",
+    "Arabic direction",
+    "language persistence"
+  ]
+}

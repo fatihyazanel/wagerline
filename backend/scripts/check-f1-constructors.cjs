@@ -1,0 +1,1 @@
+﻿const sqlite3=require('sqlite3');const d=new sqlite3.Database('data/wagerline.db');d.get("SELECT payload_json FROM individual_standings WHERE sport='formula-1' AND category='constructorStandings'",(e,r)=>{const p=JSON.parse(r.payload_json);console.log({season:p.season,teams:p.ConstructorStandings?.map(t=>({id:t.Constructor.constructorId,name:t.Constructor.name}))});d.close()});

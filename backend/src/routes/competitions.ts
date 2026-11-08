@@ -32,7 +32,7 @@ export const competitionsRoutes = async (app: FastifyInstance) => {
 
     query += ` GROUP BY c.id ORDER BY c.name_key`
 
-    const competitions = db.prepare(query).all(...params)
+    const competitions = (await db.prepare(query).all(...params))
 
     return {
       data: competitions,
@@ -49,7 +49,7 @@ export const competitionsRoutes = async (app: FastifyInstance) => {
     const { slug } = request.params as { slug: string }
     const language = (request.query as any)?.lang || 'en'
 
-    const competition = db.prepare(`
+    const competition = (await db.prepare(`
       SELECT
         c.id,
         c.sport_id,
@@ -66,7 +66,7 @@ export const competitionsRoutes = async (app: FastifyInstance) => {
       LEFT JOIN events e ON c.id = e.competition_id
       WHERE c.slug = ?
       GROUP BY c.id
-    `).get(slug)
+    `).get(slug))
 
     if (!competition) {
       return reply.code(404).send({
@@ -90,7 +90,7 @@ export const competitionsRoutes = async (app: FastifyInstance) => {
   app.get('/:slug/standings', async (request, reply) => {
     const { slug } = request.params as { slug: string }
 
-    const competition = db.prepare('SELECT id FROM competitions WHERE slug = ?').get(slug) as any
+    const competition = (await db.prepare('SELECT id FROM competitions WHERE slug = ?').get(slug)) as any
 
     if (!competition) {
       return reply.code(404).send({
@@ -101,7 +101,7 @@ export const competitionsRoutes = async (app: FastifyInstance) => {
       })
     }
 
-    const standings = db.prepare(`
+    const standings = (await db.prepare(`
       SELECT
         se.position,
         se.played,
@@ -119,7 +119,7 @@ export const competitionsRoutes = async (app: FastifyInstance) => {
       LEFT JOIN team_translations tt ON t.id = tt.team_id AND tt.language = ?
       WHERE s.competition_id = ?
       ORDER BY se.position ASC
-    `).all('en', competition.id)
+    `).all('en', competition.id))
 
     return {
       data: standings,
@@ -134,7 +134,7 @@ export const competitionsRoutes = async (app: FastifyInstance) => {
     const { slug } = request.params as { slug: string }
     const limit = Math.min(parseInt((request.query as any)?.limit || '10'), 100)
 
-    const competition = db.prepare('SELECT id FROM competitions WHERE slug = ?').get(slug) as any
+    const competition = (await db.prepare('SELECT id FROM competitions WHERE slug = ?').get(slug)) as any
 
     if (!competition) {
       return reply.code(404).send({
@@ -145,7 +145,7 @@ export const competitionsRoutes = async (app: FastifyInstance) => {
       })
     }
 
-    const matches = db.prepare(`
+    const matches = (await db.prepare(`
       SELECT
         e.id,
         e.start_time,
@@ -159,7 +159,7 @@ export const competitionsRoutes = async (app: FastifyInstance) => {
       WHERE e.competition_id = ?
       ORDER BY e.start_time DESC
       LIMIT ?
-    `).all(competition.id, limit)
+    `).all(competition.id, limit))
 
     return {
       data: matches,

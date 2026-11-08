@@ -111,15 +111,15 @@ class DataSyncService {
 
     try {
       for (const comp of COMPETITIONS) {
-        const sport = db.prepare('SELECT id FROM sports WHERE slug = ?').get(comp.sport_slug)
+        const sport = (await db.prepare('SELECT id FROM sports WHERE slug = ?').get(comp.sport_slug))
         if (!sport) continue
 
-        const existing = db.prepare('SELECT id FROM competitions WHERE slug = ?').get(comp.slug)
+        const existing = (await db.prepare('SELECT id FROM competitions WHERE slug = ?').get(comp.slug))
         if (!existing) {
-          db.prepare(
+          ; (await db.prepare(
             `INSERT INTO competitions (sport_id, slug, name_key, external_provider, external_id, active)
              VALUES (?, ?, ?, ?, ?, 1)`
-          ).run(sport.id, comp.slug, comp.name_key, 'sportscore', comp.external_id)
+          ).run(sport.id, comp.slug, comp.name_key, 'sportscore', comp.external_id))
           created++
           console.log(`  ✅ ${comp.slug}`)
         }
@@ -158,50 +158,50 @@ class DataSyncService {
 
       for (const match of matches) {
         try {
-          const existing = db
+          const existing = (await db
             .prepare('SELECT id FROM events WHERE external_id = ?')
-            .get(match.id)
+            .get(match.id))
 
           if (!existing) {
             // Get competition
-            const comp = db
+            const comp = (await db
               .prepare('SELECT id FROM competitions WHERE external_id = ?')
-              .get(match.competition_id)
+              .get(match.competition_id))
 
             if (!comp) continue
 
             // Insert event
-            const eventId = db
+            const eventId = (await db
               .prepare(
                 `INSERT INTO events (sport_id, competition_id, external_id, event_type, start_time, status)
                  VALUES (1, ?, ?, 'match', ?, 'live')`
               )
-              .run(comp.id, match.id, match.startTime).lastID
+              .run(comp.id, match.id, match.startTime)).lastID
 
             // Add participants (teams)
             if (match.home_team_id && match.away_team_id) {
-              db.prepare(
+              ; (await db.prepare(
                 'INSERT INTO event_participants (event_id, participant_type, participant_id, role) VALUES (?, ?, ?, ?)'
-              ).run(eventId, 'team', match.home_team_id, 'HOME')
+              ).run(eventId, 'team', match.home_team_id, 'HOME'))
 
-              db.prepare(
+              ; (await db.prepare(
                 'INSERT INTO event_participants (event_id, participant_type, participant_id, role) VALUES (?, ?, ?, ?)'
-              ).run(eventId, 'team', match.away_team_id, 'AWAY')
+              ).run(eventId, 'team', match.away_team_id, 'AWAY'))
 
               // Add scores
-              db.prepare(
+              ; (await db.prepare(
                 'INSERT INTO event_scores (event_id, participant_id, score, period) VALUES (?, ?, ?, 0)'
-              ).run(eventId, match.home_team_id, match.home_score || 0)
+              ).run(eventId, match.home_team_id, match.home_score || 0))
 
-              db.prepare(
+              ; (await db.prepare(
                 'INSERT INTO event_scores (event_id, participant_id, score, period) VALUES (?, ?, ?, 0)'
-              ).run(eventId, match.away_team_id, match.away_score || 0)
+              ).run(eventId, match.away_team_id, match.away_score || 0))
             }
 
             created++
           } else {
             // Update existing
-            db.prepare('UPDATE events SET status = ? WHERE id = ?').run('live', existing.id)
+            ; (await db.prepare('UPDATE events SET status = ? WHERE id = ?').run('live', existing.id))
             updated++
           }
         } catch (error) {
@@ -232,8 +232,8 @@ class DataSyncService {
     try {
       // Get competitions to sync
       const competitions = competitionId
-        ? [db.prepare('SELECT * FROM competitions WHERE id = ?').get(competitionId)]
-        : db.prepare('SELECT * FROM competitions WHERE active = 1 LIMIT 5').all()
+        ? [(await db.prepare('SELECT * FROM competitions WHERE id = ?').get(competitionId))]
+        : (await db.prepare('SELECT * FROM competitions WHERE active = 1 LIMIT 5').all())
 
       for (const comp of competitions || []) {
         try {
@@ -245,22 +245,22 @@ class DataSyncService {
           const teams = response.data?.data || []
 
           for (const team of teams) {
-            const existing = db
+            const existing = (await db
               .prepare('SELECT id FROM teams WHERE external_id = ? AND sport_id = ?')
-              .get(team.id, comp.sport_id)
+              .get(team.id, comp.sport_id))
 
             if (!existing) {
-              const teamId = db
+              const teamId = (await db
                 .prepare(
                   `INSERT INTO teams (sport_id, external_id, slug, logo_url, active)
                    VALUES (?, ?, ?, ?, 1)`
                 )
-                .run(comp.sport_id, team.id, team.slug || team.name.toLowerCase(), team.logo).lastID
+                .run(comp.sport_id, team.id, team.slug || team.name.toLowerCase(), team.logo)).lastID
 
               // Add translations
-              db.prepare(
+              ; (await db.prepare(
                 'INSERT INTO team_translations (team_id, language, name) VALUES (?, ?, ?)'
-              ).run(teamId, 'en', team.name)
+              ).run(teamId, 'en', team.name))
 
               created++
             }
@@ -304,20 +304,20 @@ class DataSyncService {
 
       for (const match of matches) {
         try {
-          const existing = db
+          const existing = (await db
             .prepare('SELECT id FROM events WHERE external_id = ?')
-            .get(match.id)
+            .get(match.id))
 
           if (!existing) {
-            const comp = db
+            const comp = (await db
               .prepare('SELECT id FROM competitions WHERE external_id = ?')
-              .get(match.competition_id)
+              .get(match.competition_id))
 
             if (comp) {
-              db.prepare(
+              ; (await db.prepare(
                 `INSERT INTO events (sport_id, competition_id, external_id, event_type, start_time, status)
                  VALUES (1, ?, ?, 'match', ?, 'scheduled')`
-              ).run(comp.id, match.id, match.startTime)
+              ).run(comp.id, match.id, match.startTime))
               created++
             }
           }

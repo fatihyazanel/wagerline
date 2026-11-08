@@ -3,50 +3,17 @@ import { db } from '../database/init'
 
 export const newsRoutes = async (app: FastifyInstance) => {
   // GET /api/v1/news - List all news with pagination
-  app.get('/', async (request, reply) => {
-    const query = request.query as any
-    const language = query.lang || 'en'
-    const page = parseInt(query.page) || 1
-    const limit = parseInt(query.limit) || 20
-    const offset = (page - 1) * limit
-    const sport = query.sport
-    const source = query.source
-
-    let sql = 'SELECT * FROM news WHERE 1=1'
-    const params: any[] = []
-
-    if (sport) {
-      sql += ' AND sport_id = (SELECT id FROM sports WHERE slug = ?)'
-      params.push(sport)
-    }
-
-    if (source) {
-      sql += ' AND source = ?'
-      params.push(source)
-    }
-
-    sql += ' ORDER BY published_at DESC LIMIT ? OFFSET ?'
-    params.push(limit, offset)
-
-    return new Promise((resolve, reject) => {
-      db.all(sql, params, (err, rows) => {
-        if (err) {
-          reject(err)
-          return
-        }
-
-        resolve({
-          data: rows || [],
-          meta: {
-            language,
-            page,
-            limit,
-            total: (rows || []).length,
-            timestamp: new Date().toISOString(),
-          },
-        })
-      })
-    })
+  app.get('/', async request => {
+    const q=request.query as Record<string,string>;const page=Math.max(1,Number(q.page)||1),limit=Math.min(200,Math.max(1,Number(q.limit)||20));const clauses:string[]=[];const args:unknown[]=[]
+    if(q.sport){clauses.push('sport_id=(SELECT id FROM sports WHERE slug=?)');args.push(q.sport)}
+    if(q.competition){clauses.push('competition_id=(SELECT id FROM competitions WHERE slug=?)');args.push(q.competition)}
+    if(q.source){clauses.push('source=?');args.push(q.source)}
+    if(q.q){clauses.push('(title LIKE ? OR description LIKE ?)');args.push('%'+q.q+'%','%'+q.q+'%')}
+    const where=clauses.length?' WHERE '+clauses.join(' AND '):''
+    const count=await db.prepare('SELECT COUNT(*) total FROM news'+where).get(...args)
+    const data=await db.prepare('SELECT news.*,(SELECT slug FROM sports WHERE id=news.sport_id) sport,(SELECT slug FROM competitions WHERE id=news.competition_id) competition FROM news'+where+' ORDER BY published_at DESC,id DESC LIMIT ? OFFSET ?').all(...args,limit,(page-1)*limit)
+    const facets={sports:await db.prepare('SELECT DISTINCT s.slug FROM news n JOIN sports s ON s.id=n.sport_id').all(),competitions:await db.prepare('SELECT DISTINCT c.slug FROM news n JOIN competitions c ON c.id=n.competition_id').all(),sources:await db.prepare('SELECT DISTINCT source FROM news').all()}
+    return {data,facets,meta:{page,limit,total:count.total,pages:Math.ceil(count.total/limit),timestamp:new Date().toISOString()}}
   })
 
   // GET /api/v1/news/:id - Get single news article

@@ -14,11 +14,11 @@ async function syncTeamsAndEventsFromTheSportsDb() {
   console.log('\n⚽ THESPORTSDB - TAKIMLAR VE MAÇLAR')
 
   const leagues = [
-    { id: 133, name: 'Premier League' },
-    { id: 148, name: 'La Liga' },
-    { id: 151, name: 'Serie A' },
-    { id: 175, name: 'Bundesliga' },
-    { id: 179, name: 'Ligue 1' },
+    { id: 4328, name: 'Premier League' },
+    { id: 4335, name: 'La Liga' },
+    { id: 4332, name: 'Serie A' },
+    { id: 4331, name: 'Bundesliga' },
+    { id: 4334, name: 'Ligue 1' },
   ]
 
   let teamCount = 0

@@ -1,7 +1,7 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify'
-import { getDb } from '../database/init'
+import { db } from '../database/init'
 
-const db = getDb()
+
 
 /**
  * Head-to-Head Routes
@@ -25,7 +25,7 @@ export async function headToHeadRoutes(fastify: FastifyInstance) {
       const limitNum = Math.min(100, Math.max(1, parseInt(limit)))
 
       // Get all matches between the two teams
-      const matches = db.prepare(`
+      const matches = (await db.prepare(`
         SELECT
           e.id as event_id,
           e.start_time,
@@ -47,9 +47,10 @@ export async function headToHeadRoutes(fastify: FastifyInstance) {
           (ht.id = ? AND at.id = ?) OR
           (ht.id = ? AND at.id = ?)
         )
+        AND e.status='finished' AND datetime(e.start_time)<datetime('now') AND NOT EXISTS(SELECT 1 FROM event_aliases WHERE alias_event_id=e.id) AND EXISTS(SELECT 1 FROM event_scores WHERE event_id=e.id AND participant_id=e.home_team_id) AND EXISTS(SELECT 1 FROM event_scores WHERE event_id=e.id AND participant_id=e.away_team_id)
         ORDER BY e.start_time DESC
         LIMIT ?
-      `).all(team_1, team_2, team_2, team_1, limitNum)
+      `).all(team_1, team_2, team_2, team_1, limitNum))
 
       // Calculate statistics
       let team1Wins = 0
@@ -89,21 +90,21 @@ export async function headToHeadRoutes(fastify: FastifyInstance) {
       })
 
       // Get team info
-      const team1Info = db.prepare(
+      const team1Info = (await db.prepare(
         'SELECT id, slug, logo_url FROM teams WHERE id = ?'
-      ).get(team_1)
+      ).get(team_1))
 
-      const team2Info = db.prepare(
+      const team2Info = (await db.prepare(
         'SELECT id, slug, logo_url FROM teams WHERE id = ?'
-      ).get(team_2)
+      ).get(team_2))
 
-      const team1Name = db.prepare(
+      const team1Name = (await db.prepare(
         'SELECT name FROM team_translations WHERE team_id = ? AND language = "en" LIMIT 1'
-      ).get(team_1)
+      ).get(team_1))
 
-      const team2Name = db.prepare(
+      const team2Name = (await db.prepare(
         'SELECT name FROM team_translations WHERE team_id = ? AND language = "en" LIMIT 1'
-      ).get(team_2)
+      ).get(team_2))
 
       reply.send({
         teams: {

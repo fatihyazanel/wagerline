@@ -1,0 +1,1 @@
+﻿const sqlite3=require('sqlite3');const d=new sqlite3.Database('data/wagerline.db');d.all("SELECT id,title,json_extract(payload_json,'$.home') home,json_extract(payload_json,'$.away') away FROM individual_contests WHERE sport='tennis' LIMIT 5",(e,r)=>{console.log(r);d.close()})

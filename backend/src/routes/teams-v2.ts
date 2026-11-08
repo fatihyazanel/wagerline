@@ -34,8 +34,8 @@ export const teamsRoutes = async (app: FastifyInstance) => {
       const team = await db.prepare(`
         SELECT t.id,t.external_id,t.slug,t.logo_url,COALESCE(tt.name,t.slug) AS name
         FROM teams t LEFT JOIN team_translations tt ON tt.team_id=t.id AND tt.language=?
-        WHERE t.slug=? AND t.active=1
-      `).get(lang, slug) as any
+        WHERE t.id=COALESCE((SELECT ca.canonical_team_id FROM canonical_team_aliases ca JOIN teams a ON a.id=ca.alias_team_id WHERE a.slug=?),(SELECT id FROM teams WHERE slug=?)) AND t.active=1
+      `).get(lang, slug, slug) as any
       if (!team) return reply.status(404).send({ error: 'Team not found' })
 
       const players = await db.prepare(`
@@ -73,8 +73,8 @@ export const teamsRoutes = async (app: FastifyInstance) => {
         FROM teams t JOIN sports s ON s.id=t.sport_id
         LEFT JOIN team_translations tt ON tt.team_id=t.id AND tt.language=?
         LEFT JOIN players p ON p.team_id=t.id AND p.active=1
-        WHERE t.slug=? AND t.active=1 GROUP BY t.id
-      `).get(lang, slug) as any
+        WHERE t.id=COALESCE((SELECT ca.canonical_team_id FROM canonical_team_aliases ca JOIN teams a ON a.id=ca.alias_team_id WHERE a.slug=?),(SELECT id FROM teams WHERE slug=?)) AND t.active=1 GROUP BY t.id
+      `).get(lang, slug, slug) as any
       if (!team) return reply.status(404).send({ error: 'Team not found' })
       return { data: team, meta: { language: lang } }
     } catch (error) {

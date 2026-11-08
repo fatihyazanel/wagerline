@@ -73,11 +73,12 @@ async function main() {
     const players=await theSportsDbClient.getPlayers(Number(team.external_id))
     let teamCount=0
     for (const player of players) {
-      if (!player.idPlayer||!player.strPlayer||/coach|manager|staff/i.test(player.strPosition||'')) continue
+      if (String(player.idTeam)!==String(team.external_id)||!player.idPlayer||!player.strPlayer||/coach|manager|staff/i.test(player.strPosition||'')) continue
       await upsertPlayer(player,team.id,season.id,sport!.sport_id)
       synced++; teamCount++
     }
     console.log(`${team.name}: ${teamCount} real players linked`)
+    await new Promise(resolve=>setTimeout(resolve,7000))
   }
   console.log(`Super Lig roster sync complete: ${teams.length} teams, ${synced} players`)
 }

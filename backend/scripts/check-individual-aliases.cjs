@@ -1,0 +1,1 @@
+﻿const sqlite3=require('sqlite3');const d=new sqlite3.Database('data/wagerline.db',sqlite3.OPEN_READONLY);d.all("SELECT json_extract(payload_json,'$.url') url,date(start_time) day,COUNT(*) n,GROUP_CONCAT(status) states FROM individual_contests WHERE sport='tennis' GROUP BY url,day HAVING COUNT(*)>1",(e,r)=>console.log(r));d.close()

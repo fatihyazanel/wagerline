@@ -1,3 +1,4 @@
+throw new Error('Unvalidated legacy model disabled; use generateValidatedPredictions')
 import { db } from '../../database/init'
 import { quotaManager } from '../quota/quotaManager'
 import { getProvider } from '../provider/providerManager'

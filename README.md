@@ -1,5 +1,44 @@
 # WAGERline MVP
 
+Current application: `wagerline-app/` (Next.js), `backend/` (Fastify + SQLite).
+The root `src/` directory is the legacy ingestion prototype.
+
+Start in two terminals:
+
+```powershell
+cd backend
+npm.cmd install
+npm.cmd run db:migrate
+npm.cmd run dev
+```
+
+```powershell
+cd wagerline-app
+npm.cmd install
+npm.cmd run dev
+```
+
+Open http://localhost:3000. Browser requests use `/api/v1` on the same origin;
+Next.js proxies them to `API_INTERNAL_URL` (default `http://127.0.0.1:3001`).
+For separate hosts, set that server-side variable before building. See
+`wagerline-app/.env.example` and `backend/.env.example`. Keep API keys in the backend.
+
+Verification: `npm.cmd run build` in both folders; `npm.cmd run test:smoke`
+and `npm.cmd run db:audit` in `backend`; `node scripts/review-workspace.cjs`
+in `wagerline-app` with both servers running.
+The browser review uses installed Microsoft Edge in headless mode.
+
+Verified data refresh commands in `backend`: `npm.cmd run sync:results`,
+`npm.cmd run sync:logos`, `npm.cmd run sync:news`, then `npm.cmd run cache:news-images`.
+Run TheSportsDB imports sequentially to respect its public API rate limit.
+Logo and image source URLs are retained in `team_logo_sources` and `news_image_sources`.
+Deploy `wagerline-app/public/team-logos` and `public/news-images` together with the database.
+Predictions are published database records; absent model output is not synthesized.
+Personal picks are stored in the browser, not an authenticated account.
+
+See [the workspace review](REVIEW-2026-11-06.md) and [the earlier review](REVIEW-2026-11-05.md) for verified behavior,
+remaining data limitations and artifacts. The MVP notes below describe the original prototype.
+
 Multi-sport intelligence platform combining live scores, statistics, predictions, and gamification.
 
 ## Architecture

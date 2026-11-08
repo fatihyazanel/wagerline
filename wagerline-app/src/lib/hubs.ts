@@ -1,0 +1,7 @@
+import {apiRead,type MatchPage} from './seo-data'
+export type Catalog={data:{sports:{slug:string;matches:number}[];leagues:{slug:string;name_key:string;sport:string}[];teams:{id:number;slug:string;name:string;sport:string;logo_url:string|null}[]}}
+export const catalog=()=>apiRead<Catalog>('discovery/catalog')
+export const hubMatches=(query:Record<string,string>)=>apiRead<MatchPage>('discovery/matches?'+new URLSearchParams(query))
+export const topics=[{slug:'fixtures',name:'Upcoming fixtures',description:'Scheduled team matches with confirmed provider records. Start times may change.'},{slug:'results',name:'Match results',description:'Completed team matches, with links to recorded scores and update times.'},{slug:'live',name:'Live matches',description:'Team matches currently marked live by the latest stored provider update.'}] as const
+export type Contest={indexable?:boolean;id:string;sport:string;title:string;start_time:string;status:string;source:string;fetched_at:string;payload:{home?:string;away?:string;home_score?:number;away_score?:number;home_sets?:{value:number}[];away_sets?:{value:number}[];round?:string;venue?:string;Circuit?:{circuitName:string;Location?:{country:string}};Results?:{position:string;points:string;Driver:{givenName:string;familyName:string};Constructor:{name:string};status:string}[]}}
+export const contestTitle=(c:Contest)=>c.sport==='tennis'&&c.payload.home&&c.payload.away?`${c.payload.home} vs ${c.payload.away} — ${c.title}`:c.title

@@ -1,0 +1,1 @@
+﻿const sqlite3=require('sqlite3');const db=new sqlite3.Database('data/wagerline.db');db.all("SELECT t.id,t.slug,n.name FROM teams t LEFT JOIN team_translations n ON n.team_id=t.id AND n.language='en' WHERE t.sport_id=1 AND t.external_id NOT LIKE 'sportdb:%' AND t.external_id NOT LIKE 'sportscore%'",(e,r)=>console.log(JSON.stringify(r)));db.close();

@@ -100,6 +100,30 @@
     "filters": "Filtros",
     "sport": "Deporte",
     "league": "Liga",
-    "all": "Todos"
+    "all": "Todos",
+    "search_placeholder": "Buscar noticias, equipos o temas"
+  },
+  "briefing": {
+    "briefing": "EL INFORME WAGERLINE",
+    "title_first": "Una mirada m?s cercana",
+    "title_second": "al juego",
+    "subtitle": "Los resultados que importan. El contexto que los explica.",
+    "competitions": "COMPETICIONES",
+    "focus": "PARTIDO DESTACADO",
+    "sample": "Partido de ejemplo",
+    "grounds": "En los estadios",
+    "all_sports": "Todos los deportes",
+    "football": "F?tbol",
+    "basketball": "Baloncesto",
+    "saved": "Guardados",
+    "analysis": "Explorar an?lisis",
+    "details": "Detalles del partido",
+    "all_competitions": "Todas las competiciones",
+    "illustrative": "Partidos ilustrativos",
+    "centre": "Abrir centro de partidos",
+    "beyond": "M?S ALL? DEL RESULTADO",
+    "picture": "Una visi?n m?s amplia.",
+    "press": "Visitar la sala de prensa",
+    "sports": "Explorar deportes"
   }
 }

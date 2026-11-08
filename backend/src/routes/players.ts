@@ -1,9 +1,11 @@
+import {initPlayerSnapshots} from '../services/espn-player-data'
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import { db } from '../database/init'
 
 type PlayerQuery = { team_id?: string; position?: string; lang?: string; page?: string; limit?: string }
 
 export async function playersRoutes(fastify: FastifyInstance) {
+  await initPlayerSnapshots()
   fastify.get('/', async (request: FastifyRequest, reply: FastifyReply) => {
     const { team_id: teamId, position, lang = 'en', page = '1', limit = '50' } = request.query as PlayerQuery
     const conditions = ['p.active = 1']
@@ -53,10 +55,10 @@ export async function playersRoutes(fastify: FastifyInstance) {
       if (seasonId) params.push(seasonId)
       const stats = await db.prepare(`
         SELECT pss.season_id, s.name AS season_name, pss.team_id,
-          COALESCE(tt.name,t.slug) AS team_name, COALESCE(pss.appearances,0) AS appearances,
-          COALESCE(pss.goals,0) AS goals, COALESCE(pss.assists,0) AS assists,
-          COALESCE(pss.minutes_played,0) AS minutes_played,
-          COALESCE(pss.yellow_cards,0) AS yellow_cards, COALESCE(pss.red_cards,0) AS red_cards
+          COALESCE(tt.name,t.slug) AS team_name, pss.appearances AS appearances,
+          pss.goals AS goals, pss.assists AS assists,
+          pss.minutes_played AS minutes_played,
+          pss.yellow_cards AS yellow_cards, pss.red_cards AS red_cards
         FROM player_season_stats pss
         JOIN seasons s ON s.id=pss.season_id JOIN teams t ON t.id=pss.team_id
         LEFT JOIN team_translations tt ON tt.team_id=t.id AND tt.language='en'
@@ -66,7 +68,8 @@ export async function playersRoutes(fastify: FastifyInstance) {
         appearances: sum.appearances + row.appearances, goals: sum.goals + row.goals,
         assists: sum.assists + row.assists, minutes: sum.minutes + row.minutes_played,
       }), { appearances: 0, goals: 0, assists: 0, minutes: 0 })
-      return reply.send({ player_id: Number(id), season_stats: stats, summary })
+      const sourceStats=await db.prepare('SELECT provider,competition_key,season_name,payload_json,fetched_at FROM provider_player_snapshots WHERE player_id=? ORDER BY season_year DESC,competition_key').all(id)
+      return reply.send({ player_id: Number(id), season_stats: stats, summary, source_stats:sourceStats.map(s=>({...s,payload:JSON.parse(s.payload_json),payload_json:undefined})) })
     } catch (error) {
       request.log.error(error)
       return reply.status(500).send({ error: 'Failed to fetch player stats' })
@@ -89,7 +92,8 @@ export async function playersRoutes(fastify: FastifyInstance) {
         WHERE p.id=? AND p.active=1
       `).get(lang, lang, id)
       if (!player) return reply.status(404).send({ error: 'Player not found' })
-      return reply.send({ data: player })
+      const sources=await db.prepare('SELECT DISTINCT provider FROM provider_player_ids WHERE player_id=? ORDER BY provider').all(id)
+      return reply.send({ data: {...player,sources:sources.map(s=>s.provider),indexable:sources.length>0} })
     } catch (error) {
       request.log.error(error)
       return reply.status(500).send({ error: 'Failed to fetch player' })

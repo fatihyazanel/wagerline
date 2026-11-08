@@ -47,7 +47,7 @@ export const sportsRoutes = async (app: FastifyInstance) => {
     const { slug } = request.params as { slug: string }
     const language = (request.query as any)?.lang || 'en'
 
-    const sport = db.prepare(`
+    const sport = (await db.prepare(`
       SELECT
         s.id,
         s.slug,
@@ -61,7 +61,7 @@ export const sportsRoutes = async (app: FastifyInstance) => {
       LEFT JOIN teams t ON s.id = t.sport_id
       WHERE s.slug = ?
       GROUP BY s.id
-    `).get(slug)
+    `).get(slug))
 
     if (!sport) {
       return reply.code(404).send({

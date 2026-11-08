@@ -1,3 +1,4 @@
+throw new Error('Legacy synthetic-data job disabled. Use npm run sync:verified.');
 import axios from 'axios'
 import { getDb } from '../database/init'
 

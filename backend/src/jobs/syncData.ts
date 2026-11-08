@@ -1,3 +1,4 @@
+throw new Error('Legacy synthetic-data job disabled. Use npm run sync:verified.');
 import sqlite3 from 'sqlite3'
 import axios from 'axios'
 import fs from 'fs'

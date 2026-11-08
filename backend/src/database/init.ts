@@ -1,8 +1,10 @@
 import sqlite3 from 'sqlite3'
 import fs from 'fs'
 import path from 'path'
+import { config } from '../config'
+import {withSqliteRetry} from './retry'
 
-const dbPath = process.env.DATABASE_PATH || './data/wagerline.db'
+const dbPath = config.database.path
 const dataDir = path.dirname(dbPath)
 if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true })
 
@@ -27,30 +29,27 @@ const sqliteDb = getDb()
 
 export const db = {
   prepare: (sql: string) => ({
-    all: (...params: any[]) => new Promise<any[]>((resolve, reject) => {
+    all: (...params: any[]) => withSqliteRetry(()=>new Promise<any[]>((resolve, reject) => {
       sqliteDb.all(sql, params, (error, rows) => error ? reject(error) : resolve(rows || []))
-    }),
-    get: (...params: any[]) => new Promise<any>((resolve, reject) => {
+    })),
+    get: (...params: any[]) => withSqliteRetry(()=>new Promise<any>((resolve, reject) => {
       sqliteDb.get(sql, params, (error, row) => error ? reject(error) : resolve(row || null))
-    }),
-    run: (...params: any[]) => new Promise<{ lastID: number; changes: number }>((resolve, reject) => {
+    })),
+    run: (...params: any[]) => withSqliteRetry(()=>new Promise<{ lastID: number; changes: number }>((resolve, reject) => {
       sqliteDb.run(sql, params, function(error) {
         if (error) reject(error)
         else resolve({ lastID: this.lastID, changes: this.changes })
       })
-    }),
+    })),
   }),
-  all: (sql: string, params?: any[], callback?: any) => {
-    if (callback) sqliteDb.all(sql, params, callback)
-    return null
+  all: (sql: string, params: any[] = [], callback?: (error: Error | null, rows: any[]) => void) => {
+    return sqliteDb.all(sql, params, callback)
   },
-  get: (sql: string, params?: any[], callback?: any) => {
-    if (callback) sqliteDb.get(sql, params, callback)
-    return null
+  get: (sql: string, params: any[] = [], callback?: (error: Error | null, row: any) => void) => {
+    return sqliteDb.get(sql, params, callback)
   },
-  run: (sql: string, params?: any[], callback?: any) => {
-    if (callback) sqliteDb.run(sql, params, callback)
-    return null
+  run: (sql: string, params: any[] = [], callback?: (this: sqlite3.RunResult, error: Error | null) => void) => {
+    return sqliteDb.run(sql, params, callback)
   },
 }
 

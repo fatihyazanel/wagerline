@@ -46,7 +46,15 @@
     "view_all": "View All Rewards",
     "leaderboard": "Leaderboard",
     "balance": "Your Balance",
-    "daily_tasks": "Daily Tasks"
+    "daily_tasks": "Daily Tasks",
+    "amazon_gift_card": "Amazon gift card",
+    "exclusive_item": "Exclusive item",
+    "fifty_usd": "$50 value",
+    "jersey_mystery_box": "Jersey mystery box",
+    "one_month": "One month",
+    "premium_access": "Premium access",
+    "three_days": "Three days",
+    "vip_access": "VIP access"
   },
   "rewards_page": {
     "title": "Rewards Hub",
@@ -58,7 +66,25 @@
     "this_week": "This Week",
     "this_month": "This Month",
     "all_time": "All Time",
-    "recent_activity": "Recent Activity"
+    "recent_activity": "Recent Activity",
+    "choose_prediction": "Choose your prediction",
+    "current_streak": "Current streak",
+    "daily_challenges": "Daily challenges",
+    "keep_going_message": "Keep going. Your next milestone is within reach.",
+    "make_prediction": "Make a prediction",
+    "next_level": "Next level",
+    "points_this_week": "Points this week",
+    "reward_store": "Reward store",
+    "spend_points_message": "Put your points towards your next reward.",
+    "tasks_completed": "Tasks completed",
+    "tasks_this_week": "Tasks this week",
+    "to_go": "to go",
+    "view_all_challenges": "View challenges",
+    "visit_store": "Visit store",
+    "wager_points": "Wager points",
+    "weekly_challenge": "Weekly challenge",
+    "xp_earned": "XP earned",
+    "xp_this_week": "XP this week"
   },
   "news": {
     "title": "Latest Sports News",
@@ -73,7 +99,8 @@
     "view": "View",
     "explore": "Explore",
     "read_more": "Read More",
-    "close": "Close"
+    "close": "Close",
+    "view_progress": "View progress"
   },
   "errors": {
     "not_found": "Not Found",
@@ -89,7 +116,11 @@
     "reward": "Reward",
     "make_prediction": "Make a Prediction",
     "submit": "Submit",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "best": "Best",
+    "days": "days",
+    "level": "Level",
+    "user": "Member"
   },
   "news_page": {
     "title": "Latest Sports News",
@@ -102,6 +133,48 @@
     "league": "League",
     "all": "All",
     "read_time": "{{time}} min",
-    "views": "{{count}} views"
+    "views": "{{count}} views",
+    "search_placeholder": "Search stories, teams or topics"
+  },
+  "modal": {
+    "league": "League",
+    "match": "Match",
+    "match_info": "Match details",
+    "team_away_wins": "Away team wins",
+    "team_home_wins": "Home team wins"
+  },
+  "prediction": {
+    "away_win": "Away win",
+    "draw": "Draw",
+    "home_win": "Home win"
+  },
+  "profile": {
+    "accuracy": "Accuracy",
+    "country": "Country",
+    "member_since": "Member since",
+    "predictions": "Predictions"
+  },
+  "briefing": {
+    "briefing": "THE WAGERLINE BRIEFING",
+    "title_first": "A closer look",
+    "title_second": "at the game",
+    "subtitle": "The scores that matter. The context behind them.",
+    "competitions": "COMPETITIONS",
+    "focus": "MATCH IN FOCUS",
+    "sample": "Sample match",
+    "grounds": "Around the grounds",
+    "all_sports": "All sports",
+    "football": "Football",
+    "basketball": "Basketball",
+    "saved": "Saved",
+    "analysis": "Explore analysis",
+    "details": "Match details",
+    "all_competitions": "All competitions",
+    "illustrative": "Illustrative fixtures",
+    "centre": "Open match centre",
+    "beyond": "BEYOND THE SCORE",
+    "picture": "The wider picture.",
+    "press": "Visit the press box",
+    "sports": "Explore sports"
   }
 }

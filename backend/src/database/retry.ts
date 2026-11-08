@@ -1,0 +1,2 @@
+/** SQLite rejects a locked statement before committing it; retry that statement only. */
+export async function withSqliteRetry<T>(operation:()=>Promise<T>):Promise<T>{for(let attempt=0;;attempt++){try{return await operation()}catch(error){const code=(error as {code?:string})?.code||'';if(!/^(SQLITE_BUSY|SQLITE_LOCKED)/.test(code)||attempt>=4)throw error;await new Promise(resolve=>setTimeout(resolve,100*2**attempt))}}}

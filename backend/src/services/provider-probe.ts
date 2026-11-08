@@ -1,0 +1,11 @@
+﻿import axios from 'axios'
+import {config} from '../config'
+import {db} from '../database/init'
+export async function probeProvider(name:string){
+ const endpoints:Record<string,{url:string;headers?:Record<string,string>;configured:boolean}>={espn:{url:'https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams?limit=100',configured:true},sportdb:{url:config.providers.sportdb.baseUrl+'/flashscore/football',headers:{'X-API-Key':config.providers.sportdb.apiKey},configured:config.providers.sportdb.enabled},sportscore:{url:config.providers.sportscore.baseUrl+'/matches?limit=1',headers:{Authorization:'Bearer '+config.providers.sportscore.apiKey},configured:config.providers.sportscore.enabled},thesportsdb:{url:config.providers.thesportsdb.baseUrl+'/'+config.providers.thesportsdb.apiKey+'/all_leagues.php',configured:config.providers.thesportsdb.enabled},apisports:{url:config.providers.apisports.baseUrl+'/status',headers:{'x-apisports-key':config.providers.apisports.apiKey},configured:config.providers.apisports.enabled},nhl:{url:'https://api-web.nhle.com/v1/standings/now',configured:true},mlb:{url:'https://statsapi.mlb.com/api/v1/sports',configured:true},f1:{url:'https://api.jolpi.ca/ergast/f1/current.json',configured:true}}
+ const p=endpoints[name];if(!p)return null
+ await db.prepare('CREATE TABLE IF NOT EXISTS provider_checks(provider TEXT PRIMARY KEY,status TEXT,http_status INTEGER,checked_at TEXT,latency_ms INTEGER)').run()
+ const start=Date.now();let status='not-configured',code:number|null=null
+ if(p.configured)try{const r=await axios.get(p.url,{headers:p.headers,timeout:10000});code=r.status;status=r.data&&typeof r.data==='object'&&!r.data.error&&(!r.data.errors||Object.keys(r.data.errors).length===0)?'available':'invalid-response'}catch(e){code=axios.isAxiosError(e)?e.response?.status||null:null;status=code===429?'rate-limited':'unavailable'}
+ const result={provider:name,status,http_status:code,checked_at:new Date().toISOString(),latency_ms:Date.now()-start};await db.prepare('INSERT INTO provider_checks VALUES(?,?,?,?,?) ON CONFLICT(provider) DO UPDATE SET status=excluded.status,http_status=excluded.http_status,checked_at=excluded.checked_at,latency_ms=excluded.latency_ms').run(name,status,code,result.checked_at,result.latency_ms);return result
+}

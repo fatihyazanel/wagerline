@@ -1,0 +1,7 @@
+import Link from 'next/link'
+import StructuredData from './StructuredData'
+import {absolute,readable} from '@/lib/seo'
+import {topics} from '@/lib/hubs'
+import type {MatchPage} from '@/lib/seo-data'
+export function TopicLinks(){return <nav aria-label="Sports topics" className="public-discovery-nav">{topics.map(t=><Link key={t.slug} href={`/tags/${t.slug}`}>{t.name}</Link>)}<Link href="/teams">Team directory</Link></nav>}
+export function MatchLinks({feed,path}:{feed:MatchPage;path:string}){return <><p>{feed.meta.total.toLocaleString('en')} records · Page {feed.meta.page}</p><ul className="public-link-grid">{feed.data.map(m=><li key={m.id}><Link href={`/matches/${m.id}`}>{m.home_team_name} vs {m.away_team_name}</Link><small><Link href={`/leagues/${m.competition_slug}`}>{readable(m.competition_slug)}</Link> · <time dateTime={m.start_time}>{m.start_time.slice(0,10)}</time> · {m.status}</small></li>)}</ul>{!feed.data.length&&<p>No matches supplied for this selection.</p>}<nav aria-label="Record pages" className="desk-pagination">{feed.meta.page>1&&<Link href={feed.meta.page===2?path:`${path}?page=${feed.meta.page-1}`}>Previous page</Link>}{feed.meta.page<feed.meta.pages&&<Link href={`${path}?page=${feed.meta.page+1}`}>Next page</Link>}</nav><StructuredData value={{'@context':'https://schema.org','@type':'ItemList',itemListElement:feed.data.map((m,i)=>({'@type':'ListItem',position:(feed.meta.page-1)*40+i+1,name:`${m.home_team_name} vs ${m.away_team_name}`,url:absolute(`/matches/${m.id}`)}))}}/></>}

@@ -1,0 +1,8 @@
+const fs=require('fs');
+(async()=>{const r=await fetch((process.env.DATA_HEALTH_ORIGIN||'http://127.0.0.1:3101')+'/api/v1/data-health',{signal:AbortSignal.timeout(15000)});if(!r.ok)throw Error('Data health HTTP '+r.status);const data=await r.json(),alerts=[];
+ if(!data.data.refresh_enabled)alerts.push({severity:'critical',action:'Enable automatic provider refresh'});
+ if(!data.data.scheduler_enabled)alerts.push({severity:'critical',action:'Enable scheduled roster/news/archive jobs'});
+ for(const s of [...data.data.sports,...data.data.individual]){if(s.delayed_live)alerts.push({severity:'warning',sport:s.slug||s.sport,records:s.delayed_live,action:'Reconcile delayed live records with a verified source; never infer a final score'});if(s.overdue_scheduled)alerts.push({severity:'warning',sport:s.slug,records:s.overdue_scheduled,action:'Backfill overdue fixtures and confirmed schedule changes'})}
+ for(const source of data.data.refreshes){if(source.status==='failed')alerts.push({severity:'warning',provider:source.name,failures:source.failures,next_attempt_at:source.next_attempt_at,action:'Check provider response, quota and availability; automatic retry is scheduled'});if(!source.success_at)alerts.push({severity:'warning',provider:source.name,action:'No successful refresh has been recorded yet'})}
+ const report={checkedAt:new Date().toISOString(),healthy:!alerts.length,alerts,...data};fs.writeFileSync('../artifacts/live-data-health.json',JSON.stringify(report,null,2));console.log(JSON.stringify({healthy:report.healthy,alerts},null,2));if(alerts.length)process.exitCode=2;
+})().catch(e=>{console.error(e.message);process.exitCode=1});

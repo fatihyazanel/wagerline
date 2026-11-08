@@ -1,0 +1,1006 @@
+{
+  "All competitions": {
+    "es": "Todas las competiciones",
+    "ar": "جميع المسابقات"
+  },
+  "All fixtures": {
+    "es": "Todos los partidos",
+    "ar": "جميع المباريات"
+  },
+  "All leagues": {
+    "es": "Todas las ligas",
+    "ar": "جميع الدوريات"
+  },
+  "All sources": {
+    "es": "Todas las fuentes",
+    "ar": "جميع المصادر"
+  },
+  "All sports": {
+    "es": "Todos los deportes",
+    "ar": "جميع الرياضات"
+  },
+  "Cancel": {
+    "es": "Cancelar",
+    "ar": "إلغاء"
+  },
+  "Choose a participant": {
+    "es": "Elige un participante",
+    "ar": "اختر مشاركًا"
+  },
+  "Choose your team": {
+    "es": "Elige tu equipo",
+    "ar": "اختر فريقك"
+  },
+  "Clear filters": {
+    "es": "Borrar filtros",
+    "ar": "مسح الفلاتر"
+  },
+  "Close article": {
+    "es": "Cerrar artículo",
+    "ar": "إغلاق المقال"
+  },
+  "Close prediction": {
+    "es": "Cerrar pronóstico",
+    "ar": "إغلاق التوقع"
+  },
+  "Competition": {
+    "es": "Competición",
+    "ar": "المسابقة"
+  },
+  "Competitions": {
+    "es": "Competiciones",
+    "ar": "المسابقات"
+  },
+  "Confidence": {
+    "es": "Probabilidad máxima",
+    "ar": "أعلى احتمال"
+  },
+  "Current level": {
+    "es": "Nivel actual",
+    "ar": "المستوى الحالي"
+  },
+  "Display name": {
+    "es": "Nombre visible",
+    "ar": "الاسم المعروض"
+  },
+  "Explore competitions": {
+    "es": "Explorar competiciones",
+    "ar": "استكشف المسابقات"
+  },
+  "Explore fixtures": {
+    "es": "Explorar partidos",
+    "ar": "استكشف المباريات"
+  },
+  "Explore predictions": {
+    "es": "Explorar pronósticos",
+    "ar": "استكشف التوقعات"
+  },
+  "Explore sports": {
+    "es": "Explorar deportes",
+    "ar": "استكشف الرياضات"
+  },
+  "Explore your leagues": {
+    "es": "Explora tus ligas",
+    "ar": "استكشف دورياتك"
+  },
+  "Final whistle": {
+    "es": "Pitido final",
+    "ar": "صافرة النهاية"
+  },
+  "Find your next pick": {
+    "es": "Encuentra tu próximo pronóstico",
+    "ar": "اختر توقعك التالي"
+  },
+  "Fixture status": {
+    "es": "Estado del partido",
+    "ar": "حالة المباراة"
+  },
+  "Follow live matches": {
+    "es": "Seguir partidos en directo",
+    "ar": "تابع المباريات المباشرة"
+  },
+  "Follow the season.": {
+    "es": "Sigue la temporada.",
+    "ar": "تابع الموسم."
+  },
+  "Happening now": {
+    "es": "En este momento",
+    "ar": "يحدث الآن"
+  },
+  "High · 70%+": {
+    "es": "Alta · 70%+",
+    "ar": "مرتفع · 70%+"
+  },
+  "Home · Draw · Away": {
+    "es": "Local · Empate · Visitante",
+    "ar": "المضيف · تعادل · الضيف"
+  },
+  "Independent reporting from original publishers": {
+    "es": "Noticias de sus fuentes originales",
+    "ar": "تقارير من الناشرين الأصليين"
+  },
+  "Individual sport picks": {
+    "es": "Pronósticos de deportes individuales",
+    "ar": "توقعات الرياضات الفردية"
+  },
+  "Invite a friend": {
+    "es": "Invitar a un amigo",
+    "ar": "ادعُ صديقًا"
+  },
+  "Keep your matchday with you": {
+    "es": "Lleva contigo tu jornada",
+    "ar": "احتفظ بتجربتك أينما كنت"
+  },
+  "Kick-off": {
+    "es": "Inicio",
+    "ar": "بداية المباراة"
+  },
+  "Last five · form guide": {
+    "es": "Últimos cinco · estado de forma",
+    "ar": "آخر خمس مباريات · الأداء"
+  },
+  "Latest check": {
+    "es": "Última comprobación",
+    "ar": "آخر تحقق"
+  },
+  "Latest stories": {
+    "es": "Últimas noticias",
+    "ar": "آخر الأخبار"
+  },
+  "League sport": {
+    "es": "Deporte de la liga",
+    "ar": "رياضة الدوري"
+  },
+  "Level progress": {
+    "es": "Progreso de nivel",
+    "ar": "تقدم المستوى"
+  },
+  "Live": {
+    "es": "En directo",
+    "ar": "مباشر"
+  },
+  "Make a prediction": {
+    "es": "Haz un pronóstico",
+    "ar": "قدّم توقعًا"
+  },
+  "Make your next pick": {
+    "es": "Haz tu próximo pronóstico",
+    "ar": "قدّم توقعك التالي"
+  },
+  "Make your pick": {
+    "es": "Haz tu pronóstico",
+    "ar": "قدّم توقعك"
+  },
+  "Match board": {
+    "es": "Panel de partidos",
+    "ar": "لوحة المباريات"
+  },
+  "Match date": {
+    "es": "Fecha del partido",
+    "ar": "تاريخ المباراة"
+  },
+  "Match information": {
+    "es": "Información del partido",
+    "ar": "معلومات المباراة"
+  },
+  "Medium · 60%+": {
+    "es": "Media · 60%+",
+    "ar": "متوسط · 60%+"
+  },
+  "News league": {
+    "es": "Liga de noticias",
+    "ar": "دوري الأخبار"
+  },
+  "News source": {
+    "es": "Fuente de noticias",
+    "ar": "مصدر الأخبار"
+  },
+  "News sport": {
+    "es": "Deporte de noticias",
+    "ar": "رياضة الأخبار"
+  },
+  "Next": {
+    "es": "Siguiente",
+    "ar": "التالي"
+  },
+  "Next up · make your call": {
+    "es": "A continuación · haz tu pronóstico",
+    "ar": "القادم · قدّم توقعك"
+  },
+  "Page": {
+    "es": "Página",
+    "ar": "الصفحة"
+  },
+  "Password": {
+    "es": "Contraseña",
+    "ar": "كلمة المرور"
+  },
+  "Personalise your name": {
+    "es": "Personaliza tu nombre",
+    "ar": "خصّص اسمك"
+  },
+  "Pick your winner.": {
+    "es": "Elige al ganador.",
+    "ar": "اختر الفائز."
+  },
+  "Previous": {
+    "es": "Anterior",
+    "ar": "السابق"
+  },
+  "Read on": {
+    "es": "Leer en",
+    "ar": "اقرأ على"
+  },
+  "Read the news": {
+    "es": "Leer las noticias",
+    "ar": "اقرأ الأخبار"
+  },
+  "Read the story": {
+    "es": "Leer la noticia",
+    "ar": "اقرأ الخبر"
+  },
+  "Results": {
+    "es": "Resultados",
+    "ar": "النتائج"
+  },
+  "Review & predict": {
+    "es": "Analizar y pronosticar",
+    "ar": "راجع وتوقّع"
+  },
+  "Save": {
+    "es": "Guardar",
+    "ar": "حفظ"
+  },
+  "Save prediction": {
+    "es": "Guardar pronóstico",
+    "ar": "حفظ التوقع"
+  },
+  "Scheduled": {
+    "es": "Programado",
+    "ar": "مجدول"
+  },
+  "Search news": {
+    "es": "Buscar noticias",
+    "ar": "ابحث في الأخبار"
+  },
+  "Season overview": {
+    "es": "Resumen de temporada",
+    "ar": "ملخص الموسم"
+  },
+  "Set": {
+    "es": "Set",
+    "ar": "مجموعة"
+  },
+  "Set scores": {
+    "es": "Marcadores por set",
+    "ar": "نتائج المجموعات"
+  },
+  "Showing": {
+    "es": "Mostrando",
+    "ar": "عرض"
+  },
+  "Sign out": {
+    "es": "Cerrar sesión",
+    "ar": "تسجيل الخروج"
+  },
+  "Signed in as": {
+    "es": "Sesión iniciada como",
+    "ar": "تم تسجيل الدخول باسم"
+  },
+  "Sport": {
+    "es": "Deporte",
+    "ar": "الرياضة"
+  },
+  "Squad spotlight": {
+    "es": "Plantilla destacada",
+    "ar": "تشكيلة الفريق"
+  },
+  "Status": {
+    "es": "Estado",
+    "ar": "الحالة"
+  },
+  "TOTAL XP": {
+    "es": "XP TOTAL",
+    "ar": "مجموع نقاط الخبرة"
+  },
+  "Team roster": {
+    "es": "Plantilla del equipo",
+    "ar": "قائمة اللاعبين"
+  },
+  "Try again": {
+    "es": "Reintentar",
+    "ar": "حاول مجددًا"
+  },
+  "Upcoming fixtures": {
+    "es": "Próximos partidos",
+    "ar": "المباريات القادمة"
+  },
+  "Upcoming matchups": {
+    "es": "Próximos encuentros",
+    "ar": "المواجهات القادمة"
+  },
+  "Username": {
+    "es": "Usuario",
+    "ar": "اسم المستخدم"
+  },
+  "Very high · 80%+": {
+    "es": "Muy alta · 80%+",
+    "ar": "مرتفع جدًا · 80%+"
+  },
+  "XP required": {
+    "es": "XP necesarios",
+    "ar": "نقاط الخبرة المطلوبة"
+  },
+  "Your club": {
+    "es": "Tu club",
+    "ar": "ناديك"
+  },
+  "Your clubhouse": {
+    "es": "Tu club",
+    "ar": "ناديك"
+  },
+  "Your game. Your journey.": {
+    "es": "Tu juego. Tu camino.",
+    "ar": "لعبتك. رحلتك."
+  },
+  "Your match journal": {
+    "es": "Tu diario de partidos",
+    "ar": "سجل مبارياتك"
+  },
+  "Your matchday connections": {
+    "es": "Tus conexiones de la jornada",
+    "ar": "روابط يوم المباراة"
+  },
+  "Your matchday, at a glance.": {
+    "es": "Tu jornada, de un vistazo.",
+    "ar": "يوم مبارياتك في لمحة."
+  },
+  "Your next great call starts here.": {
+    "es": "Tu próximo gran pronóstico empieza aquí.",
+    "ar": "توقعك المميز التالي يبدأ هنا."
+  },
+  "Your prediction": {
+    "es": "Tu pronóstico",
+    "ar": "توقعك"
+  },
+  "Your saved pick:": {
+    "es": "Tu pronóstico guardado:",
+    "ar": "توقعك المحفوظ:"
+  },
+  "Your saved predictions": {
+    "es": "Tus pronósticos guardados",
+    "ar": "توقعاتك المحفوظة"
+  },
+  "Your selection": {
+    "es": "Tu selección",
+    "ar": "اختيارك"
+  },
+  "assists": {
+    "es": "asistencias",
+    "ar": "تمريرات حاسمة"
+  },
+  "of": {
+    "es": "de",
+    "ar": "من"
+  },
+  "picks": {
+    "es": "pronósticos",
+    "ar": "توقعات"
+  },
+  "players": {
+    "es": "jugadores",
+    "ar": "لاعبين"
+  },
+  "players recorded": {
+    "es": "jugadores registrados",
+    "ar": "لاعبين مسجلين"
+  },
+  "predictions": {
+    "es": "pronósticos",
+    "ar": "توقعات"
+  },
+  "pts": {
+    "es": "pts",
+    "ar": "نقاط"
+  },
+  "sources": {
+    "es": "fuentes",
+    "ar": "مصادر"
+  },
+  "teams": {
+    "es": "equipos",
+    "ar": "فرق"
+  },
+  "wins": {
+    "es": "victorias",
+    "ar": "انتصارات"
+  },
+  "· Updated": {
+    "es": "· Actualizado",
+    "ar": "· آخر تحديث"
+  },
+  "Loading match data": {
+    "es": "Cargando datos",
+    "ar": "جارٍ تحميل البيانات"
+  },
+  "Unable to connect": {
+    "es": "No se pudo conectar",
+    "ar": "تعذر الاتصال"
+  },
+  "Upcoming": {
+    "es": "Próximos",
+    "ar": "القادمة"
+  },
+  "Standings": {
+    "es": "Clasificación",
+    "ar": "الترتيب"
+  },
+  "Overview": {
+    "es": "Resumen",
+    "ar": "نظرة عامة"
+  },
+  "Timeline": {
+    "es": "Cronología",
+    "ar": "الأحداث"
+  },
+  "Statistics": {
+    "es": "Estadísticas",
+    "ar": "الإحصائيات"
+  },
+  "Lineups": {
+    "es": "Alineaciones",
+    "ar": "التشكيلات"
+  },
+  "Head to head": {
+    "es": "Enfrentamientos",
+    "ar": "المواجهات السابقة"
+  },
+  "Performers": {
+    "es": "Jugadores",
+    "ar": "اللاعبون"
+  },
+  "Odds": {
+    "es": "Cuotas",
+    "ar": "الاحتمالات"
+  },
+  "Challenges": {
+    "es": "Desafíos",
+    "ar": "التحديات"
+  },
+  "Activity": {
+    "es": "Actividad",
+    "ar": "النشاط"
+  },
+  "Achievements": {
+    "es": "Logros",
+    "ar": "الإنجازات"
+  },
+  "Rewards": {
+    "es": "Recompensas",
+    "ar": "المكافآت"
+  },
+  "Levels": {
+    "es": "Niveles",
+    "ar": "المستويات"
+  },
+  "Create account": {
+    "es": "Crear cuenta",
+    "ar": "إنشاء حساب"
+  },
+  "Sign in": {
+    "es": "Iniciar sesión",
+    "ar": "تسجيل الدخول"
+  },
+  "Please wait…": {
+    "es": "Espera…",
+    "ar": "يرجى الانتظار…"
+  },
+  "Drivers": {
+    "es": "Pilotos",
+    "ar": "السائقون"
+  },
+  "Constructors": {
+    "es": "Constructores",
+    "ar": "الصانعون"
+  },
+  "No bookmaker odds have been supplied.": {
+    "es": "No se han publicado cuotas.",
+    "ar": "لم تُوفّر احتمالات المراهنات."
+  },
+  "No events supplied for this selection.": {
+    "es": "No hay eventos para esta selección.",
+    "ar": "لا توجد أحداث لهذا الاختيار."
+  },
+  "No fixtures match this selection.": {
+    "es": "No hay partidos para esta selección.",
+    "ar": "لا توجد مباريات لهذا الاختيار."
+  },
+  "No previous meetings in the current database.": {
+    "es": "No hay enfrentamientos previos registrados.",
+    "ar": "لا توجد مواجهات سابقة مسجلة."
+  },
+  "Select a fixture to explore the match.": {
+    "es": "Selecciona un partido para ver sus detalles.",
+    "ar": "اختر مباراة لعرض تفاصيلها."
+  },
+  "Standings are not available for this season.": {
+    "es": "La clasificación no está disponible para esta temporada.",
+    "ar": "الترتيب غير متاح لهذا الموسم."
+  },
+  "Confirmed lineups have not been published.": {
+    "es": "Las alineaciones confirmadas aún no se han publicado.",
+    "ar": "لم تُنشر التشكيلات المؤكدة بعد."
+  },
+  "Match incidents have not been published.": {
+    "es": "Los incidentes del partido no se han publicado.",
+    "ar": "لم تُنشر أحداث المباراة بعد."
+  },
+  "Match statistics are not available yet.": {
+    "es": "Las estadísticas aún no están disponibles.",
+    "ar": "إحصائيات المباراة غير متاحة بعد."
+  },
+  "Player names are unavailable.": {
+    "es": "Los nombres de los jugadores no están disponibles.",
+    "ar": "أسماء اللاعبين غير متاحة."
+  },
+  "Player performance data is not available.": {
+    "es": "Los datos de rendimiento no están disponibles.",
+    "ar": "بيانات أداء اللاعبين غير متاحة."
+  },
+  "Race classification has not been published.": {
+    "es": "La clasificación de la carrera no se ha publicado.",
+    "ar": "لم يُنشر ترتيب السباق بعد."
+  },
+  "Set-by-set details are not supplied by this feed.": {
+    "es": "Esta fuente no proporciona detalles por set.",
+    "ar": "هذا المصدر لا يوفر تفاصيل المجموعات."
+  },
+  "Additional match details are updating. This panel refreshes automatically.": {
+    "es": "Los detalles se están actualizando. Este panel se renueva automáticamente.",
+    "ar": "جارٍ تحديث تفاصيل المباراة. تُحدّث هذه اللوحة تلقائيًا."
+  },
+  "Match details could not be refreshed. Previously received data may be out of date.": {
+    "es": "No se pudieron actualizar los detalles. Los datos anteriores pueden estar desactualizados.",
+    "ar": "تعذر تحديث التفاصيل. قد تكون البيانات السابقة قديمة."
+  },
+  "Complete a challenge to make a reward available.": {
+    "es": "Completa un desafío para desbloquear una recompensa.",
+    "ar": "أكمل تحديًا لإتاحة مكافأة."
+  },
+  "Your unlocked achievements will appear here.": {
+    "es": "Tus logros aparecerán aquí.",
+    "ar": "ستظهر إنجازاتك هنا."
+  },
+  "Build your match journal, complete challenges and unlock your next achievement.": {
+    "es": "Crea tu diario, completa desafíos y desbloquea logros.",
+    "ar": "أنشئ سجل مبارياتك وأكمل التحديات وافتح إنجازك التالي."
+  },
+  "Create an account to keep this profile, or sign in to an existing account.": {
+    "es": "Crea una cuenta para guardar este perfil o inicia sesión.",
+    "ar": "أنشئ حسابًا للاحتفاظ بهذا الملف أو سجّل الدخول إلى حسابك."
+  },
+  "Add this device’s guest predictions and achievements to my account": {
+    "es": "Añadir los pronósticos y logros de invitado de este dispositivo a mi cuenta",
+    "ar": "أضف توقعات وإنجازات الضيف على هذا الجهاز إلى حسابي"
+  },
+  "Choose a season driver. The confirmed race entry list may change.": {
+    "es": "Elige un piloto de la temporada. La lista de participantes puede cambiar.",
+    "ar": "اختر سائقًا من الموسم. قد تتغير قائمة المشاركين المؤكدة."
+  },
+  "Saved to your personal profile. You can change your choice before kick-off.": {
+    "es": "Guardado en tu perfil. Puedes cambiarlo antes del inicio.",
+    "ar": "حُفظ في ملفك. يمكنك تغيير اختيارك قبل البداية."
+  },
+  "The table, the teams and the players shaping every competition.": {
+    "es": "La clasificación, los equipos y los jugadores de cada competición.",
+    "ar": "الترتيب والفرق واللاعبون في كل مسابقة."
+  },
+  "Your next match, latest stories and personal rewards — ready when you are.": {
+    "es": "Tu próximo partido, noticias y recompensas personales, cuando quieras.",
+    "ar": "مباراتك القادمة وآخر الأخبار ومكافآتك الشخصية جاهزة لك."
+  },
+  "Pick your first upcoming match to start your journey.": {
+    "es": "Elige tu primer partido para empezar.",
+    "ar": "اختر أول مباراة قادمة لبدء رحلتك."
+  },
+  "Choose a match, back your team and build your winning streak.": {
+    "es": "Elige un partido, apoya a tu equipo y encadena aciertos.",
+    "ar": "اختر مباراة وساند فريقك وابنِ سلسلة نجاحاتك."
+  },
+  "Follow every moment.": {
+    "es": "Sigue cada momento.",
+    "ar": "تابع كل لحظة."
+  },
+  "The game starts here.": {
+    "es": "El juego empieza aquí.",
+    "ar": "اللعبة تبدأ هنا."
+  },
+  "Administrator sign-in": {
+    "es": "Acceso de administrador",
+    "ar": "تسجيل دخول المسؤول"
+  },
+  "Around the grounds": {
+    "es": "Por los estadios",
+    "ar": "حول الملاعب"
+  },
+  "Big matches.": {
+    "es": "Grandes partidos.",
+    "ar": "مباريات كبيرة."
+  },
+  "Catch the action. Make your picks. Discover your next reward.": {
+    "es": "Sigue la acción, haz tus pronósticos y descubre tu próxima recompensa.",
+    "ar": "تابع الأحداث وقدّم توقعاتك واكتشف مكافأتك التالية."
+  },
+  "Choose your side before kick-off.": {
+    "es": "Elige tu equipo antes del inicio.",
+    "ar": "اختر فريقك قبل البداية."
+  },
+  "Every part of the game.": {
+    "es": "Cada parte del juego.",
+    "ar": "كل جوانب اللعبة."
+  },
+  "Explore Wagerline": {
+    "es": "Explora Wagerline",
+    "ar": "استكشف Wagerline"
+  },
+  "Explore the teams, check the form and lock in your match prediction.": {
+    "es": "Explora los equipos, revisa su forma y guarda tu pronóstico.",
+    "ar": "استكشف الفرق وراجع أداءها واحفظ توقعك."
+  },
+  "FIND YOUR MATCH": {
+    "es": "ENCUENTRA TU PARTIDO",
+    "ar": "اعثر على مباراتك"
+  },
+  "HOME": {
+    "es": "LOCAL",
+    "ar": "المضيف"
+  },
+  "AWAY": {
+    "es": "VISITANTE",
+    "ar": "الضيف"
+  },
+  "Individual events pagination": {
+    "es": "Páginas de eventos individuales",
+    "ar": "صفحات الأحداث الفردية"
+  },
+  "LEAD STORY /": {
+    "es": "NOTICIA PRINCIPAL /",
+    "ar": "الخبر الرئيسي /"
+  },
+  "Lineup data could not be read.": {
+    "es": "No se pudieron leer las alineaciones.",
+    "ar": "تعذرت قراءة التشكيلات."
+  },
+  "Load more stories (": {
+    "es": "Cargar más noticias (",
+    "ar": "تحميل مزيد من الأخبار ("
+  },
+  "MAKE IT COUNT": {
+    "es": "HAZ QUE CUENTE",
+    "ar": "اجعل اختيارك مؤثرًا"
+  },
+  "MATCH CENTRE": {
+    "es": "CENTRO DEL PARTIDO",
+    "ar": "مركز المباراة"
+  },
+  "Make your pick before kick-off. Follow the result in your club.": {
+    "es": "Pronostica antes del inicio y sigue el resultado en tu club.",
+    "ar": "توقّع قبل البداية وتابع النتيجة في ناديك."
+  },
+  "One home.": {
+    "es": "Un solo lugar.",
+    "ar": "مكان واحد."
+  },
+  "Review the matchup, explore the details and record your choice before kick-off.": {
+    "es": "Revisa el encuentro, explora los detalles y registra tu elección antes del inicio.",
+    "ar": "راجع المواجهة واستكشف التفاصيل وسجّل اختيارك قبل البداية."
+  },
+  "Saved (": {
+    "es": "Guardados (",
+    "ar": "المحفوظة ("
+  },
+  "Team players": {
+    "es": "Jugadores del equipo",
+    "ar": "لاعبو الفريق"
+  },
+  "The requested competition is not available.": {
+    "es": "La competición solicitada no está disponible.",
+    "ar": "المسابقة المطلوبة غير متاحة."
+  },
+  "WELCOME TO THE CLUB": {
+    "es": "BIENVENIDO AL CLUB",
+    "ar": "مرحبًا بك في النادي"
+  },
+  "Who takes the win?": {
+    "es": "¿Quién gana?",
+    "ar": "من سيفوز؟"
+  },
+  "YOUR CLUBHOUSE": {
+    "es": "TU CLUB",
+    "ar": "ناديك"
+  },
+  "YOUR MATCH OUTLOOK": {
+    "es": "TU PERSPECTIVA DEL PARTIDO",
+    "ar": "رؤيتك للمباراة"
+  },
+  "YOUR NEXT PICK STARTS HERE": {
+    "es": "TU PRÓXIMO PRONÓSTICO EMPIEZA AQUÍ",
+    "ar": "توقعك التالي يبدأ هنا"
+  },
+  "YOUR PERSONAL CLUBHOUSE": {
+    "es": "TU CLUB PERSONAL",
+    "ar": "ناديك الشخصي"
+  },
+  "Your call.": {
+    "es": "Tu decisión.",
+    "ar": "اختيارك."
+  },
+  "Your predictions (": {
+    "es": "Tus pronósticos (",
+    "ar": "توقعاتك ("
+  },
+  "Your profile is saved on the server. Create an account above to access your predictions and rewards on another device.": {
+    "es": "Tu perfil está guardado en el servidor. Crea una cuenta para acceder desde otro dispositivo.",
+    "ar": "ملفك محفوظ على الخادم. أنشئ حسابًا أعلاه للوصول إلى توقعاتك ومكافآتك من جهاز آخر."
+  },
+  "10 XP per distinct prediction, 25 XP per verified correct result. Achievement XP is awarded once when claimed. Rewards are digital achievements.": {
+    "es": "10 XP por pronóstico distinto y 25 XP por acierto verificado. Los XP de logros se conceden una sola vez. Las recompensas son logros digitales.",
+    "ar": "10 نقاط خبرة لكل توقع مختلف و25 نقطة للنتيجة الصحيحة المؤكدة. تُمنح نقاط الإنجاز مرة واحدة عند المطالبة بها. المكافآت إنجازات رقمية."
+  },
+  "upcoming fixtures. Your predictions are saved to your personal profile. Match schedules may change.": {
+    "es": "próximos partidos. Tus pronósticos se guardan en tu perfil. Los horarios pueden cambiar.",
+    "ar": "مباريات قادمة. تُحفظ توقعاتك في ملفك الشخصي. قد تتغير مواعيد المباريات."
+  },
+  "goals ·": {
+    "es": "goles ·",
+    "ar": "أهداف ·"
+  },
+  "stories ·": {
+    "es": "noticias ·",
+    "ar": "أخبار ·"
+  },
+  ". Latest result:": {
+    "es": ". Último resultado:",
+    "ar": ". آخر نتيجة:"
+  },
+  ". Your predictions and rewards are available on your other devices.": {
+    "es": ". Tus pronósticos y recompensas están disponibles en tus otros dispositivos.",
+    "ar": ". توقعاتك ومكافآتك متاحة على أجهزتك الأخرى."
+  },
+  "No competitions are available for this sport.": {
+    "es": "No hay competiciones disponibles para este deporte.",
+    "ar": "لا توجد مسابقات متاحة لهذه الرياضة."
+  },
+  "Squad information is not available.": {
+    "es": "La plantilla no está disponible.",
+    "ar": "معلومات التشكيلة غير متاحة."
+  },
+  "Fixtures": {
+    "es": "Partidos",
+    "ar": "المباريات"
+  },
+  "Teams": {
+    "es": "Equipos",
+    "ar": "الفرق"
+  },
+  "Squads available": {
+    "es": "Plantillas disponibles",
+    "ar": "التشكيلات المتاحة"
+  },
+  "Tennis match centre": {
+    "es": "Centro de partidos de tenis",
+    "ar": "مركز مباريات التنس"
+  },
+  "Formula 1 race centre": {
+    "es": "Centro de carreras de Fórmula 1",
+    "ar": "مركز سباقات فورمولا 1"
+  },
+  "Match details": {
+    "es": "Detalles del partido",
+    "ar": "تفاصيل المباراة"
+  },
+  "Predictions saved": {
+    "es": "Pronósticos guardados",
+    "ar": "التوقعات المحفوظة"
+  },
+  "Correct predictions": {
+    "es": "Pronósticos acertados",
+    "ar": "التوقعات الصحيحة"
+  },
+  "Achievements unlocked": {
+    "es": "Logros desbloqueados",
+    "ar": "الإنجازات المكتسبة"
+  },
+  "Accuracy · settled matches": {
+    "es": "Aciertos · partidos resueltos",
+    "ar": "الدقة · المباريات المحسومة"
+  },
+  "Your next milestones": {
+    "es": "Tus próximos objetivos",
+    "ar": "أهدافك القادمة"
+  },
+  "Unlock your collection": {
+    "es": "Desbloquea tu colección",
+    "ar": "افتح مجموعتك"
+  },
+  "Your trophy cabinet": {
+    "es": "Tu vitrina de trofeos",
+    "ar": "خزانة جوائزك"
+  },
+  "EARNED THROUGH PLAY": {
+    "es": "GANADO JUGANDO",
+    "ar": "مكتسب باللعب"
+  },
+  "ONE MATCH AT A TIME": {
+    "es": "PARTIDO A PARTIDO",
+    "ar": "مباراة تلو الأخرى"
+  },
+  "Unlocked": {
+    "es": "Desbloqueado",
+    "ar": "مفتوح"
+  },
+  "Claim achievement": {
+    "es": "Obtener logro",
+    "ar": "احصل على الإنجاز"
+  },
+  "In progress": {
+    "es": "En progreso",
+    "ar": "قيد التقدم"
+  },
+  "Awaiting result": {
+    "es": "Esperando resultado",
+    "ar": "بانتظار النتيجة"
+  },
+  "First call": {
+    "es": "Primer pronóstico",
+    "ar": "التوقع الأول"
+  },
+  "Save your first pre-match prediction.": {
+    "es": "Guarda tu primer pronóstico antes del partido.",
+    "ar": "احفظ أول توقع لك قبل المباراة."
+  },
+  "Matchday five": {
+    "es": "Cinco pronósticos",
+    "ar": "خمسة توقعات"
+  },
+  "Build a journal of five match predictions.": {
+    "es": "Registra cinco pronósticos de partidos.",
+    "ar": "سجّل خمسة توقعات للمباريات."
+  },
+  "Season scout": {
+    "es": "Explorador de temporada",
+    "ar": "مستكشف الموسم"
+  },
+  "Record twenty distinct match predictions.": {
+    "es": "Registra veinte pronósticos distintos.",
+    "ar": "سجّل عشرين توقعًا مختلفًا."
+  },
+  "Explorer": {
+    "es": "Explorador",
+    "ar": "مستكشف"
+  },
+  "Contender": {
+    "es": "Aspirante",
+    "ar": "منافس"
+  },
+  "Matchday expert": {
+    "es": "Experto en partidos",
+    "ar": "خبير المباريات"
+  },
+  "Club legend": {
+    "es": "Leyenda del club",
+    "ar": "أسطورة النادي"
+  },
+  "Football": {
+    "es": "Fútbol",
+    "ar": "كرة القدم"
+  },
+  "Basketball": {
+    "es": "Baloncesto",
+    "ar": "كرة السلة"
+  },
+  "American Football": {
+    "es": "Fútbol americano",
+    "ar": "كرة القدم الأمريكية"
+  },
+  "Ice Hockey": {
+    "es": "Hockey sobre hielo",
+    "ar": "هوكي الجليد"
+  },
+  "Formula 1": {
+    "es": "Fórmula 1",
+    "ar": "فورمولا 1"
+  },
+  "Baseball": {
+    "es": "Béisbol",
+    "ar": "البيسبول"
+  },
+  "Tennis": {
+    "es": "Tenis",
+    "ar": "التنس"
+  },
+  "Play now": {
+    "es": "Jugar ahora",
+    "ar": "العب الآن"
+  },
+  "Skip to content": {
+    "es": "Saltar al contenido",
+    "ar": "انتقل إلى المحتوى"
+  },
+  "Language": {
+    "es": "Idioma",
+    "ar": "اللغة"
+  },
+  "THE MATCHDAY CLUB": {
+    "es": "EL CLUB DE LA JORNADA",
+    "ar": "نادي يوم المباراة"
+  },
+  "Pick your side.": {
+    "es": "Elige tu equipo.",
+    "ar": "اختر فريقك."
+  },
+  "Own the moment.": {
+    "es": "Haz tuyo el momento.",
+    "ar": "اصنع لحظتك."
+  },
+  "Your teams. Your predictions. Your next achievement.": {
+    "es": "Tus equipos. Tus pronósticos. Tu próximo logro.",
+    "ar": "فرقك. توقعاتك. إنجازك التالي."
+  },
+  "Explore your rewards": {
+    "es": "Explora tus recompensas",
+    "ar": "استكشف مكافآتك"
+  },
+  "NEXT TO PLAY": {
+    "es": "PRÓXIMOS EN JUGAR",
+    "ar": "المباريات القادمة"
+  },
+  "All matches": {
+    "es": "Todos los partidos",
+    "ar": "جميع المباريات"
+  },
+  "Choose your winner": {
+    "es": "Elige al ganador",
+    "ar": "اختر الفائز"
+  },
+  "Loading the next fixtures…": {
+    "es": "Cargando próximos partidos…",
+    "ar": "جارٍ تحميل المباريات القادمة…"
+  },
+  "Reload fixtures": {
+    "es": "Recargar partidos",
+    "ar": "إعادة تحميل المباريات"
+  },
+  "Explore match schedules": {
+    "es": "Explorar calendarios",
+    "ar": "استكشف جداول المباريات"
+  },
+  "Sport, with perspective.": {
+    "es": "Deporte con perspectiva.",
+    "ar": "الرياضة برؤية مختلفة."
+  },
+  "Sports": {
+    "es": "Deportes",
+    "ar": "الرياضات"
+  },
+  "Leagues": {
+    "es": "Ligas",
+    "ar": "الدوريات"
+  },
+  "News": {
+    "es": "Noticias",
+    "ar": "الأخبار"
+  },
+  "Footer navigation": {
+    "es": "Navegación del pie de página",
+    "ar": "روابط أسفل الصفحة"
+  },
+  "Main navigation": {
+    "es": "Navegación principal",
+    "ar": "القائمة الرئيسية"
+  },
+  "Competition shortcuts": {
+    "es": "Accesos a competiciones",
+    "ar": "روابط المسابقات"
+  }
+}

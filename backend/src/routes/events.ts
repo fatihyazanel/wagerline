@@ -9,7 +9,7 @@ export const eventsRoutes = async (app: FastifyInstance) => {
     const today = new Date().toISOString().split('T')[0]
     const tomorrow = new Date(new Date().getTime() + 86400000).toISOString().split('T')[0]
 
-    const events = db.prepare(`
+    const events = (await db.prepare(`
       SELECT
         e.id,
         e.sport_id,
@@ -27,7 +27,7 @@ export const eventsRoutes = async (app: FastifyInstance) => {
       WHERE DATE(e.start_time) = ?
       GROUP BY e.id
       ORDER BY e.start_time
-    `).all(today)
+    `).all(today))
 
     return {
       data: events,
@@ -44,7 +44,7 @@ export const eventsRoutes = async (app: FastifyInstance) => {
   app.get('/live', async (request, reply) => {
     const language = (request.query as any)?.lang || 'en'
 
-    const liveEvents = db.prepare(`
+    const liveEvents = (await db.prepare(`
       SELECT
         e.id,
         e.sport_id,
@@ -62,7 +62,7 @@ export const eventsRoutes = async (app: FastifyInstance) => {
       WHERE e.status IN ('live', 'halftime', 'period_break')
       GROUP BY e.id
       ORDER BY e.start_time
-    `).all()
+    `).all())
 
     return {
       data: liveEvents,
@@ -79,7 +79,7 @@ export const eventsRoutes = async (app: FastifyInstance) => {
     const { id } = request.params as { id: string }
     const language = (request.query as any)?.lang || 'en'
 
-    const event = db.prepare(`
+    const event = (await db.prepare(`
       SELECT
         e.id,
         e.sport_id,
@@ -94,7 +94,7 @@ export const eventsRoutes = async (app: FastifyInstance) => {
       JOIN sports s ON e.sport_id = s.id
       JOIN competitions c ON e.competition_id = c.id
       WHERE e.id = ?
-    `).get(id)
+    `).get(id))
 
     if (!event) {
       return reply.code(404).send({
@@ -106,7 +106,7 @@ export const eventsRoutes = async (app: FastifyInstance) => {
     }
 
     // Get participants
-    const participants = db.prepare(`
+    const participants = (await db.prepare(`
       SELECT
         ep.id,
         ep.role,
@@ -116,10 +116,10 @@ export const eventsRoutes = async (app: FastifyInstance) => {
       FROM event_participants ep
       LEFT JOIN teams t ON ep.participant_id = t.id
       WHERE ep.event_id = ?
-    `).all(id)
+    `).all(id))
 
     // Get scores
-    const scores = db.prepare(`
+    const scores = (await db.prepare(`
       SELECT
         participant_id,
         score,
@@ -127,10 +127,10 @@ export const eventsRoutes = async (app: FastifyInstance) => {
       FROM event_scores
       WHERE event_id = ?
       ORDER BY period DESC
-    `).all(id)
+    `).all(id))
 
     // Get prediction
-    const prediction = db.prepare(`
+    const prediction = (await db.prepare(`
       SELECT
         home_probability,
         draw_probability,
@@ -139,7 +139,7 @@ export const eventsRoutes = async (app: FastifyInstance) => {
       FROM predictions
       WHERE event_id = ?
       LIMIT 1
-    `).get(id)
+    `).get(id))
 
     return {
       data: {
@@ -160,7 +160,7 @@ export const eventsRoutes = async (app: FastifyInstance) => {
     const { id } = request.params as { id: string }
     const language = (request.query as any)?.lang || 'en'
 
-    const stats = db.prepare(`
+    const stats = (await db.prepare(`
       SELECT
         participant_id,
         metric,
@@ -169,7 +169,7 @@ export const eventsRoutes = async (app: FastifyInstance) => {
       FROM event_statistics
       WHERE event_id = ?
       ORDER BY period, metric
-    `).all(id)
+    `).all(id))
 
     return {
       data: stats,

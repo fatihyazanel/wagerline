@@ -1,0 +1,1 @@
+﻿const sqlite3=require('sqlite3');const db=new sqlite3.Database('data/wagerline.db',sqlite3.OPEN_READONLY);for(const t of ['predictions','prediction_factors','players','player_extended_info'])db.all('PRAGMA table_info('+t+')',(e,r)=>console.log(t,r.map(c=>[c.name,c.type,c.notnull,c.dflt_value])));db.close()

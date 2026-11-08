@@ -1,0 +1,2 @@
+﻿import {db} from '../database/init'
+export async function reserveSportdb(){await db.prepare('CREATE TABLE IF NOT EXISTS provider_slots(provider TEXT PRIMARY KEY,next_at INTEGER)').run();const now=Date.now();const slot=await db.prepare("INSERT INTO provider_slots(provider,next_at) VALUES('sportdb',?) ON CONFLICT(provider) DO UPDATE SET next_at=MAX(next_at,?)+6500 RETURNING next_at").get(now+6500,now);await new Promise(r=>setTimeout(r,Math.max(0,slot.next_at-6500-Date.now())))}

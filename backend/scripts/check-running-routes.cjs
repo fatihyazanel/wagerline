@@ -1,0 +1,1 @@
+﻿(async()=>{for(const host of ['127.0.0.1','localhost'])for(const path of ['/api/v1/health','/api/v1/personal/','/api/v1/admin/status','/api/v1/workspace/catalog']){const r=await fetch('http://'+host+':3001'+path);console.log(host,path,r.status,(await r.text()).slice(0,180))}})()

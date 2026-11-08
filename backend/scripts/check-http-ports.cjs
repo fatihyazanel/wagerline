@@ -1,0 +1,1 @@
+﻿const http=require('http');for(const port of [3000,3001])http.get({hostname:'127.0.0.1',port,path:'/api/health'},r=>{console.log(port,r.statusCode,r.headers);r.resume()}).on('error',e=>console.log(port,e.message))

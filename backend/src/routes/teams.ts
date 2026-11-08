@@ -7,7 +7,7 @@ export const teamsRoutes = async (app: FastifyInstance) => {
     const { slug } = request.params as { slug: string }
     const language = (request.query as any)?.lang || 'en'
 
-    const team = db.prepare(`
+    const team = (await db.prepare(`
       SELECT
         t.id,
         t.sport_id,
@@ -20,7 +20,7 @@ export const teamsRoutes = async (app: FastifyInstance) => {
       LEFT JOIN team_translations tt ON t.id = tt.team_id AND tt.language = ?
       JOIN sports s ON t.sport_id = s.id
       WHERE t.slug = ?
-    `).get(language, slug)
+    `).get(language, slug))
 
     if (!team) {
       return reply.code(404).send({
@@ -32,7 +32,7 @@ export const teamsRoutes = async (app: FastifyInstance) => {
     }
 
     // Get recent matches
-    const matches = db.prepare(`
+    const matches = (await db.prepare(`
       SELECT
         e.id,
         e.start_time,
@@ -47,7 +47,7 @@ export const teamsRoutes = async (app: FastifyInstance) => {
       AND e.status IN ('finished', 'live')
       ORDER BY e.start_time DESC
       LIMIT 10
-    `).all(team.id, team.id)
+    `).all(team.id, team.id))
 
     return {
       data: {
@@ -94,7 +94,7 @@ export const teamsRoutes = async (app: FastifyInstance) => {
 
     query += ` ORDER BY team_name`
 
-    const teams = db.prepare(query).all(...params)
+    const teams = (await db.prepare(query).all(...params))
 
     return {
       data: teams,

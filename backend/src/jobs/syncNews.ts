@@ -59,6 +59,13 @@ const guardianApi = axios.create({
 
 // ==================== GUARDIAN SYNC ====================
 
+async function sportForUrl(url: string): Promise<number | null> {
+  const routes: Record<string,string> = {football:'football', basketball:'basketball', baseball:'baseball', tennis:'tennis', 'formula1':'formula-1', 'formula-one':'formula-1', 'american-football':'american-football', 'ice-hockey':'ice-hockey'}
+  const segments = new URL(url).pathname.split('/')
+  const slug = segments.map(segment => routes[segment]).find(Boolean)
+  return slug ? (await get('SELECT id FROM sports WHERE slug=?',[slug]))?.id ?? null : null
+}
+
 async function syncGuardianNews() {
   console.log('\n🔄 Syncing news from Guardian...')
   let created = 0
@@ -126,7 +133,7 @@ async function syncGuardianNews() {
               article.fields?.thumbnail || '',
               article.webUrl,
               'guardian',
-              sport.id,
+              await sportForUrl(article.webUrl),
               publishedAt,
               new Date().toISOString(),
             ]
@@ -188,7 +195,7 @@ async function syncBBCNews() {
       })
     } catch (err) {
       console.log('  ℹ️  BBC primary feed unavailable, trying alternative...')
-      response = await axios.get('http://feeds.bbc.co.uk/sport/football/rss.xml', {
+      response = await axios.get('https://feeds.bbci.co.uk/sport/football/rss.xml', {
         timeout: 15000,
       })
     }
@@ -250,7 +257,7 @@ async function syncBBCNews() {
               imageUrl,
               link,
               'bbc',
-              sport.id,
+              await sportForUrl(link),
               publishedAt,
               new Date().toISOString(),
             ]

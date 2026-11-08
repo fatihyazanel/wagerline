@@ -1,8 +1,7 @@
 'use client'
 
-import { createContext, useContext, useCallback } from 'react'
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api/v1'
+import { createContext, useContext, useCallback, useMemo } from 'react'
+import { apiUrl } from '@/lib/api'
 
 interface ApiContextType {
   get: (endpoint: string, params?: Record<string, any>) => Promise<any>
@@ -13,7 +12,7 @@ const ApiContext = createContext<ApiContextType | undefined>(undefined)
 
 export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const get = useCallback(async (endpoint: string, params?: Record<string, any>) => {
-    const url = new URL(`${API_URL}${endpoint}`)
+    const url = new URL(apiUrl(endpoint), window.location.origin)
 
     if (params) {
       Object.entries(params).forEach(([key, value]) => {
@@ -23,23 +22,25 @@ export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       })
     }
 
-    const response = await fetch(url.toString())
+    const response = await fetch(url.toString(), { signal: AbortSignal.timeout(15000) })
     if (!response.ok) throw new Error(`API error: ${response.statusText}`)
     return response.json()
   }, [])
 
   const post = useCallback(async (endpoint: string, data?: any) => {
-    const response = await fetch(`${API_URL}${endpoint}`, {
+    const response = await fetch(apiUrl(endpoint), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
+      signal: AbortSignal.timeout(15000),
     })
 
     if (!response.ok) throw new Error(`API error: ${response.statusText}`)
     return response.json()
   }, [])
 
-  return <ApiContext.Provider value={{ get, post }}>{children}</ApiContext.Provider>
+  const value = useMemo(() => ({ get, post }), [get, post])
+  return <ApiContext.Provider value={value}>{children}</ApiContext.Provider>
 }
 
 export const useApi = () => {

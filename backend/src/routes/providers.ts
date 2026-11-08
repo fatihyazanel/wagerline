@@ -1,3 +1,5 @@
+import {probeProvider} from '../services/provider-probe'
+import {enqueueJob} from '../services/operation-jobs'
 import { FastifyInstance } from 'fastify'
 import { providerService } from '../services/provider.service'
 import { config } from '../config'
@@ -45,50 +47,11 @@ export const providersRoutes = async (app: FastifyInstance) => {
   })
 
   // GET /api/v1/providers/:provider/test - Test provider connection
-  app.get('/:provider/test', async (request, reply) => {
-    const { provider } = request.params as { provider: string }
-
-    try {
-      const result = await providerService.executeWithFallback('flashscore', 'football', {
-        limit: 1,
-      })
-
-      return {
-        data: {
-          provider,
-          status: result.source ? 'ok' : 'failed',
-          source: result.source,
-          error: result.error,
-        },
-        meta: {
-          timestamp: new Date().toISOString(),
-        },
-      }
-    } catch (error) {
-      return reply.code(500).send({
-        error: {
-          code: 'PROVIDER_TEST_FAILED',
-          message: error instanceof Error ? error.message : 'Unknown error',
-        },
-      })
-    }
-  })
+  app.get('/:provider/test',async(req,reply)=>{const name=(req.params as {provider:string}).provider;const result=await probeProvider(name);return result?{data:result}:reply.code(404).send({error:'Unknown provider'})})
 
   // POST /api/v1/providers/sync - Trigger manual sync
   app.post('/sync', async (request, reply) => {
-    const { sport, competition } = request.body as any
-
-    return {
-      data: {
-        job: 'sync_requested',
-        sport: sport || 'football',
-        competition: competition || 'all',
-        status: 'pending',
-        message: 'Sync job queued. Check /api/v1/jobs for status.',
-      },
-      meta: {
-        timestamp: new Date().toISOString(),
-      },
-    }
+    const kind=(request.body as {kind?:string})?.kind||'sportdb'
+    try{return reply.code(202).send({data:{id:await enqueueJob(kind),status:'queued'}})}catch{return reply.code(400).send({error:'Unsupported job kind'})}
   })
 }

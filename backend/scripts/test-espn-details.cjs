@@ -1,0 +1,7 @@
+const fs=require('fs'),assert=require('assert/strict'),ts=require('typescript'),vm=require('vm');
+const code=ts.transpileModule(fs.readFileSync('src/services/espn-details.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS}}).outputText;
+const moduleStub={exports:{}};vm.runInNewContext(code,{exports:moduleStub.exports,require:n=>n==='../database/init'?{db:{}}:require(n),Date,Map,console});
+const {normalizeSummary,decimalOdds}=moduleStub.exports;
+assert.equal(decimalOdds(-200),1.5);assert.equal(decimalOdds(150),2.5);assert.equal(decimalOdds(null),null);assert.equal(decimalOdds(0),null);
+for(const sport of ['soccer','basketball']){const raw=JSON.parse(fs.readFileSync('../artifacts/espn-summary-'+sport+'.json'));const teams=Object.fromEntries(raw.header.competitions[0].competitors.map((c,i)=>[c.team.id,i+1]));const data=normalizeSummary(raw,teams);for(const k of ['statistics','timeline','lineups','performers','odds'])assert(data[k].length>0,sport+' '+k);assert(data.h2h.length>0);assert(data.h2h.every(m=>Date.parse(m.start_time)<Date.parse(raw.header.competitions[0].date)));assert(data.performers.every(p=>p.rating===undefined));assert(data.statistics.every(p=>[1,2].includes(p.participant_id)));assert.equal(normalizeSummary(raw,{}).lineups.length,0);}
+const empty=normalizeSummary({},{});assert(Object.values(empty).filter(Array.isArray).every(a=>a.length===0));console.log('PASS: real soccer/NBA summaries, team mapping, missing data, no invented ratings, odds conversion');

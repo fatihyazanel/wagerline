@@ -1,3 +1,4 @@
+throw new Error('Legacy synthetic-data service disabled; use verified provider import jobs')
 import { db } from '../../database/init'
 import { quotaManager } from '../quota/quotaManager'
 

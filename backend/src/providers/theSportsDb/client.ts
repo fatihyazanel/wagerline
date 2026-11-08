@@ -1,7 +1,8 @@
+import {config} from '../../config'
 import axios from 'axios'
 import { theSportsDbRateLimiter } from './rateLimiter'
 
-const BASE_URL = 'https://www.thesportsdb.com/api/v1/json/123'
+const BASE_URL = `${config.providers.thesportsdb.baseUrl}/${config.providers.thesportsdb.apiKey}`
 
 /**
  * TheSportsDB Client - FALLBACK PROVIDER
@@ -9,6 +10,11 @@ const BASE_URL = 'https://www.thesportsdb.com/api/v1/json/123'
  * Preferred to use API-Football when available
  */
 export const theSportsDbClient = {
+  async getLeagueEvents(leagueId: number): Promise<any[]> {
+    const info = await this.getLeagueSeasonInfo(leagueId)
+    if (!info) return []
+    return this.getEventsBySeason(leagueId, info.strCurrentSeason)
+  },
   async getLeagues(): Promise<any[]> {
     try {
       const { data } = await axios.get(`${BASE_URL}/all_leagues.php`, {
@@ -23,10 +29,11 @@ export const theSportsDbClient = {
 
   async getTeams(leagueId: number, season: number = 2025): Promise<any[]> {
     try {
-      // TheSportsDB doesn't have a league ID API - use search as fallback
-      // Return mock data instead since TheSportsDB doesn't provide team lists by league
-      console.warn(`⚠️ TheSportsDB fallback for teams (league ${leagueId}) - limited data`)
-      return []
+      await theSportsDbRateLimiter.throttle()
+      const { data } = await axios.get(`${BASE_URL}/lookup_all_teams.php`, {
+        params: { id: leagueId }, timeout: 8000,
+      })
+      return data?.teams || []
     } catch (error) {
       console.warn(`TheSportsDB getTeams error:`, (error as any).message)
       return []
@@ -117,48 +124,24 @@ export const theSportsDbClient = {
   },
 
   async getFixture(fixtureId: number): Promise<any | null> {
-    try {
-      const { data } = await axios.get(`${BASE_URL}/eventdetails.php?id=${fixtureId}`, {
-        timeout: 8000,
-      })
-      return data?.results?.[0] || null
-    } catch (error) {
-      console.warn(`TheSportsDB getFixture error:`, (error as any).message)
-      return null
-    }
+    await theSportsDbRateLimiter.throttle()
+    const {data}=await axios.get(`${BASE_URL}/lookupevent.php`,{params:{id:fixtureId},timeout:8000})
+    return data?.events?.[0]||null
   },
-
   async getFixtureEvents(fixtureId: number): Promise<any[]> {
-    try {
-      const fixture = await theSportsDbClient.getFixture(fixtureId)
-      // TheSportsDB embeds events in fixture response
-      return fixture?.events || []
-    } catch (error) {
-      console.warn(`TheSportsDB getFixtureEvents error:`, (error as any).message)
-      return []
-    }
+    await theSportsDbRateLimiter.throttle()
+    const {data}=await axios.get(`${BASE_URL}/lookuptimeline.php`,{params:{id:fixtureId},timeout:8000})
+    return data?.timeline||[]
   },
-
-  async getFixtureStatistics(fixtureId: number): Promise<any | null> {
-    try {
-      // TheSportsDB doesn't provide match statistics separately
-      console.warn('⚠️ TheSportsDB does not provide fixture statistics')
-      return null
-    } catch (error) {
-      console.warn(`TheSportsDB getFixtureStatistics error:`, (error as any).message)
-      return null
-    }
+  async getFixtureStatistics(fixtureId: number): Promise<any[]> {
+    await theSportsDbRateLimiter.throttle()
+    const {data}=await axios.get(`${BASE_URL}/lookupeventstats.php`,{params:{id:fixtureId},timeout:8000})
+    return data?.eventstats||[]
   },
-
-  async getFixturePlayers(fixtureId: number): Promise<any | null> {
-    try {
-      // TheSportsDB doesn't provide lineups via API
-      console.warn('⚠️ TheSportsDB does not provide fixture lineups')
-      return null
-    } catch (error) {
-      console.warn(`TheSportsDB getFixturePlayers error:`, (error as any).message)
-      return null
-    }
+  async getFixturePlayers(fixtureId: number): Promise<any[]> {
+    await theSportsDbRateLimiter.throttle()
+    const {data}=await axios.get(`${BASE_URL}/lookuplineup.php`,{params:{id:fixtureId},timeout:8000})
+    return data?.lineup||[]
   },
 
   async getStandings(leagueId: number, season: number = 2025): Promise<any | null> {

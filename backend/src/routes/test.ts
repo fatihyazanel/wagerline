@@ -5,14 +5,14 @@ export const testRoutes = async (app: FastifyInstance) => {
   // GET /test/stats - Database statistics
   app.get('/stats', async (request, reply) => {
     const stats = {
-      sports: db.prepare('SELECT COUNT(*) as count FROM sports').get(),
-      competitions: db.prepare('SELECT COUNT(*) as count FROM competitions').get(),
-      teams: db.prepare('SELECT COUNT(*) as count FROM teams').get(),
-      events: db.prepare('SELECT COUNT(*) as count FROM events').get(),
-      live_events: db.prepare("SELECT COUNT(*) as count FROM events WHERE status = 'live'").get(),
-      teams_with_translations: db
+      sports: (await db.prepare('SELECT COUNT(*) as count FROM sports').get()),
+      competitions: (await db.prepare('SELECT COUNT(*) as count FROM competitions').get()),
+      teams: (await db.prepare('SELECT COUNT(*) as count FROM teams').get()),
+      events: (await db.prepare('SELECT COUNT(*) as count FROM events').get()),
+      live_events: (await db.prepare("SELECT COUNT(*) as count FROM events WHERE status = 'live'").get()),
+      teams_with_translations: (await db
         .prepare('SELECT COUNT(DISTINCT team_id) as count FROM team_translations')
-        .get(),
+        .get()),
     }
 
     return {
@@ -26,9 +26,9 @@ export const testRoutes = async (app: FastifyInstance) => {
   // GET /test/sample - Sample data from each table
   app.get('/sample', async (request, reply) => {
     const sample = {
-      sports: db.prepare('SELECT * FROM sports LIMIT 3').all(),
-      competitions: db.prepare('SELECT * FROM competitions LIMIT 3').all(),
-      teams: db
+      sports: (await db.prepare('SELECT * FROM sports LIMIT 3').all()),
+      competitions: (await db.prepare('SELECT * FROM competitions LIMIT 3').all()),
+      teams: (await db
         .prepare(`
           SELECT t.*, GROUP_CONCAT(tt.name) as names
           FROM teams t
@@ -36,9 +36,9 @@ export const testRoutes = async (app: FastifyInstance) => {
           GROUP BY t.id
           LIMIT 3
         `)
-        .all(),
-      events: db.prepare('SELECT * FROM events LIMIT 3').all(),
-      live_events: db
+        .all()),
+      events: (await db.prepare('SELECT * FROM events LIMIT 3').all()),
+      live_events: (await db
         .prepare(
           `
           SELECT e.* FROM events e
@@ -46,7 +46,7 @@ export const testRoutes = async (app: FastifyInstance) => {
           LIMIT 3
         `
         )
-        .all(),
+        .all()),
     }
 
     return {
@@ -59,14 +59,14 @@ export const testRoutes = async (app: FastifyInstance) => {
 
   // GET /test/schema - Show database schema
   app.get('/schema', async (request, reply) => {
-    const tables = db
+    const tables = (await db
       .prepare("SELECT name FROM sqlite_master WHERE type='table'")
-      .all()
+      .all())
 
     const schema: Record<string, any> = {}
 
     for (const table of tables) {
-      const columns = db.prepare(`PRAGMA table_info(${table.name})`).all()
+      const columns = (await db.prepare(`PRAGMA table_info(${table.name})`).all())
       schema[table.name] = columns
     }
 

@@ -1,4 +1,4 @@
-import cron from 'node-cron'
+import cron, { type ScheduledTask } from 'node-cron'
 import { quotaManager } from '../services/quota/quotaManager'
 
 export interface SyncJob {
@@ -9,7 +9,7 @@ export interface SyncJob {
 }
 
 class Scheduler {
-  private jobs: Map<string, cron.ScheduledTask> = new Map()
+  private jobs: Map<string, ScheduledTask> = new Map()
   private running: Set<string> = new Set()
 
   registerJob(job: SyncJob): void {

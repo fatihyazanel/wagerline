@@ -20,8 +20,8 @@ export const useTranslation = (language: Language = 'en') => {
       value = value?.[k]
     }
 
-    if (!value) {
-      return key
+    if (typeof value !== 'string') {
+      value = keys.reduce<any>((entry, part) => entry?.[part], translations.en)
     }
 
     if (typeof value !== 'string') {
